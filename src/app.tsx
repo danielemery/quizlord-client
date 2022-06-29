@@ -59,7 +59,6 @@ export function App() {
 
 function QuizList() {
   const { loading, error, data, refetch } = useQuery(QUIZZES);
-  console.log(loading, error, data);
   if (loading) return <span>Loading...</span>;
   return (
     <>
@@ -68,11 +67,13 @@ function QuizList() {
       <br />
       <br />
       {data.quizzes.edges.map(({ node }: { node: Node }) => (
-        <span>
-          <a href={node.imageLink}>
-            {node.type} - {new Date(node.date).toLocaleDateString()}
-          </a>
-        </span>
+        <div>
+          {node.type} - {new Date(node.date).toLocaleDateString()}
+          <img
+            src={node.imageLink}
+            alt={`${node.type} - ${new Date(node.date).toLocaleDateString()}`}
+          />
+        </div>
       ))}
     </>
   );
@@ -80,9 +81,11 @@ function QuizList() {
 
 function CreateQuiz() {
   const [selectedFile, setSelectedFile] = useState<File | undefined>();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [selectedType, setSelectedType] = useState<string | undefined>();
   const [createQuiz, { data, loading, error }] = useMutation(CREATE_QUIZ);
 
-  function changeHandler(event: any) {
+  function fileChangeHandler(event: any) {
     setSelectedFile(event.target.files[0]);
   }
 
@@ -91,22 +94,35 @@ function CreateQuiz() {
       alert("No file selected!");
     } else {
       const type = "SHARK";
-      const date = new Date();
       const fileName = selectedFile.name;
-      const result = await createQuiz({ variables: { type, date, fileName } });
-      console.log(result.data.createQuiz.uploadLink);
-      const formData = new FormData();
-      formData.append("File", selectedFile);
+      const result = await createQuiz({
+        variables: { type, date: selectedDate, fileName },
+      });
       await fetch(result.data.createQuiz.uploadLink, {
-        method: "POST",
-        body: formData,
+        method: "PUT",
+        body: selectedFile,
       });
     }
   }
 
   return (
     <div>
-      <input type="file" name="file" onChange={changeHandler} />
+      <Link to="/">Back</Link>
+      <input type="file" name="file" onChange={fileChangeHandler} />
+      <input
+        type="date"
+        name="date"
+        onChange={(e) =>
+          setSelectedDate(new Date((e.target as HTMLInputElement).value))
+        }
+      />
+      <select
+        name="type"
+        onChange={(e) => setSelectedType((e.target as HTMLSelectElement).value)}
+      >
+        <option value="SHARK">Shark</option>
+        <option value="BRAINWAVES">Brainwaves</option>
+      </select>
       <button onClick={handleSubmission}>Submit</button>
     </div>
   );
