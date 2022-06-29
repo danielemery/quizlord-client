@@ -1,4 +1,5 @@
 import { render } from "preact";
+import { BrowserRouter } from "react-router-dom";
 import { App } from "./app";
 import "./index.css";
 
@@ -10,8 +11,10 @@ const client = new ApolloClient({
 });
 
 render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById("app")!
 );

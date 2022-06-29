@@ -10,7 +10,8 @@
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "graphql": "^16.5.0",
-    "preact": "^10.5.15"
+    "preact": "^10.5.15",
+    "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.1.5",
