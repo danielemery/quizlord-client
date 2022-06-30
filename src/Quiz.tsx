@@ -9,6 +9,8 @@ const QUIZ = gql`
       date
       imageLink
       type
+      uploadedBy
+      uploadedAt
     }
   }
 `;
@@ -30,6 +32,16 @@ export default function Quiz() {
         <div>
           <dt className="font-medium text-gray-900">Type</dt>
           <dd className="mt-2 text-sm text-gray-500">{data.quiz.type}</dd>
+        </div>
+        <div>
+          <dt className="font-medium text-gray-900">Uploaded By</dt>
+          <dd className="mt-2 text-sm text-gray-500">{data.quiz.uploadedBy}</dd>
+        </div>
+        <div>
+          <dt className="font-medium text-gray-900">Uploaded At</dt>
+          <dd className="mt-2 text-sm text-gray-500">
+            {new Date(data.quiz.uploadedAt).toDateString()}
+          </dd>
         </div>
       </dl>
       <img src={data.quiz.imageLink} />

@@ -15,6 +15,7 @@ const QUIZZES = gql`
           id
           date
           type
+          uploadedBy
         }
       }
     }
@@ -26,6 +27,7 @@ interface Node {
   date: Date;
   type: string;
   id: string;
+  uploadedBy: string;
 }
 
 function QuizListTh(props: JSX.HTMLAttributes<HTMLTableCellElement>) {
@@ -57,6 +59,7 @@ export default function QuizList() {
         <tr>
           <QuizListTh>Quiz Date</QuizListTh>
           <QuizListTh>Type</QuizListTh>
+          <QuizListTh>Uploaded By</QuizListTh>
         </tr>
       </thead>
       <tbody>
@@ -68,6 +71,7 @@ export default function QuizList() {
           >
             <QuizListTd>{new Date(node.date).toLocaleDateString()}</QuizListTd>
             <QuizListTd>{node.type}</QuizListTd>
+            <QuizListTd>{node.uploadedBy}</QuizListTd>
           </tr>
         ))}
         {/* <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer">
