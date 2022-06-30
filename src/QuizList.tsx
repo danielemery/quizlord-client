@@ -52,32 +52,28 @@ export default function QuizList() {
 
   if (loading) return <span>Loading...</span>;
   return (
-    <div className="container mx-auto px-8 mt-12">
-      <table class="border-collapse table-auto w-full text-sm">
-        <thead className="border-b bg-gray-800">
-          <tr>
-            <QuizListTh>Quiz Date</QuizListTh>
-            <QuizListTh>Type</QuizListTh>
+    <table class="border-collapse table-auto w-full text-sm">
+      <thead className="border-b bg-gray-800">
+        <tr>
+          <QuizListTh>Quiz Date</QuizListTh>
+          <QuizListTh>Type</QuizListTh>
+        </tr>
+      </thead>
+      <tbody>
+        {data.quizzes.edges.map(({ node }: { node: Node }) => (
+          <tr
+            key={node.id}
+            className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer"
+            onClick={() => navigate(`/quiz/${node.id}`)}
+          >
+            <QuizListTd>{new Date(node.date).toLocaleDateString()}</QuizListTd>
+            <QuizListTd>{node.type}</QuizListTd>
           </tr>
-        </thead>
-        <tbody>
-          {data.quizzes.edges.map(({ node }: { node: Node }) => (
-            <tr
-              key={node.id}
-              className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer"
-              onClick={() => navigate(`/quiz/${node.id}`)}
-            >
-              <QuizListTd>
-                {new Date(node.date).toLocaleDateString()}
-              </QuizListTd>
-              <QuizListTd>{node.type}</QuizListTd>
-            </tr>
-          ))}
-          {/* <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer">
+        ))}
+        {/* <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer">
             <QuizListTd colSpan={2}>Load More</QuizListTd>
           </tr> */}
-        </tbody>
-      </table>
-    </div>
+      </tbody>
+    </table>
   );
 }

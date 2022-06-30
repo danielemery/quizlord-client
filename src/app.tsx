@@ -28,13 +28,13 @@ export function App() {
       />
 
       {isAuthenticated && (
-        <>
+        <div className="container mx-auto px-8 mt-12">
           <Routes>
             <Route path="/" element={<QuizList />} />
             <Route path="/quiz/create" element={<CreateQuiz />} />
             <Route path="/quiz/:id" element={<Quiz />} />
           </Routes>
-        </>
+        </div>
       )}
     </>
   );

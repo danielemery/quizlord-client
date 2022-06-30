@@ -19,7 +19,7 @@ export default function Quiz() {
   if (loading) return <span>Loading...</span>;
 
   return (
-    <div className="container mx-auto px-8 mt-12">
+    <>
       <dl className="my-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
         <div>
           <dt className="font-medium text-gray-900">Date</dt>
@@ -33,6 +33,6 @@ export default function Quiz() {
         </div>
       </dl>
       <img src={data.quiz.imageLink} />
-    </div>
+    </>
   );
 }
