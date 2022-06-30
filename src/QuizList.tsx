@@ -13,9 +13,7 @@ const QUIZZES = gql`
         cursor
         node {
           id
-          state
           date
-          imageLink
           type
         }
       }
