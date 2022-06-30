@@ -4,23 +4,21 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { App } from "./app";
 import "./index.css";
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import AuthorizedApolloProvider from "./AuthorizedApolloProvider";
 
-const client = new ApolloClient({
-  uri: import.meta.env.VITE_GRAPH_API_URI,
-  cache: new InMemoryCache(),
-});
+console.log(import.meta.env.VITE_AUTH0_AUDIENCE);
 
 render(
   <Auth0Provider
     domain={import.meta.env.VITE_AUTH0_DOMAIN}
     clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+    audience={import.meta.env.VITE_AUTH0_AUDIENCE}
     redirectUri={window.location.origin}
   >
     <BrowserRouter>
-      <ApolloProvider client={client}>
+      <AuthorizedApolloProvider>
         <App />
-      </ApolloProvider>
+      </AuthorizedApolloProvider>
     </BrowserRouter>
   </Auth0Provider>,
   document.getElementById("app")!
