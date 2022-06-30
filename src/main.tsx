@@ -6,8 +6,6 @@ import "./index.css";
 
 import AuthorizedApolloProvider from "./AuthorizedApolloProvider";
 
-console.log(import.meta.env.VITE_AUTH0_AUDIENCE);
-
 render(
   <Auth0Provider
     domain={import.meta.env.VITE_AUTH0_DOMAIN}

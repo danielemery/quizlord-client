@@ -83,16 +83,22 @@ interface Node {
 }
 
 export function App() {
+  const { isAuthenticated } = useAuth0();
+
   return (
     <>
       <h1>Quizlord</h1>
       <LoginButton />
       <LogoutButton />
-      <Profile />
-      <Routes>
-        <Route path="/" element={<QuizList />} />
-        <Route path="/quiz/create" element={<CreateQuiz />} />
-      </Routes>
+      {isAuthenticated && (
+        <>
+          <Profile />
+          <Routes>
+            <Route path="/" element={<QuizList />} />
+            <Route path="/quiz/create" element={<CreateQuiz />} />
+          </Routes>
+        </>
+      )}
     </>
   );
 }
