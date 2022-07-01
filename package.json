@@ -3,14 +3,17 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "doppler run -- vite",
+    "dev": "doppler run -- npm run init-local && vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "init-local": "npx docker-react prep -s ./env.schema.js -e local -d public"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@auth0/auth0-react": "^1.10.2",
+    "docker-react": "^0.0.3",
     "graphql": "^16.5.0",
+    "joi": "^17.6.0",
     "preact": "^10.5.15",
     "react-router-dom": "^6.3.0"
   },

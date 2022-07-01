@@ -17,7 +17,7 @@ const AuthorizedApolloProvider = ({
   const { getAccessTokenSilently } = useAuth0();
 
   const httpLink = createHttpLink({
-    uri: import.meta.env.VITE_GRAPH_API_URI,
+    uri: window.env.VITE_GRAPH_API_URI,
   });
 
   const authLink = setContext(async () => {
@@ -30,7 +30,7 @@ const AuthorizedApolloProvider = ({
   });
 
   const apolloClient = new ApolloClient({
-    uri: import.meta.env.VITE_GRAPH_API_URI,
+    uri: window.env.VITE_GRAPH_API_URI,
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });

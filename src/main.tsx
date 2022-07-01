@@ -8,9 +8,9 @@ import AuthorizedApolloProvider from "./AuthorizedApolloProvider";
 
 render(
   <Auth0Provider
-    domain={import.meta.env.VITE_AUTH0_DOMAIN}
-    clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
-    audience={import.meta.env.VITE_AUTH0_AUDIENCE}
+    domain={window.env.VITE_AUTH0_DOMAIN}
+    clientId={window.env.VITE_AUTH0_CLIENT_ID}
+    audience={window.env.VITE_AUTH0_AUDIENCE}
     redirectUri={window.location.origin}
   >
     <BrowserRouter>
