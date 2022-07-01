@@ -6,7 +6,8 @@
     "dev": "doppler run -- npm run init-local && vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "init-local": "npx docker-react prep -s ./env.schema.js -e local -d public"
+    "init-local": "npx docker-react prep -s ./env.schema.js -e local -d public",
+    "test": "echo 'Test not yet implemented'"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
