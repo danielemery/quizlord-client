@@ -34,7 +34,7 @@ jobs:
       - run:
           name: Setup Environment Variables
           command: |
-            REGISTRY=$DOCKER_REGISTRY_URL/$DOCKER_REPOSITORY
+            REGISTRY=$DOCKER_REGISTRY_URL/$DOCKER_REPOSITORY_CLIENT
             echo $REGISTRY
             echo "export REGISTRY=$REGISTRY" >> $BASH_ENV
             TAG=$CIRCLE_TAG
@@ -57,7 +57,7 @@ jobs:
       - run:
           name: Setup Environment Variables
           command: |
-            REGISTRY=$DOCKER_REGISTRY_URL/$DOCKER_REPOSITORY
+            REGISTRY=$DOCKER_REGISTRY_URL/$DOCKER_REPOSITORY_CLIENT
             echo $REGISTRY
             echo "export REGISTRY=$REGISTRY" >> $BASH_ENV
             TAG=$CIRCLE_TAG
