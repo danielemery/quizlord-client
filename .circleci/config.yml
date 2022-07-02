@@ -27,7 +27,8 @@ jobs:
             - .dockerignore
 
   publish:
-    image: docker:20-git
+    docker:
+      - image: docker:20-git
     steps:
       - attach_workspace:
           at: .
@@ -50,7 +51,8 @@ jobs:
             echo $CR_PAT | docker login $DOCKER_REGISTRY_URL -u $DOCKER_USERNAME --password-stdin
             docker push $REGISTRY:$TAG
   publish-latest:
-    image: docker:20-git
+    docker:
+      - image: docker:20-git
     steps:
       - attach_workspace:
           at: .
