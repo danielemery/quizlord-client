@@ -130,3 +130,13 @@ workflows:
             branches:
               ignore: /.*/
           context: quizlord
+
+      - publish-helm:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /v([0-9])*.([0-9])*.([0-9])*.*/
+            branches:
+              ignore: /.*/
+          context: demery-helm-deploy
