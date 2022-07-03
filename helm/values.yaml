@@ -1,0 +1,6 @@
+client:
+  registry: ghcr.io/danielemery/quizlord-client
+  version: v0.0.2-circleci.2
+  dopplerSecretName: "doppler-quizlord-client-secret"
+docker:
+  registrySecretName: registry-github-quizlord
