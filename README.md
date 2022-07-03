@@ -38,9 +38,9 @@ docker rm quizlord-client && docker image rm quizlord-client:local
 7. Create the registry pull secret `kubectl create secret docker-registry registry-github-quizlord --docker-server=ghcr.io --docker-username=danielemery --docker-password=REPLACE_ME --docker-email="danielremery@gmail.com" -n quizlord`
 8. Install using local chart
    ```sh
-   helm install -n quizlord quizlord ./helm
+   helm install -n quizlord quizlord-client ./helm
    ```
 9. Cleanup
    ```sh
-   helm uninstall -n quizlord quizlord
+   helm uninstall -n quizlord quizlord-client
    ```
