@@ -1,7 +1,7 @@
 {
   "name": "@quizlord/client",
   "private": true,
-  "version": "0.0.3-helm.0",
+  "version": "0.0.3",
   "scripts": {
     "dev": "doppler run -- npm run init-local && vite",
     "build": "tsc && vite build",
