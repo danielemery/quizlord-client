@@ -16,18 +16,27 @@ const QUIZZES = gql`
           date
           type
           uploadedBy
+          myCompletions {
+            completedAt
+            score
+          }
         }
       }
     }
   }
 `;
 
+interface QuizCompletion {
+  completedAt: string;
+  score: number;
+}
+
 interface Node {
-  imageLink: string;
+  id: string;
   date: Date;
   type: string;
-  id: string;
   uploadedBy: string;
+  myCompletions: QuizCompletion[];
 }
 
 function QuizListTh(props: JSX.HTMLAttributes<HTMLTableCellElement>) {
@@ -60,6 +69,8 @@ export default function QuizList() {
           <QuizListTh>Quiz Date</QuizListTh>
           <QuizListTh>Type</QuizListTh>
           <QuizListTh>Uploaded By</QuizListTh>
+          <QuizListTh>Completed</QuizListTh>
+          <QuizListTh>Result</QuizListTh>
         </tr>
       </thead>
       <tbody>
@@ -72,6 +83,16 @@ export default function QuizList() {
             <QuizListTd>{new Date(node.date).toLocaleDateString()}</QuizListTd>
             <QuizListTd>{node.type}</QuizListTd>
             <QuizListTd>{node.uploadedBy}</QuizListTd>
+            <QuizListTd>
+              {node.myCompletions.length > 0
+                ? new Date(
+                    node.myCompletions[0].completedAt
+                  ).toLocaleDateString()
+                : ""}
+            </QuizListTd>
+            <QuizListTd>
+              {node.myCompletions.length > 0 ? node.myCompletions[0].score : ""}
+            </QuizListTd>
           </tr>
         ))}
         {/* <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer">

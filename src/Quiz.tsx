@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 
 const QUIZ = gql`
-  query GetQuiz($id: String) {
+  query GetQuiz($id: String!) {
     quiz(id: $id) {
       id
       state
