@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import { Table } from "./components/Table";
 
 const QUIZZES = gql`
   query GetQuizzes($after: String, $first: Int) {
@@ -39,66 +40,48 @@ interface Node {
   myCompletions: QuizCompletion[];
 }
 
-function QuizListTh(props: JSX.HTMLAttributes<HTMLTableCellElement>) {
-  return (
-    <th
-      {...props}
-      className="text-sm font-medium text-white px-6 py-4 text-left"
-    />
-  );
-}
-
-function QuizListTd(props: JSX.HTMLAttributes<HTMLTableCellElement>) {
-  return (
-    <td
-      {...props}
-      className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-left"
-    />
-  );
-}
-
 export default function QuizList() {
   const { loading, error, data } = useQuery(QUIZZES);
   const navigate = useNavigate();
 
   if (loading) return <span>Loading...</span>;
   return (
-    <table class="border-collapse table-auto w-full text-sm">
-      <thead className="border-b bg-gray-800">
-        <tr>
-          <QuizListTh>Quiz Date</QuizListTh>
-          <QuizListTh>Type</QuizListTh>
-          <QuizListTh>Uploaded By</QuizListTh>
-          <QuizListTh>Completed</QuizListTh>
-          <QuizListTh>Result</QuizListTh>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <Table.Head>
+        <Table.Row>
+          <Table.HeaderCell>Quiz Date</Table.HeaderCell>
+          <Table.HeaderCell>Type</Table.HeaderCell>
+          <Table.HeaderCell>Uploaded By</Table.HeaderCell>
+          <Table.HeaderCell>Completed</Table.HeaderCell>
+          <Table.HeaderCell>Result</Table.HeaderCell>
+        </Table.Row>
+      </Table.Head>
+      <Table.Body>
         {data.quizzes.edges.map(({ node }: { node: Node }) => (
-          <tr
+          <Table.Row
+            isHoverable
             key={node.id}
-            className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer"
             onClick={() => navigate(`/quiz/${node.id}`)}
           >
-            <QuizListTd>{new Date(node.date).toLocaleDateString()}</QuizListTd>
-            <QuizListTd>{node.type}</QuizListTd>
-            <QuizListTd>{node.uploadedBy}</QuizListTd>
-            <QuizListTd>
+            <Table.Cell>{new Date(node.date).toLocaleDateString()}</Table.Cell>
+            <Table.Cell>{node.type}</Table.Cell>
+            <Table.Cell>{node.uploadedBy}</Table.Cell>
+            <Table.Cell>
               {node.myCompletions.length > 0
                 ? new Date(
                     node.myCompletions[0].completedAt
                   ).toLocaleDateString()
                 : ""}
-            </QuizListTd>
-            <QuizListTd>
+            </Table.Cell>
+            <Table.Cell>
               {node.myCompletions.length > 0 ? node.myCompletions[0].score : ""}
-            </QuizListTd>
-          </tr>
+            </Table.Cell>
+          </Table.Row>
         ))}
         {/* <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer">
             <QuizListTd colSpan={2}>Load More</QuizListTd>
           </tr> */}
-      </tbody>
-    </table>
+      </Table.Body>
+    </Table>
   );
 }
