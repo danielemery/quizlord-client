@@ -26,12 +26,16 @@ Table.Body = function (props: JSX.HTMLAttributes<HTMLTableSectionElement>) {
 };
 
 Table.Row = function (
-  props: JSX.HTMLAttributes<HTMLTableRowElement> & { isHoverable?: boolean }
+  props: JSX.HTMLAttributes<HTMLTableRowElement> & {
+    isHoverable?: boolean;
+    isHeader?: boolean;
+  }
 ) {
-  const { isHoverable, className, ...trProps } = props;
+  const { isHoverable, isHeader, className, ...trProps } = props;
   const classNames = classnames({
     className,
-    "bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer":
+    "bg-white border-b": !isHeader,
+    "transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer":
       isHoverable,
   });
   return <tr {...trProps} className={classNames} />;

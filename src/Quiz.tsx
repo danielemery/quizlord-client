@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import { Table } from "./components/Table";
 
 const QUIZ = gql`
   query GetQuiz($id: String!) {
@@ -11,14 +12,38 @@ const QUIZ = gql`
       type
       uploadedBy
       uploadedAt
+      completions {
+        completedAt
+        completedBy
+        score
+      }
     }
   }
 `;
 
+interface QuizCompletion {
+  completedAt: string;
+  completedBy: string[];
+  score: number;
+}
+
+interface Quiz {
+  id: string;
+  state: string;
+  date: string;
+  imageLink: string;
+  type: string;
+  uploadedBy: string;
+  uploadedAt: string;
+  completions: QuizCompletion[];
+}
+
 export default function Quiz() {
   const { id } = useParams();
-  const { loading, error, data } = useQuery(QUIZ, { variables: { id } });
-  if (loading) return <span>Loading...</span>;
+  const { loading, error, data } = useQuery<{ quiz: Quiz }>(QUIZ, {
+    variables: { id },
+  });
+  if (loading || data === undefined) return <span>Loading...</span>;
 
   return (
     <>
@@ -45,6 +70,24 @@ export default function Quiz() {
         </div>
       </dl>
       <img src={data.quiz.imageLink} />
+      <Table className="my-8">
+        <Table.Head>
+          <Table.Row isHeader>
+            <Table.HeaderCell>Completed At</Table.HeaderCell>
+            <Table.HeaderCell>Participants</Table.HeaderCell>
+            <Table.HeaderCell>Score</Table.HeaderCell>
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
+          {data.quiz.completions.map((completion) => (
+            <Table.Row>
+              <Table.Cell>{completion.completedAt}</Table.Cell>
+              <Table.Cell>{completion.completedBy.join(", ")}</Table.Cell>
+              <Table.Cell>{completion.score}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
     </>
   );
 }

@@ -48,7 +48,7 @@ export default function QuizList() {
   return (
     <Table>
       <Table.Head>
-        <Table.Row>
+        <Table.Row isHeader>
           <Table.HeaderCell>Quiz Date</Table.HeaderCell>
           <Table.HeaderCell>Type</Table.HeaderCell>
           <Table.HeaderCell>Uploaded By</Table.HeaderCell>
