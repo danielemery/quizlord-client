@@ -1,6 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import Button from "./components/Button";
 import { Table } from "./components/Table";
+import EnterQuizResults from "./EnterQuizResults";
 
 const QUIZ = gql`
   query GetQuiz($id: String!) {
@@ -88,6 +90,7 @@ export default function Quiz() {
           ))}
         </Table.Body>
       </Table>
+      <EnterQuizResults />
     </>
   );
 }

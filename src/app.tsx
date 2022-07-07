@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import NavigationBar from "./NavigationBar";
 import QuizList from "./QuizList";
 import { CreateQuiz } from "./CreateQuiz";
-import Quiz from "./Quiz";
+import QuizDetails from "./QuizDetails";
 
 export function App() {
   const { isAuthenticated, user, logout, loginWithRedirect, isLoading } =
@@ -32,7 +32,7 @@ export function App() {
           <Routes>
             <Route path="/" element={<QuizList />} />
             <Route path="/quiz/create" element={<CreateQuiz />} />
-            <Route path="/quiz/:id" element={<Quiz />} />
+            <Route path="/quiz/:id" element={<QuizDetails />} />
           </Routes>
         </div>
       )}
