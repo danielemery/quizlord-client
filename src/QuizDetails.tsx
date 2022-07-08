@@ -1,6 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import Button from "./components/Button";
 import { Table } from "./components/Table";
 import EnterQuizResults from "./EnterQuizResults";
 
@@ -15,6 +14,32 @@ const QUIZ = gql`
       uploadedBy
       uploadedAt
       completions {
+        completedAt
+        completedBy
+        score
+      }
+    }
+    users {
+      edges {
+        email
+      }
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+const COMPLETE_QUIZ = gql`
+  mutation CompleteQuiz(
+    $quizId: String!
+    $completedBy: [String]!
+    $score: Float!
+  ) {
+    completeQuiz(quizId: $quizId, completedBy: $completedBy, score: $score) {
+      completion {
         completedAt
         completedBy
         score
@@ -40,11 +65,32 @@ interface Quiz {
   completions: QuizCompletion[];
 }
 
+export interface User {
+  email: string;
+}
+
 export default function Quiz() {
   const { id } = useParams();
-  const { loading, error, data } = useQuery<{ quiz: Quiz }>(QUIZ, {
+  const { loading, error, data, refetch } = useQuery<{
+    quiz: Quiz;
+    users: { edges: User[] };
+  }>(QUIZ, {
     variables: { id },
   });
+
+  const [completeQuiz] = useMutation(COMPLETE_QUIZ);
+
+  async function handleCompleteQuiz(score: number, participants: string[]) {
+    if (participants.length === 0) {
+      alert("At least one participant must be selected");
+    } else {
+      await completeQuiz({
+        variables: { quizId: id, completedBy: participants, score },
+      });
+      refetch();
+    }
+  }
+
   if (loading || data === undefined) return <span>Loading...</span>;
 
   return (
@@ -90,7 +136,10 @@ export default function Quiz() {
           ))}
         </Table.Body>
       </Table>
-      <EnterQuizResults />
+      <EnterQuizResults
+        availableUsers={data.users.edges}
+        handleSubmit={handleCompleteQuiz}
+      />
     </>
   );
 }
