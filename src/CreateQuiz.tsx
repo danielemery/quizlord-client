@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { Link } from "react-router-dom";
-import Button from "./Button";
+import Button from "./components/Button";
 import { gql, useMutation } from "@apollo/client";
 
 const CREATE_QUIZ = gql`
