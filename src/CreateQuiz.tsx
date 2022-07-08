@@ -9,7 +9,6 @@ const CREATE_QUIZ = gql`
       quiz {
         id
         date
-        imageLink
         state
         type
       }
