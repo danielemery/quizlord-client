@@ -1,10 +1,9 @@
-import { render } from "preact";
-import { BrowserRouter } from "react-router-dom";
-import { Auth0Provider } from "@auth0/auth0-react";
-import { App } from "./app";
-import "./index.css";
-
-import AuthorizedApolloProvider from "./AuthorizedApolloProvider";
+import { Auth0Provider } from '@auth0/auth0-react';
+import { render } from 'preact';
+import { BrowserRouter } from 'react-router-dom';
+import AuthorizedApolloProvider from './AuthorizedApolloProvider';
+import { App } from './app';
+import './index.css';
 
 render(
   <Auth0Provider
@@ -19,5 +18,6 @@ render(
       </AuthorizedApolloProvider>
     </BrowserRouter>
   </Auth0Provider>,
-  document.getElementById("app")!
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  document.getElementById('app')!,
 );

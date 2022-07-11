@@ -1,6 +1,6 @@
-import { gql, useQuery } from "@apollo/client";
-import { useNavigate } from "react-router-dom";
-import { Table } from "./components/Table";
+import { useNavigate } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+import { Table } from './components/Table';
 
 const QUIZZES = gql`
   query GetQuizzes($after: String, $first: Int) {
@@ -41,7 +41,7 @@ interface Node {
 }
 
 export default function QuizList() {
-  const { loading, error, data } = useQuery(QUIZZES);
+  const { loading, data } = useQuery(QUIZZES);
   const navigate = useNavigate();
 
   if (loading) return <span>Loading...</span>;
@@ -58,24 +58,14 @@ export default function QuizList() {
       </Table.Head>
       <Table.Body>
         {data.quizzes.edges.map(({ node }: { node: Node }) => (
-          <Table.Row
-            isHoverable
-            key={node.id}
-            onClick={() => navigate(`/quiz/${node.id}`)}
-          >
+          <Table.Row isHoverable key={node.id} onClick={() => navigate(`/quiz/${node.id}`)}>
             <Table.Cell>{new Date(node.date).toLocaleDateString()}</Table.Cell>
             <Table.Cell>{node.type}</Table.Cell>
             <Table.Cell>{node.uploadedBy}</Table.Cell>
             <Table.Cell>
-              {node.myCompletions.length > 0
-                ? new Date(
-                    node.myCompletions[0].completedAt
-                  ).toLocaleDateString()
-                : ""}
+              {node.myCompletions.length > 0 ? new Date(node.myCompletions[0].completedAt).toLocaleDateString() : ''}
             </Table.Cell>
-            <Table.Cell>
-              {node.myCompletions.length > 0 ? node.myCompletions[0].score : ""}
-            </Table.Cell>
+            <Table.Cell>{node.myCompletions.length > 0 ? node.myCompletions[0].score : ''}</Table.Cell>
           </Table.Row>
         ))}
         {/* <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer">
