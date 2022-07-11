@@ -2,6 +2,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { render } from 'preact';
 import { BrowserRouter } from 'react-router-dom';
 import AuthorizedApolloProvider from './AuthorizedApolloProvider';
+import QuizlordProvider from './QuizlordProvider';
 import { App } from './app';
 import './index.css';
 
@@ -14,7 +15,9 @@ render(
   >
     <BrowserRouter>
       <AuthorizedApolloProvider>
-        <App />
+        <QuizlordProvider>
+          <App />
+        </QuizlordProvider>
       </AuthorizedApolloProvider>
     </BrowserRouter>
   </Auth0Provider>,

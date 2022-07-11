@@ -71,7 +71,7 @@ export default function Quiz() {
   const { id } = useParams();
   const { loading, data, refetch } = useQuery<{
     quiz: Quiz;
-    users: { edges: { node: User}[] };
+    users: { edges: { node: User }[] };
   }>(QUIZ, {
     variables: { id },
   });
@@ -130,7 +130,7 @@ export default function Quiz() {
           ))}
         </Table.Body>
       </Table>
-      <EnterQuizResults availableUsers={data.users.edges.map(u => u.node)} handleSubmit={handleCompleteQuiz} />
+      <EnterQuizResults availableUsers={data.users.edges.map((u) => u.node)} handleSubmit={handleCompleteQuiz} />
     </>
   );
 }
