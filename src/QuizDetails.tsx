@@ -1,7 +1,7 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
-import { Table } from "./components/Table";
-import EnterQuizResults from "./EnterQuizResults";
+import { useParams } from 'react-router-dom';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import EnterQuizResults from './EnterQuizResults';
+import { Table } from './components/Table';
 
 const QUIZ = gql`
   query GetQuiz($id: String!) {
@@ -33,11 +33,7 @@ const QUIZ = gql`
 `;
 
 const COMPLETE_QUIZ = gql`
-  mutation CompleteQuiz(
-    $quizId: String!
-    $completedBy: [String]!
-    $score: Float!
-  ) {
+  mutation CompleteQuiz($quizId: String!, $completedBy: [String]!, $score: Float!) {
     completeQuiz(quizId: $quizId, completedBy: $completedBy, score: $score) {
       completion {
         completedAt
@@ -71,7 +67,7 @@ export interface User {
 
 export default function Quiz() {
   const { id } = useParams();
-  const { loading, error, data, refetch } = useQuery<{
+  const { loading, data, refetch } = useQuery<{
     quiz: Quiz;
     users: { edges: User[] };
   }>(QUIZ, {
@@ -82,7 +78,7 @@ export default function Quiz() {
 
   async function handleCompleteQuiz(score: number, participants: string[]) {
     if (participants.length === 0) {
-      alert("At least one participant must be selected");
+      alert('At least one participant must be selected');
     } else {
       await completeQuiz({
         variables: { quizId: id, completedBy: participants, score },
@@ -95,30 +91,26 @@ export default function Quiz() {
 
   return (
     <>
-      <dl className="my-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+      <dl className='my-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8'>
         <div>
-          <dt className="font-medium text-gray-900">Date</dt>
-          <dd className="mt-2 text-sm text-gray-500">
-            {new Date(data.quiz.date).toDateString()}
-          </dd>
+          <dt className='font-medium text-gray-900'>Date</dt>
+          <dd className='mt-2 text-sm text-gray-500'>{new Date(data.quiz.date).toDateString()}</dd>
         </div>
         <div>
-          <dt className="font-medium text-gray-900">Type</dt>
-          <dd className="mt-2 text-sm text-gray-500">{data.quiz.type}</dd>
+          <dt className='font-medium text-gray-900'>Type</dt>
+          <dd className='mt-2 text-sm text-gray-500'>{data.quiz.type}</dd>
         </div>
         <div>
-          <dt className="font-medium text-gray-900">Uploaded By</dt>
-          <dd className="mt-2 text-sm text-gray-500">{data.quiz.uploadedBy}</dd>
+          <dt className='font-medium text-gray-900'>Uploaded By</dt>
+          <dd className='mt-2 text-sm text-gray-500'>{data.quiz.uploadedBy}</dd>
         </div>
         <div>
-          <dt className="font-medium text-gray-900">Uploaded At</dt>
-          <dd className="mt-2 text-sm text-gray-500">
-            {new Date(data.quiz.uploadedAt).toDateString()}
-          </dd>
+          <dt className='font-medium text-gray-900'>Uploaded At</dt>
+          <dd className='mt-2 text-sm text-gray-500'>{new Date(data.quiz.uploadedAt).toDateString()}</dd>
         </div>
       </dl>
       <img src={data.quiz.imageLink} />
-      <Table className="my-8">
+      <Table className='my-8'>
         <Table.Head>
           <Table.Row isHeader>
             <Table.HeaderCell>Completed At</Table.HeaderCell>
@@ -130,16 +122,13 @@ export default function Quiz() {
           {data.quiz.completions.map((completion) => (
             <Table.Row>
               <Table.Cell>{completion.completedAt}</Table.Cell>
-              <Table.Cell>{completion.completedBy.join(", ")}</Table.Cell>
+              <Table.Cell>{completion.completedBy.join(', ')}</Table.Cell>
               <Table.Cell>{completion.score}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
       </Table>
-      <EnterQuizResults
-        availableUsers={data.users.edges}
-        handleSubmit={handleCompleteQuiz}
-      />
+      <EnterQuizResults availableUsers={data.users.edges} handleSubmit={handleCompleteQuiz} />
     </>
   );
 }
