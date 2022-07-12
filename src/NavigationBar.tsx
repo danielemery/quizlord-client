@@ -13,12 +13,14 @@ export default function NavigationBar({
   onLogout,
   onLogin,
   isAuthenticated,
+  canUploadQuiz,
   userImage,
   userName,
 }: {
   onLogout: () => void;
   onLogin: () => void;
   isAuthenticated: boolean;
+  canUploadQuiz: boolean;
   userImage?: string;
   userName?: string;
 }) {
@@ -28,9 +30,11 @@ export default function NavigationBar({
         <Link to='/'>
           <h1 className='inline-block text-3xl mr-8'>Quizlord</h1>
         </Link>
-        <Link to='/quiz/create'>
-          <NavigationBarItem>Upload Quiz</NavigationBarItem>
-        </Link>
+        {canUploadQuiz && (
+          <Link to='/quiz/create'>
+            <NavigationBarItem>Upload Quiz</NavigationBarItem>
+          </Link>
+        )}
       </div>
       <div>
         {isAuthenticated ? (
