@@ -4,15 +4,16 @@ import { gql, useMutation } from '@apollo/client';
 import Button from './components/Button';
 
 const CREATE_QUIZ = gql`
-  mutation CreateQuiz($type: QuizType!, $date: Date!, $fileName: String!) {
-    createQuiz(type: $type, date: $date, fileName: $fileName) {
+  mutation CreateQuiz($type: QuizType!, $date: Date!, $files: [CreateQuizFile]) {
+    createQuiz(type: $type, date: $date, files: $files) {
       quiz {
         id
         date
-        state
         type
       }
-      uploadLink
+      uploadLinks {
+        link
+      }
     }
   }
 `;
@@ -44,9 +45,9 @@ export function CreateQuiz() {
       const type = selectedType;
       const fileName = selectedFile.name;
       const result = await createQuiz({
-        variables: { type, date: selectedDate, fileName },
+        variables: { type, date: selectedDate, files: [{ fileName, type: 'QUESTION_AND_ANSWER' }] },
       });
-      await fetch(result.data.createQuiz.uploadLink, {
+      await fetch(result.data.createQuiz.uploadLinks[0].link, {
         method: 'PUT',
         body: selectedFile,
       });

@@ -7,9 +7,7 @@ const QUIZ = gql`
   query GetQuiz($id: String!) {
     quiz(id: $id) {
       id
-      state
       date
-      imageLink
       type
       uploadedBy
       uploadedAt
@@ -17,6 +15,11 @@ const QUIZ = gql`
         completedAt
         completedBy
         score
+      }
+      images {
+        imageLink
+        state
+        type
       }
     }
     users {
@@ -52,15 +55,20 @@ interface QuizCompletion {
   score: number;
 }
 
+interface QuizImage {
+  imageLink: string;
+  state: string;
+  type: string;
+}
+
 interface Quiz {
   id: string;
-  state: string;
   date: string;
-  imageLink: string;
   type: string;
   uploadedBy: string;
   uploadedAt: string;
   completions: QuizCompletion[];
+  images: QuizImage[];
 }
 
 export interface User {
@@ -111,7 +119,12 @@ export default function Quiz() {
           <dd className='mt-2 text-sm text-gray-500'>{new Date(data.quiz.uploadedAt).toDateString()}</dd>
         </div>
       </dl>
-      <img src={data.quiz.imageLink} />
+      {data.quiz.images.map((image) => (
+        <div>
+          <h2>{image.type}</h2>
+          <img src={image.imageLink} />
+        </div>
+      ))}
       <Table className='my-8'>
         <Table.Head>
           <Table.Row isHeader>
