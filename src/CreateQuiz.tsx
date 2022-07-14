@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
+import { v4 as uuidv4 } from 'uuid';
+import QuizImageUpload, { FileAttributes } from './QuizImageUpload';
 import Button from './components/Button';
 
 const CREATE_QUIZ = gql`
@@ -13,44 +15,68 @@ const CREATE_QUIZ = gql`
       }
       uploadLinks {
         link
+        fileName
       }
     }
   }
 `;
 
+const defaultAttributes: FileAttributes = {
+  type: 'QUESTION_AND_ANSWER',
+};
+
 export function CreateQuiz() {
-  const [selectedFile, setSelectedFile] = useState<File | undefined>();
-  const [filePreview, setFilePreview] = useState<string | undefined>();
+  const [selectedFiles, setSelectedFiles] = useState<
+    { file?: File | undefined; attributes: FileAttributes; id: string }[]
+  >([{ id: uuidv4(), attributes: { ...defaultAttributes } }]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedType, setSelectedType] = useState<string>('SHARK');
   const [createQuiz] = useMutation(CREATE_QUIZ);
 
   const [complete, setComplete] = useState(false);
 
-  useEffect(() => {
-    // create the preview
-    if (selectedFile) {
-      const objectUrl = URL.createObjectURL(selectedFile);
-      setFilePreview(objectUrl);
+  function handleFileAttributesChanged(id: string, newAttributes: FileAttributes) {
+    setSelectedFiles((prevFiles) => prevFiles.map((f) => (f.id === id ? { ...f, attributes: newAttributes } : f)));
+  }
 
-      // free memory when ever this component is unmounted
-      return () => URL.revokeObjectURL(objectUrl);
-    }
-  }, [selectedFile]);
+  function handleFileSelected(id: string, newFile: File) {
+    setSelectedFiles((prevFiles) => prevFiles.map((f) => (f.id === id ? { ...f, file: newFile } : f)));
+  }
+
+  function handleExtraImageRequested() {
+    setSelectedFiles((selectedFiles) => [...selectedFiles, { id: uuidv4(), attributes: { ...defaultAttributes } }]);
+  }
+
+  function handleFileRemoved(id: string) {
+    setSelectedFiles((prevFiles) => prevFiles.filter((file) => file.id !== id));
+  }
 
   async function handleSubmission() {
-    if (!selectedFile) {
-      alert('No file selected!');
+    if (selectedFiles.find((file) => file.file === undefined)) {
+      alert('At least one file missing!');
+    } else if (selectedDate === undefined) {
+      alert('No date selected!');
     } else {
       const type = selectedType;
-      const fileName = selectedFile.name;
       const result = await createQuiz({
-        variables: { type, date: selectedDate, files: [{ fileName, type: 'QUESTION_AND_ANSWER' }] },
+        variables: {
+          type,
+          date: selectedDate,
+          files: selectedFiles.map((file) => ({ fileName: file.file?.name, type: file.attributes.type })),
+        },
       });
-      await fetch(result.data.createQuiz.uploadLinks[0].link, {
-        method: 'PUT',
-        body: selectedFile,
-      });
+      await Promise.all(
+        result.data.createQuiz.uploadLinks.map((link: { link: string; fileName: string }) => {
+          const matchingFile = selectedFiles.find((file) => file.file?.name === link.fileName);
+          if (!matchingFile) {
+            throw new Error('Unexpected error uploading file');
+          }
+          return fetch(link.link, {
+            method: 'PUT',
+            body: matchingFile.file,
+          });
+        }),
+      );
       setComplete(true);
     }
   }
@@ -91,35 +117,18 @@ export function CreateQuiz() {
                 </div>
                 <p className='mt-2 text-sm text-gray-500'>The date the quiz was published.</p>
               </div>
-              <div>
-                <label className='block text-sm font-medium text-gray-700'>Quiz Image</label>
-                {selectedFile ? (
-                  <img src={filePreview} />
-                ) : (
-                  <div className='flex text-sm text-gray-600'>
-                    <label
-                      htmlFor='file-upload'
-                      className='relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500'
-                    >
-                      <span>Upload a file</span>
-                      <input
-                        type='file'
-                        className='sr-only'
-                        id='file-upload'
-                        name='file'
-                        onChange={(e) => {
-                          const fileElement = e.target as HTMLInputElement;
-                          if (fileElement.files === null) {
-                            alert('Must select a file');
-                          } else {
-                            setSelectedFile(fileElement.files[0]);
-                          }
-                        }}
-                      />
-                    </label>
-                  </div>
-                )}
-              </div>
+              {selectedFiles.map((file) => (
+                <QuizImageUpload
+                  key={file.id}
+                  selectedFile={file.file}
+                  fileAttributes={file.attributes}
+                  onFileAttributesChanged={(attr) => handleFileAttributesChanged(file.id, attr)}
+                  onFileSelected={(selectedFile) => handleFileSelected(file.id, selectedFile)}
+                  onFileRemoved={() => handleFileRemoved(file.id)}
+                  isLastFile={selectedFiles.length <= 1}
+                />
+              ))}
+              <Button onClick={handleExtraImageRequested}>Add another image</Button>
             </>
           ) : (
             <>
