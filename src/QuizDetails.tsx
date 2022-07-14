@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import EnterQuizResults from './EnterQuizResults';
+import QuizImageComponent from './QuizImage';
 import { Table } from './components/Table';
 
 const QUIZ = gql`
@@ -55,10 +56,19 @@ interface QuizCompletion {
   score: number;
 }
 
-interface QuizImage {
+export type QuizImageType = 'QUESTION' | 'ANSWER' | 'QUESTION_AND_ANSWER';
+const imageTypeSortValues: {
+  [imageType: string]: number;
+} = {
+  QUESTION: 1,
+  ANSWER: 2,
+  QUESTION_AND_ANSWER: 3,
+};
+
+export interface QuizImage {
   imageLink: string;
   state: string;
-  type: string;
+  type: QuizImageType;
 }
 
 interface Quiz {
@@ -119,12 +129,13 @@ export default function Quiz() {
           <dd className='mt-2 text-sm text-gray-500'>{new Date(data.quiz.uploadedAt).toDateString()}</dd>
         </div>
       </dl>
-      {data.quiz.images.map((image) => (
-        <div>
-          <h2>{image.type}</h2>
-          <img src={image.imageLink} />
-        </div>
-      ))}
+      {[...data.quiz.images]
+        .sort((a, b) => {
+          return imageTypeSortValues[a.type] - imageTypeSortValues[b.type];
+        })
+        .map((image) => (
+          <QuizImageComponent image={image} className='mt-2' />
+        ))}
       <Table className='my-8'>
         <Table.Head>
           <Table.Row isHeader>
