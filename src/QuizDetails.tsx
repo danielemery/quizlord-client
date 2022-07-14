@@ -1,15 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import EnterQuizResults from './EnterQuizResults';
+import QuizImageComponent from './QuizImage';
 import { Table } from './components/Table';
 
 const QUIZ = gql`
   query GetQuiz($id: String!) {
     quiz(id: $id) {
       id
-      state
       date
-      imageLink
       type
       uploadedBy
       uploadedAt
@@ -17,6 +16,11 @@ const QUIZ = gql`
         completedAt
         completedBy
         score
+      }
+      images {
+        imageLink
+        state
+        type
       }
     }
     users {
@@ -52,15 +56,29 @@ interface QuizCompletion {
   score: number;
 }
 
+export type QuizImageType = 'QUESTION' | 'ANSWER' | 'QUESTION_AND_ANSWER';
+const imageTypeSortValues: {
+  [imageType: string]: number;
+} = {
+  QUESTION: 1,
+  ANSWER: 2,
+  QUESTION_AND_ANSWER: 3,
+};
+
+export interface QuizImage {
+  imageLink: string;
+  state: string;
+  type: QuizImageType;
+}
+
 interface Quiz {
   id: string;
-  state: string;
   date: string;
-  imageLink: string;
   type: string;
   uploadedBy: string;
   uploadedAt: string;
   completions: QuizCompletion[];
+  images: QuizImage[];
 }
 
 export interface User {
@@ -111,7 +129,13 @@ export default function Quiz() {
           <dd className='mt-2 text-sm text-gray-500'>{new Date(data.quiz.uploadedAt).toDateString()}</dd>
         </div>
       </dl>
-      <img src={data.quiz.imageLink} />
+      {[...data.quiz.images]
+        .sort((a, b) => {
+          return imageTypeSortValues[a.type] - imageTypeSortValues[b.type];
+        })
+        .map((image) => (
+          <QuizImageComponent image={image} className='mt-2' />
+        ))}
       <Table className='my-8'>
         <Table.Head>
           <Table.Row isHeader>
