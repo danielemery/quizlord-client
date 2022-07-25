@@ -1,25 +1,10 @@
 import { useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { v4 as uuidv4 } from 'uuid';
 import QuizImageUpload, { FileAttributes } from './QuizImageUpload';
 import Button from './components/Button';
-
-const CREATE_QUIZ = gql`
-  mutation CreateQuiz($type: QuizType!, $date: Date!, $files: [CreateQuizFile]) {
-    createQuiz(type: $type, date: $date, files: $files) {
-      quiz {
-        id
-        date
-        type
-      }
-      uploadLinks {
-        link
-        fileName
-      }
-    }
-  }
-`;
+import { CREATE_QUIZ, QUIZZES } from './queries/quiz';
 
 const defaultAttributes: FileAttributes = {
   type: 'QUESTION_AND_ANSWER',
@@ -31,7 +16,9 @@ export function CreateQuiz() {
   >([{ id: uuidv4(), attributes: { ...defaultAttributes } }]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedType, setSelectedType] = useState<string>('SHARK');
-  const [createQuiz] = useMutation(CREATE_QUIZ);
+  const [createQuiz] = useMutation(CREATE_QUIZ, {
+    refetchQueries: [{ query: QUIZZES }],
+  });
 
   const [complete, setComplete] = useState(false);
 

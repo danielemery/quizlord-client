@@ -1,32 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import Button from './components/Button';
 import { Table } from './components/Table';
-
-const QUIZZES = gql`
-  query GetQuizzes($after: String, $first: Int) {
-    quizzes(after: $after, first: $first) {
-      pageInfo {
-        hasNextPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          id
-          date
-          type
-          uploadedBy
-          myCompletions {
-            completedAt
-            score
-          }
-        }
-      }
-    }
-  }
-`;
+import { QUIZZES } from './queries/quiz';
 
 interface QuizCompletion {
   completedAt: string;
