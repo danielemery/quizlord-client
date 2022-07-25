@@ -1,17 +1,12 @@
-import { useParams } from 'react-router-dom';
-import { useMutation, useQuery } from '@apollo/client';
-import EnterQuizResults from './EnterQuizResults';
+import { Link, useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
 import QuizImageComponent from './QuizImage';
+import Button from './components/Button';
 import { Table } from './components/Table';
-import { COMPLETE_QUIZ, QUIZ, QUIZZES } from './queries/quiz';
+import { formatDate } from './helpers';
+import { QUIZ } from './queries/quiz';
+import { Quiz as QuizType } from './types/quiz';
 
-interface QuizCompletion {
-  completedAt: string;
-  completedBy: string[];
-  score: number;
-}
-
-export type QuizImageType = 'QUESTION' | 'ANSWER' | 'QUESTION_AND_ANSWER';
 const imageTypeSortValues: {
   [imageType: string]: number;
 } = {
@@ -20,49 +15,17 @@ const imageTypeSortValues: {
   QUESTION_AND_ANSWER: 3,
 };
 
-export interface QuizImage {
-  imageLink: string;
-  state: string;
-  type: QuizImageType;
-}
-
-interface Quiz {
-  id: string;
-  date: string;
-  type: string;
-  uploadedBy: string;
-  uploadedAt: string;
-  completions: QuizCompletion[];
-  images: QuizImage[];
-}
-
 export interface User {
   email: string;
 }
 
 export default function Quiz() {
   const { id } = useParams();
-  const { loading, data, refetch } = useQuery<{
-    quiz: Quiz;
-    users: { edges: { node: User }[] };
+  const { loading, data } = useQuery<{
+    quiz: QuizType;
   }>(QUIZ, {
     variables: { id },
   });
-
-  const [completeQuiz] = useMutation(COMPLETE_QUIZ, {
-    refetchQueries: [{ query: QUIZ, variables: { id } }, { query: QUIZZES }],
-  });
-
-  async function handleCompleteQuiz(score: number, participants: string[]) {
-    if (participants.length === 0) {
-      alert('At least one participant must be selected');
-    } else {
-      await completeQuiz({
-        variables: { quizId: id, completedBy: participants, score },
-      });
-      refetch();
-    }
-  }
 
   if (loading || data === undefined) return <span>Loading...</span>;
 
@@ -71,7 +34,7 @@ export default function Quiz() {
       <dl className='my-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8'>
         <div>
           <dt className='font-medium text-gray-900'>Date</dt>
-          <dd className='mt-2 text-sm text-gray-500'>{new Date(data.quiz.date).toDateString()}</dd>
+          <dd className='mt-2 text-sm text-gray-500'>{formatDate(data.quiz.date)}</dd>
         </div>
         <div>
           <dt className='font-medium text-gray-900'>Type</dt>
@@ -83,7 +46,7 @@ export default function Quiz() {
         </div>
         <div>
           <dt className='font-medium text-gray-900'>Uploaded At</dt>
-          <dd className='mt-2 text-sm text-gray-500'>{new Date(data.quiz.uploadedAt).toDateString()}</dd>
+          <dd className='mt-2 text-sm text-gray-500'>{formatDate(data.quiz.uploadedAt)}</dd>
         </div>
       </dl>
       {[...data.quiz.images]
@@ -111,7 +74,9 @@ export default function Quiz() {
           ))}
         </Table.Body>
       </Table>
-      <EnterQuizResults availableUsers={data.users.edges.map((u) => u.node)} handleSubmit={handleCompleteQuiz} />
+      <Link to='./enter'>
+        <Button>Enter Results</Button>
+      </Link>
     </>
   );
 }

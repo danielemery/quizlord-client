@@ -44,6 +44,28 @@ export const QUIZ = gql`
         type
       }
     }
+  }
+`;
+
+export const QUIZ_AND_AVAILABLE_USERS = gql`
+  query GetQuiz($id: String!) {
+    quiz(id: $id) {
+      id
+      date
+      type
+      uploadedBy
+      uploadedAt
+      completions {
+        completedAt
+        completedBy
+        score
+      }
+      images {
+        imageLink
+        state
+        type
+      }
+    }
     users {
       edges {
         node {
