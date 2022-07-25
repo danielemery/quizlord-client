@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'preact/hooks';
-import { QuizImageType } from './QuizDetails';
 import Button from './components/Button';
+import { QuizImageType } from './types/quiz';
 
 export interface FileAttributes {
   type: QuizImageType;
