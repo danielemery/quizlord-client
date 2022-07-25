@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { CreateQuiz } from './CreateQuiz';
+import EnterQuizResults from './EnterQuizResults';
 import NavigationBar from './NavigationBar';
 import QuizDetails from './QuizDetails';
 import QuizList from './QuizList';
@@ -49,6 +50,7 @@ export function App() {
             <Route path='/' element={<QuizList />} />
             <Route path='/quiz/create' element={<CreateQuiz />} />
             <Route path='/quiz/:id' element={<QuizDetails />} />
+            <Route path='/quiz/:id/enter' element={<EnterQuizResults />} />
           </Routes>
         )}
       </div>

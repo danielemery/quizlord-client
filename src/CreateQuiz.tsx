@@ -119,13 +119,11 @@ export function CreateQuiz() {
             </>
           ) : (
             <>
-              <p className='mt-2 text-sm text-gray-500'>
-                Quiz Created Successfully.
-                <br />
-                It may take a moment to appear in the list.
-              </p>
+              <p className='mt-2 text-sm text-gray-500'>Quiz Created Successfully.</p>
               <Link to='/'>
-                <Button className='mt-4'>Return to List</Button>
+                <Button danger className='mt-4'>
+                  Return to List
+                </Button>
               </Link>
             </>
           )}

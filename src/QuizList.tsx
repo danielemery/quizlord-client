@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import Button from './components/Button';
 import { Table } from './components/Table';
+import { formatDate, formatDateTime } from './helpers';
 import { QUIZZES } from './queries/quiz';
 
 interface QuizCompletion {
@@ -41,11 +42,11 @@ export default function QuizList() {
         <Table.Body>
           {nodes.map(({ node }: { node: Node }) => (
             <Table.Row isHoverable key={node.id} onClick={() => navigate(`/quiz/${node.id}`)}>
-              <Table.Cell>{new Date(node.date).toLocaleDateString()}</Table.Cell>
+              <Table.Cell>{formatDate(node.date)}</Table.Cell>
               <Table.Cell>{node.type}</Table.Cell>
               <Table.Cell>{node.uploadedBy}</Table.Cell>
               <Table.Cell>
-                {node.myCompletions.length > 0 ? new Date(node.myCompletions[0].completedAt).toLocaleDateString() : ''}
+                {node.myCompletions.length > 0 ? formatDateTime(node.myCompletions[0].completedAt) : ''}
               </Table.Cell>
               <Table.Cell>{node.myCompletions.length > 0 ? node.myCompletions[0].score : ''}</Table.Cell>
             </Table.Row>
