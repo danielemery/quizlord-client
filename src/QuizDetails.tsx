@@ -1,54 +1,9 @@
 import { useParams } from 'react-router-dom';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import EnterQuizResults from './EnterQuizResults';
 import QuizImageComponent from './QuizImage';
 import { Table } from './components/Table';
-
-const QUIZ = gql`
-  query GetQuiz($id: String!) {
-    quiz(id: $id) {
-      id
-      date
-      type
-      uploadedBy
-      uploadedAt
-      completions {
-        completedAt
-        completedBy
-        score
-      }
-      images {
-        imageLink
-        state
-        type
-      }
-    }
-    users {
-      edges {
-        node {
-          email
-        }
-      }
-      pageInfo {
-        hasNextPage
-        startCursor
-        endCursor
-      }
-    }
-  }
-`;
-
-const COMPLETE_QUIZ = gql`
-  mutation CompleteQuiz($quizId: String!, $completedBy: [String]!, $score: Float!) {
-    completeQuiz(quizId: $quizId, completedBy: $completedBy, score: $score) {
-      completion {
-        completedAt
-        completedBy
-        score
-      }
-    }
-  }
-`;
+import { COMPLETE_QUIZ, QUIZ, QUIZZES } from './queries/quiz';
 
 interface QuizCompletion {
   completedAt: string;
@@ -94,7 +49,9 @@ export default function Quiz() {
     variables: { id },
   });
 
-  const [completeQuiz] = useMutation(COMPLETE_QUIZ);
+  const [completeQuiz] = useMutation(COMPLETE_QUIZ, {
+    refetchQueries: [{ query: QUIZ, variables: { id } }, { query: QUIZZES }],
+  });
 
   async function handleCompleteQuiz(score: number, participants: string[]) {
     if (participants.length === 0) {
