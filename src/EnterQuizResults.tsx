@@ -2,6 +2,7 @@ import { useState } from 'preact/hooks';
 import { Link, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { User } from './QuizDetails';
+import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import { formatDate } from './helpers';
 import { COMPLETE_QUIZ, QUIZ, QUIZ_AND_AVAILABLE_USERS, QUIZZES } from './queries/quiz';
@@ -24,15 +25,14 @@ export default function EnterQuizResults() {
     ],
   });
 
+  const { user: authenticatedUser } = useQuizlord();
+
   async function handleSubmit(score: number, participants: string[]) {
-    if (participants.length === 0) {
-      alert('At least one participant must be selected');
-    } else {
-      await completeQuiz({
-        variables: { quizId: id, completedBy: participants, score },
-      });
-      setComplete(true);
-    }
+    const participantsWithAuthenticatedUser = [authenticatedUser?.email, ...participants];
+    await completeQuiz({
+      variables: { quizId: id, completedBy: participantsWithAuthenticatedUser, score },
+    });
+    setComplete(true);
   }
 
   const [score, setScore] = useState<number>(0);
@@ -51,7 +51,7 @@ export default function EnterQuizResults() {
             <div>
               <h2 className='mb-0'>Enter Results</h2>
               <p className='text-sm text-gray-500'>
-                for {data.quiz.type} on {formatDate(data.quiz.date)}
+                for {formatDate(data.quiz.date)} {data.quiz.type}
               </p>
             </div>
             <div>
@@ -73,6 +73,9 @@ export default function EnterQuizResults() {
               <label htmlFor='participants' className='block text-sm font-medium text-gray-700'>
                 Participants
               </label>
+              <p className='text-sm text-gray-500'>
+                {authenticatedUser?.email} <strong>AND</strong>
+              </p>
               <select
                 multiple
                 id='participants'
@@ -84,10 +87,10 @@ export default function EnterQuizResults() {
                 }}
               >
                 {data.users.edges
-                  .map((u) => u.node)
+                  .filter((user) => user.node.email !== authenticatedUser?.email)
                   .map((user) => (
-                    <option selected={participants.includes(user.email)} value={user.email}>
-                      {user.email}
+                    <option selected={participants.includes(user.node.email)} value={user.node.email}>
+                      {user.node.email}
                     </option>
                   ))}
               </select>

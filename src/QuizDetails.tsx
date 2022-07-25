@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import QuizImageComponent from './QuizImage';
 import Button from './components/Button';
 import { Table } from './components/Table';
-import { formatDate } from './helpers';
+import { formatDate, formatDateTime } from './helpers';
 import { QUIZ } from './queries/quiz';
 import { Quiz as QuizType } from './types/quiz';
 
@@ -46,7 +46,7 @@ export default function Quiz() {
         </div>
         <div>
           <dt className='font-medium text-gray-900'>Uploaded At</dt>
-          <dd className='mt-2 text-sm text-gray-500'>{formatDate(data.quiz.uploadedAt)}</dd>
+          <dd className='mt-2 text-sm text-gray-500'>{formatDateTime(data.quiz.uploadedAt)}</dd>
         </div>
       </dl>
       {[...data.quiz.images]
@@ -67,7 +67,7 @@ export default function Quiz() {
         <Table.Body>
           {data.quiz.completions.map((completion) => (
             <Table.Row>
-              <Table.Cell>{completion.completedAt}</Table.Cell>
+              <Table.Cell>{formatDateTime(completion.completedAt)}</Table.Cell>
               <Table.Cell>{completion.completedBy.join(', ')}</Table.Cell>
               <Table.Cell>{completion.score}</Table.Cell>
             </Table.Row>

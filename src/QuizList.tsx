@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import Button from './components/Button';
 import { Table } from './components/Table';
-import { formatDate } from './helpers';
+import { formatDate, formatDateTime } from './helpers';
 import { QUIZZES } from './queries/quiz';
 
 interface QuizCompletion {
@@ -46,7 +46,7 @@ export default function QuizList() {
               <Table.Cell>{node.type}</Table.Cell>
               <Table.Cell>{node.uploadedBy}</Table.Cell>
               <Table.Cell>
-                {node.myCompletions.length > 0 ? formatDate(node.myCompletions[0].completedAt) : ''}
+                {node.myCompletions.length > 0 ? formatDateTime(node.myCompletions[0].completedAt) : ''}
               </Table.Cell>
               <Table.Cell>{node.myCompletions.length > 0 ? node.myCompletions[0].score : ''}</Table.Cell>
             </Table.Row>
