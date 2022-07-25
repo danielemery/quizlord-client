@@ -50,8 +50,6 @@ export default function QuizList() {
   const nodes = data.quizzes.edges;
   const pageInfo = data.quizzes.pageInfo;
 
-  console.log(pageInfo);
-
   return (
     <>
       <Table>
