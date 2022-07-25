@@ -1,7 +1,7 @@
 {
   "name": "@quizlord/client",
   "private": true,
-  "version": "0.3.2",
+  "version": "0.4.0-enter-quiz-improvements.0",
   "scripts": {
     "dev": "doppler run -- npm run init-local && vite",
     "build": "tsc && vite build",
