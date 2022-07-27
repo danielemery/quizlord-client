@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import Button from './components/Button';
 import { Table } from './components/Table';
-import { formatDate, formatDateTime } from './helpers';
+import { formatDate, formatDateTime, formatDateTimeShortDate, formatDateTimeShortTime } from './helpers';
 import { QUIZZES } from './queries/quiz';
 
 interface QuizCompletion {
@@ -65,12 +65,13 @@ export default function QuizList() {
                   </ul>
                 </Table.Cell>
                 <Table.Cell>
-                  <ul>
-                    <li className='font-medium'>{node.myCompletions.length > 0 ? node.myCompletions[0].score : ''}</li>
-                    <li className='italic'>
-                      {node.myCompletions.length > 0 ? formatDateTime(node.myCompletions[0].completedAt) : ''}
-                    </li>
-                  </ul>
+                  {node.myCompletions.length > 0 && (
+                    <ul>
+                      <li className='font-medium'>Score: {node.myCompletions[0].score}</li>
+                      <li className='italic'>{formatDateTimeShortDate(node.myCompletions[0].completedAt)}</li>
+                      <li className='italic'>{formatDateTimeShortTime(node.myCompletions[0].completedAt)}</li>
+                    </ul>
+                  )}
                 </Table.Cell>
               </Table.Row>
             </Fragment>
