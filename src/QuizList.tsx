@@ -1,3 +1,4 @@
+import { Fragment } from 'preact';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import Button from './components/Button';
@@ -29,27 +30,50 @@ export default function QuizList() {
 
   return (
     <>
-      <Table>
+      <Table className='table-fixed'>
         <Table.Head>
-          <Table.Row isHeader>
+          <Table.Row className='hidden lg:table-row' isHeader>
             <Table.HeaderCell>Quiz Date</Table.HeaderCell>
             <Table.HeaderCell>Type</Table.HeaderCell>
             <Table.HeaderCell>Uploaded By</Table.HeaderCell>
             <Table.HeaderCell>Completed</Table.HeaderCell>
             <Table.HeaderCell>Result</Table.HeaderCell>
           </Table.Row>
+          <Table.Row className='lg:hidden' isHeader>
+            <Table.HeaderCell>Quiz Details</Table.HeaderCell>
+            <Table.HeaderCell>Completion</Table.HeaderCell>
+          </Table.Row>
         </Table.Head>
         <Table.Body>
           {nodes.map(({ node }: { node: Node }) => (
-            <Table.Row isHoverable key={node.id} onClick={() => navigate(`/quiz/${node.id}`)}>
-              <Table.Cell>{formatDate(node.date)}</Table.Cell>
-              <Table.Cell>{node.type}</Table.Cell>
-              <Table.Cell>{node.uploadedBy}</Table.Cell>
-              <Table.Cell>
-                {node.myCompletions.length > 0 ? formatDateTime(node.myCompletions[0].completedAt) : ''}
-              </Table.Cell>
-              <Table.Cell>{node.myCompletions.length > 0 ? node.myCompletions[0].score : ''}</Table.Cell>
-            </Table.Row>
+            <Fragment key={node.id}>
+              <Table.Row className='hidden lg:table-row' isHoverable onClick={() => navigate(`/quiz/${node.id}`)}>
+                <Table.Cell>{formatDate(node.date)}</Table.Cell>
+                <Table.Cell>{node.type}</Table.Cell>
+                <Table.Cell>{node.uploadedBy}</Table.Cell>
+                <Table.Cell>
+                  {node.myCompletions.length > 0 ? formatDateTime(node.myCompletions[0].completedAt) : ''}
+                </Table.Cell>
+                <Table.Cell>{node.myCompletions.length > 0 ? node.myCompletions[0].score : ''}</Table.Cell>
+              </Table.Row>
+              <Table.Row className='lg:hidden' isHoverable onClick={() => navigate(`/quiz/${node.id}`)}>
+                <Table.Cell>
+                  <ul>
+                    <li>{node.type}</li>
+                    <li>{formatDate(node.date)}</li>
+                    <li className='italic'>{node.uploadedBy}</li>
+                  </ul>
+                </Table.Cell>
+                <Table.Cell>
+                  <ul>
+                    <li className='font-medium'>{node.myCompletions.length > 0 ? node.myCompletions[0].score : ''}</li>
+                    <li className='italic'>
+                      {node.myCompletions.length > 0 ? formatDateTime(node.myCompletions[0].completedAt) : ''}
+                    </li>
+                  </ul>
+                </Table.Cell>
+              </Table.Row>
+            </Fragment>
           ))}
         </Table.Body>
       </Table>

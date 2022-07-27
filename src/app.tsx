@@ -30,7 +30,7 @@ export function App() {
         userName={user?.name}
         canUploadQuiz={userHasRole}
       />
-      <div className='container mx-auto px-8 mt-12'>
+      <div className='container mx-auto px-0 mt-0 lg:px-8 lg:mt-12'>
         {!isAuthenticated && (
           <div>
             <p className='mb-4'>Thanks for visiting Quizlord, you'll need to sign in to get started.</p>

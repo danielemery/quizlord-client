@@ -19,8 +19,7 @@ Table.Row = function (
   },
 ) {
   const { isHoverable, isHeader, className, ...trProps } = props;
-  const classNames = classnames({
-    className,
+  const classNames = classnames(className, {
     'bg-white border-b': !isHeader,
     'transition duration-300 ease-in-out hover:bg-gray-100 cursor-pointer': isHoverable,
   });
