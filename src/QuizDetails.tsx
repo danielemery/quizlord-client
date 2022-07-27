@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import QuizImageComponent from './QuizImage';
 import Button from './components/Button';
 import { Table } from './components/Table';
-import { formatDate, formatDateTime, formatDateTimeShort } from './helpers';
+import { formatDate, formatDateTime, formatDateTimeShortDate, formatDateTimeShortTime } from './helpers';
 import { QUIZ } from './queries/quiz';
 import { Quiz as QuizType } from './types/quiz';
 
@@ -91,8 +91,9 @@ export default function Quiz() {
               <Table.Row className='lg:hidden'>
                 <Table.Cell>
                   <ul>
-                    <li className='font-medium'>{completion.score}</li>
-                    <li className='italic'>{formatDateTimeShort(completion.completedAt)}</li>
+                    <li className='font-medium'>Score: {completion.score}</li>
+                    <li className='italic'>{formatDateTimeShortDate(completion.completedAt)}</li>
+                    <li className='italic'>{formatDateTimeShortTime(completion.completedAt)}</li>
                   </ul>
                 </Table.Cell>
                 <Table.Cell>

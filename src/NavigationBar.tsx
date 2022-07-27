@@ -36,7 +36,7 @@ export default function NavigationBar({
 }) {
   return (
     <>
-      <nav className='p-2 lg:p-4 flex bg-slate-500 text-white'>
+      <nav className='p-4 flex bg-slate-500 text-white'>
         <div className='grow flex items-center'>
           <Link to='/'>
             <h1 className='inline-block text-3xl mr-8'>Quizlord</h1>
@@ -56,13 +56,11 @@ export default function NavigationBar({
               <img className='inline-block max-h-12 rounded-full' src={userImage} alt={userName} />
             </>
           ) : (
-            <NavigationBarItem className='hidden lg:inline' onClick={() => onLogin()}>
-              Log In
-            </NavigationBarItem>
+            <NavigationBarItem onClick={() => onLogin()}>Log In</NavigationBarItem>
           )}
         </div>
       </nav>
-      {canUploadQuiz && (
+      {canUploadQuiz && isAuthenticated && (
         <nav className='lg:hidden p-2 bg-slate-500 text-white flex justify-between'>
           <Link to='/quiz/create'>
             <NavigationBarItem>Upload Quiz</NavigationBarItem>
