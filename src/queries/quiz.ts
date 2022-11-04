@@ -85,6 +85,7 @@ export const QUIZ_AND_AVAILABLE_USERS = gql`
       edges {
         node {
           email
+          name
         }
       }
       pageInfo {
