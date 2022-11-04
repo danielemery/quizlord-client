@@ -1,12 +1,12 @@
 import { useState } from 'preact/hooks';
 import { Link, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-import { User } from './QuizDetails';
 import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import { formatDate } from './helpers';
 import { COMPLETE_QUIZ, QUIZ, QUIZ_AND_AVAILABLE_USERS, QUIZZES } from './queries/quiz';
 import { Quiz } from './types/quiz';
+import { User } from './types/user';
 
 export default function EnterQuizResults() {
   const { id } = useParams();
@@ -74,7 +74,7 @@ export default function EnterQuizResults() {
                 Participants
               </label>
               <p className='text-sm text-gray-500'>
-                {authenticatedUser?.email} <strong>AND</strong>
+                {authenticatedUser?.name ?? authenticatedUser?.email} <strong>AND</strong>
               </p>
               <select
                 multiple
@@ -90,7 +90,7 @@ export default function EnterQuizResults() {
                   .filter((user) => user.node.email !== authenticatedUser?.email)
                   .map((user) => (
                     <option selected={participants.includes(user.node.email)} value={user.node.email}>
-                      {user.node.email}
+                      {user.node.name ?? user.node.email}
                     </option>
                   ))}
               </select>

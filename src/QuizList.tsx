@@ -5,6 +5,7 @@ import Button from './components/Button';
 import { Table } from './components/Table';
 import { formatDate, formatDateTime, formatDateTimeShortDate, formatDateTimeShortTime } from './helpers';
 import { QUIZZES } from './queries/quiz';
+import { User } from './types/user';
 
 interface QuizCompletion {
   completedAt: string;
@@ -15,7 +16,7 @@ interface Node {
   id: string;
   date: Date;
   type: string;
-  uploadedBy: string;
+  uploadedBy: User;
   myCompletions: QuizCompletion[];
 }
 
@@ -50,7 +51,7 @@ export default function QuizList() {
               <Table.Row className='hidden lg:table-row' isHoverable onClick={() => navigate(`/quiz/${node.id}`)}>
                 <Table.Cell>{formatDate(node.date)}</Table.Cell>
                 <Table.Cell>{node.type}</Table.Cell>
-                <Table.Cell>{node.uploadedBy}</Table.Cell>
+                <Table.Cell>{node.uploadedBy.name ?? node.uploadedBy.email}</Table.Cell>
                 <Table.Cell>
                   {node.myCompletions.length > 0 ? formatDateTime(node.myCompletions[0].completedAt) : ''}
                 </Table.Cell>
@@ -61,7 +62,7 @@ export default function QuizList() {
                   <ul>
                     <li>{node.type}</li>
                     <li>{formatDate(node.date)}</li>
-                    <li className='italic'>{node.uploadedBy}</li>
+                    <li className='italic'>{node.uploadedBy.name ?? node.uploadedBy.email}</li>
                   </ul>
                 </Table.Cell>
                 <Table.Cell>
