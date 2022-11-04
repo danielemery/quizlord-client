@@ -14,7 +14,10 @@ export const QUIZZES = gql`
           id
           date
           type
-          uploadedBy
+          uploadedBy {
+            email
+            name
+          }
           myCompletions {
             completedAt
             score
@@ -31,11 +34,17 @@ export const QUIZ = gql`
       id
       date
       type
-      uploadedBy
+      uploadedBy {
+        email
+        name
+      }
       uploadedAt
       completions {
         completedAt
-        completedBy
+        completedBy {
+          email
+          name
+        }
         score
       }
       images {
@@ -53,11 +62,17 @@ export const QUIZ_AND_AVAILABLE_USERS = gql`
       id
       date
       type
-      uploadedBy
+      uploadedBy {
+        email
+        name
+      }
       uploadedAt
       completions {
         completedAt
-        completedBy
+        completedBy {
+          email
+          name
+        }
         score
       }
       images {

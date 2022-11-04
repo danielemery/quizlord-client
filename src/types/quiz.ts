@@ -1,6 +1,8 @@
+import { User } from './user';
+
 export interface QuizCompletion {
   completedAt: string;
-  completedBy: string[];
+  completedBy: User[];
   score: number;
 }
 
@@ -16,7 +18,7 @@ export interface Quiz {
   id: string;
   date: string;
   type: string;
-  uploadedBy: string;
+  uploadedBy: User;
   uploadedAt: string;
   completions: QuizCompletion[];
   images: QuizImage[];

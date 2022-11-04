@@ -16,10 +16,6 @@ const imageTypeSortValues: {
   QUESTION_AND_ANSWER: 3,
 };
 
-export interface User {
-  email: string;
-}
-
 export default function Quiz() {
   const { id } = useParams();
   const { loading, data } = useQuery<{
@@ -45,7 +41,9 @@ export default function Quiz() {
             </div>
             <div>
               <dt className='text-sm lg:font-medium text-gray-900'>Uploaded By</dt>
-              <dd className='text-xs mt-2 lg:text-sm text-gray-500'>{data.quiz.uploadedBy}</dd>
+              <dd className='text-xs mt-2 lg:text-sm text-gray-500'>
+                {data.quiz.uploadedBy.name ?? data.quiz.uploadedBy.email}
+              </dd>
             </div>
             <div>
               <dt className='text-sm lg:font-medium text-gray-900'>Uploaded At</dt>
@@ -85,7 +83,11 @@ export default function Quiz() {
             <Fragment key={completion.completedAt}>
               <Table.Row className='hidden lg:table-row'>
                 <Table.Cell>{formatDateTime(completion.completedAt)}</Table.Cell>
-                <Table.Cell>{completion.completedBy.join(', ')}</Table.Cell>
+                <Table.Cell>
+                  {completion.completedBy
+                    .map((completedByUser) => completedByUser.name ?? completedByUser.email)
+                    .join(', ')}
+                </Table.Cell>
                 <Table.Cell>{completion.score}</Table.Cell>
               </Table.Row>
               <Table.Row className='lg:hidden'>
@@ -99,7 +101,7 @@ export default function Quiz() {
                 <Table.Cell>
                   <ul>
                     {completion.completedBy.map((p) => (
-                      <li key={p}>{p}</li>
+                      <li key={p.email}>{p.name ?? p.email}</li>
                     ))}
                   </ul>
                 </Table.Cell>
