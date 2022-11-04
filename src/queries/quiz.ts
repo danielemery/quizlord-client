@@ -101,7 +101,10 @@ export const COMPLETE_QUIZ = gql`
     completeQuiz(quizId: $quizId, completedBy: $completedBy, score: $score) {
       completion {
         completedAt
-        completedBy
+        completedBy {
+          name
+          email
+        }
         score
       }
     }
