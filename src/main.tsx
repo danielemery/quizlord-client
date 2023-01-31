@@ -12,8 +12,10 @@ render(
   <Auth0Provider
     domain={window.env.VITE_AUTH0_DOMAIN}
     clientId={window.env.VITE_AUTH0_CLIENT_ID}
-    audience={window.env.VITE_AUTH0_AUDIENCE}
-    redirectUri={window.location.origin}
+    authorizationParams={{
+      audience: window.env.VITE_AUTH0_AUDIENCE,
+      redirect_uri: window.location.origin,
+    }}
   >
     <BrowserRouter>
       <AuthorizedApolloProvider>
