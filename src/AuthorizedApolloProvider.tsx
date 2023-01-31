@@ -1,8 +1,8 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import type { ComponentChildren } from 'preact';
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { relayStylePagination } from '@apollo/client/utilities';
+import { useAuth0 } from '@auth0/auth0-react';
+import type { ComponentChildren } from 'preact';
 
 const AuthorizedApolloProvider = ({ children }: { children: ComponentChildren }) => {
   const { getAccessTokenSilently } = useAuth0();

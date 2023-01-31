@@ -1,6 +1,7 @@
-import type { ComponentChildren } from 'preact';
 import { Link } from 'react-router-dom';
+
 import classnames from 'classnames';
+import type { ComponentChildren } from 'preact';
 
 function NavigationBarItem({
   children,

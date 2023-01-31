@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
+
 import Button from './components/Button';
 import { QuizImageType } from './types/quiz';
 

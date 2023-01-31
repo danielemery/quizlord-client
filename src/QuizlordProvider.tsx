@@ -1,7 +1,7 @@
+import { gql, useQuery } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ComponentChildren, createContext } from 'preact';
 import { useContext } from 'preact/hooks';
-import { gql, useQuery } from '@apollo/client';
 
 export type Role = 'USER' | 'ADMIN';
 
