@@ -1,7 +1,7 @@
 {
   "name": "@quizlord/client",
   "private": true,
-  "version": "0.6.0",
+  "version": "0.6.1-npm-bumps.0",
   "scripts": {
     "dev": "doppler run -- npm run init-local && vite",
     "build": "tsc && vite build",
