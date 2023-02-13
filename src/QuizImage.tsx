@@ -1,5 +1,6 @@
-import { useState } from 'preact/hooks';
 import classnames from 'classnames';
+import { useState } from 'preact/hooks';
+
 import Button from './components/Button';
 import { QuizImage, QuizImageType } from './types/quiz';
 

@@ -1,7 +1,7 @@
+import { gql, useQuery } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ComponentChildren, createContext } from 'preact';
 import { useContext } from 'preact/hooks';
-import { gql, useQuery } from '@apollo/client';
 
 export type Role = 'USER' | 'ADMIN';
 
@@ -38,7 +38,7 @@ export const QuizlordContext = createContext<{
 export default function QuizlordProvider({ children }: { children: ComponentChildren }) {
   const {
     isAuthenticated: isAuth0Authenticated,
-    logout,
+    logout: auth0Logout,
     loginWithRedirect,
     isLoading: auth0IsLoading,
     user: auth0User,
@@ -50,6 +50,10 @@ export default function QuizlordProvider({ children }: { children: ComponentChil
       roles: Role[];
     };
   }>(ME, { skip: auth0IsLoading || !isAuth0Authenticated });
+
+  function logout({ returnTo }: { returnTo: string }) {
+    return auth0Logout({ logoutParams: { returnTo } });
+  }
 
   return (
     <QuizlordContext.Provider

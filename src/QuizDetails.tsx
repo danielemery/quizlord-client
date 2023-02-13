@@ -1,6 +1,8 @@
-import { Fragment } from 'preact';
 import { Link, useParams } from 'react-router-dom';
+
 import { useQuery } from '@apollo/client';
+import { Fragment } from 'preact';
+
 import QuizImageComponent from './QuizImage';
 import Button from './components/Button';
 import { Table } from './components/Table';

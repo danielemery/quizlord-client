@@ -1,7 +1,9 @@
-import { useState } from 'preact/hooks';
 import { Link } from 'react-router-dom';
+
 import { useMutation } from '@apollo/client';
+import { useState } from 'preact/hooks';
 import { v4 as uuidv4 } from 'uuid';
+
 import QuizImageUpload, { FileAttributes } from './QuizImageUpload';
 import Button from './components/Button';
 import { CREATE_QUIZ, QUIZZES } from './queries/quiz';

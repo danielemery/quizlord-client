@@ -1,6 +1,8 @@
-import { useState } from 'preact/hooks';
 import { Link, useParams } from 'react-router-dom';
+
 import { useMutation, useQuery } from '@apollo/client';
+import { useState } from 'preact/hooks';
+
 import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import { formatDate } from './helpers';
