@@ -2,6 +2,9 @@
   "name": "@quizlord/client",
   "private": true,
   "version": "0.7.0-loading-states.0",
+  "engines": {
+    "node": "v18.14.2"
+  },
   "scripts": {
     "dev": "doppler run -- npm run init-local && vite",
     "build": "tsc && vite build",
