@@ -5,6 +5,7 @@ import { Fragment } from 'preact';
 
 import QuizImageComponent from './QuizImage';
 import Button from './components/Button';
+import Loader from './components/Loader';
 import { Table } from './components/Table';
 import { formatDate, formatDateTime, formatDateTimeShortDate, formatDateTimeShortTime } from './helpers';
 import { QUIZ } from './queries/quiz';
@@ -26,7 +27,7 @@ export default function Quiz() {
     variables: { id },
   });
 
-  if (loading || data === undefined) return <span>Loading...</span>;
+  if (loading || data === undefined) return <Loader message='Loading your quiz...' />;
 
   return (
     <div>

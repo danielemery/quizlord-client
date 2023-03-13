@@ -5,6 +5,7 @@ import { useState } from 'preact/hooks';
 
 import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
+import Loader from './components/Loader';
 import { formatDate } from './helpers';
 import { COMPLETE_QUIZ, QUIZ, QUIZ_AND_AVAILABLE_USERS, QUIZZES } from './queries/quiz';
 import { Quiz } from './types/quiz';
@@ -42,7 +43,7 @@ export default function EnterQuizResults() {
   const [complete, setComplete] = useState(false);
 
   if (!data || loading) {
-    return <span>Loading...</span>;
+    return <Loader message='Loading your quiz...' />;
   }
 
   return (
