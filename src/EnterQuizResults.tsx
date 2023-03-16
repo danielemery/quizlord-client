@@ -5,6 +5,8 @@ import { useState } from 'preact/hooks';
 
 import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
+import Loader from './components/Loader';
+import LoaderOverlay from './components/LoaderOverlay';
 import { formatDate } from './helpers';
 import { COMPLETE_QUIZ, QUIZ, QUIZ_AND_AVAILABLE_USERS, QUIZZES } from './queries/quiz';
 import { Quiz } from './types/quiz';
@@ -19,7 +21,7 @@ export default function EnterQuizResults() {
     variables: { id },
   });
 
-  const [completeQuiz] = useMutation(COMPLETE_QUIZ, {
+  const [completeQuiz, { loading: isCompletingQuiz }] = useMutation(COMPLETE_QUIZ, {
     refetchQueries: [
       { query: QUIZ, variables: { id } },
       { query: QUIZ_AND_AVAILABLE_USERS, variables: { id } },
@@ -42,11 +44,16 @@ export default function EnterQuizResults() {
   const [complete, setComplete] = useState(false);
 
   if (!data || loading) {
-    return <span>Loading...</span>;
+    return <Loader message='Loading your quiz...' />;
   }
 
   return (
-    <div className='shadow sm:rounded-md sm:overflow-hidden'>
+    <div className='shadow sm:rounded-md sm:overflow-hidden relative'>
+      {isCompletingQuiz && (
+        <LoaderOverlay>
+          <Loader message='Submitting your results...' />
+        </LoaderOverlay>
+      )}
       <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
         {!complete ? (
           <>
@@ -117,11 +124,13 @@ export default function EnterQuizResults() {
       {!complete && (
         <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
           <Link to={`/quiz/${id}`}>
-            <Button className='mr-2' danger>
+            <Button className='mr-2' danger disabled={isCompletingQuiz}>
               Cancel
             </Button>
           </Link>
-          <Button onClick={() => handleSubmit(score, participants)}>Submit Results</Button>
+          <Button onClick={() => handleSubmit(score, participants)} disabled={isCompletingQuiz}>
+            Submit Results
+          </Button>
         </div>
       )}
     </div>

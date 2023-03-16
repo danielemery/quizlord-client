@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import QuizImageUpload, { FileAttributes } from './QuizImageUpload';
 import Button from './components/Button';
+import Loader from './components/Loader';
+import LoaderOverlay from './components/LoaderOverlay';
 import { CREATE_QUIZ, QUIZZES } from './queries/quiz';
 
 const defaultAttributes: FileAttributes = {
@@ -18,10 +20,11 @@ export function CreateQuiz() {
   >([{ id: uuidv4(), attributes: { ...defaultAttributes } }]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedType, setSelectedType] = useState<string>('SHARK');
-  const [createQuiz] = useMutation(CREATE_QUIZ, {
+  const [createQuiz, { loading: isCreatingQuiz }] = useMutation(CREATE_QUIZ, {
     refetchQueries: [{ query: QUIZZES }],
   });
 
+  const [isUploading, setIsUploading] = useState(false);
   const [complete, setComplete] = useState(false);
 
   function handleFileAttributesChanged(id: string, newAttributes: FileAttributes) {
@@ -54,6 +57,7 @@ export function CreateQuiz() {
           files: selectedFiles.map((file) => ({ fileName: file.file?.name, type: file.attributes.type })),
         },
       });
+      setIsUploading(true);
       await Promise.all(
         result.data.createQuiz.uploadLinks.map((link: { link: string; fileName: string }) => {
           const matchingFile = selectedFiles.find((file) => file.file?.name === link.fileName);
@@ -66,13 +70,21 @@ export function CreateQuiz() {
           });
         }),
       );
+      setIsUploading(false);
       setComplete(true);
     }
   }
 
+  const isLoading = isCreatingQuiz || isUploading;
+
   return (
     <div>
-      <div className='shadow sm:rounded-md sm:overflow-hidden'>
+      <div className='shadow sm:rounded-md sm:overflow-hidden relative'>
+        {isLoading && (
+          <LoaderOverlay>
+            <Loader message='Creating Quiz...' />
+          </LoaderOverlay>
+        )}
         <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
           {!complete ? (
             <>
@@ -133,11 +145,13 @@ export function CreateQuiz() {
         {!complete && (
           <div className='px-4 py-3 bg-gray-50 text-right sm:px-6'>
             <Link to='/'>
-              <Button className='mr-2' danger>
+              <Button className='mr-2' danger disabled={isLoading}>
                 Cancel
               </Button>
             </Link>
-            <Button onClick={handleSubmission}>Save</Button>
+            <Button onClick={handleSubmission} disabled={isLoading}>
+              Save
+            </Button>
           </div>
         )}
       </div>

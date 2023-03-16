@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 import { Fragment } from 'preact';
 
 import Button from './components/Button';
+import Loader from './components/Loader';
 import { Table } from './components/Table';
 import { formatDate, formatDateTime, formatDateTimeShortDate, formatDateTimeShortTime } from './helpers';
 import { QUIZZES } from './queries/quiz';
@@ -26,7 +27,7 @@ export default function QuizList() {
   const { loading, data, fetchMore } = useQuery(QUIZZES);
   const navigate = useNavigate();
 
-  if (loading) return <span>Loading...</span>;
+  if (loading) return <Loader message='Loading available quizzes...' />;
 
   const nodes = data.quizzes.edges;
   const pageInfo = data.quizzes.pageInfo;
