@@ -1,7 +1,7 @@
 {
   "name": "@quizlord/client",
   "private": true,
-  "version": "0.7.0-loading-states.2",
+  "version": "0.7.0-loading-states.3",
   "engines": {
     "node": "v18.14.2"
   },
