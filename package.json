@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "init-local": "npx docker-react prep -s ./env.schema.js -e local -d public",
     "test": "echo 'Test not yet implemented'",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "cypress:open": "doppler run -- cypress open"
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
@@ -29,11 +30,13 @@
     "@preact/preset-vite": "^2.1.5",
     "@tailwindcss/forms": "^0.5.2",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "@types/jest": "^29.5.0",
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.12",
+    "cypress": "^12.8.1",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
