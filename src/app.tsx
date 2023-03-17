@@ -36,7 +36,9 @@ export function App() {
         {!isAuthenticated && (
           <div className='p-4 lg:p-0'>
             <p className='mb-4'>Thanks for visiting Quizlord, you'll need to sign in to get started.</p>
-            <Button onClick={() => loginWithRedirect()}>Log In</Button>
+            <Button onClick={() => loginWithRedirect()} data-ct='login-main'>
+              Log In
+            </Button>
           </div>
         )}
         {isAuthenticated && !userHasRole && (

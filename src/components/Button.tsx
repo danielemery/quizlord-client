@@ -12,14 +12,18 @@ export default function Button(props: ButtonProps) {
   if (danger) {
     return (
       <button
-        className={`${commonClasses} bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 ${className}`}
+        className={`${commonClasses} bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 ${
+          className ?? ''
+        }`}
         {...buttonProps}
       />
     );
   }
   return (
     <button
-      className={`${commonClasses} bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${className}`}
+      className={`${commonClasses} bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
+        className ?? ''
+      }`}
       {...buttonProps}
     />
   );

@@ -1,20 +1,12 @@
 import { Link } from 'react-router-dom';
 
-import classnames from 'classnames';
-import type { ComponentChildren } from 'preact';
+export interface NavigationBarItemProps extends JSX.HTMLAttributes<HTMLButtonElement> {
+  danger?: boolean;
+}
 
-function NavigationBarItem({
-  children,
-  onClick,
-  className,
-}: {
-  children: ComponentChildren;
-  onClick?: () => void;
-  className?: string;
-}) {
-  const mergedClasses = classnames(className, 'text-white px-3 py-2 text-sm font-medium');
+function NavigationBarItem({ children, onClick, className, ...otherProps }: NavigationBarItemProps) {
   return (
-    <button className={mergedClasses} onClick={onClick}>
+    <button {...otherProps} className={`text-white px-3 py-2 text-sm font-medium ${className ?? ''}`} onClick={onClick}>
       {children}
     </button>
   );
@@ -44,7 +36,7 @@ export default function NavigationBar({
           </Link>
           {canUploadQuiz && (
             <Link className='hidden lg:block' to='/quiz/create'>
-              <NavigationBarItem>Upload Quiz</NavigationBarItem>
+              <NavigationBarItem data-ct='quiz-upload-desktop'>Upload Quiz</NavigationBarItem>
             </Link>
           )}
         </div>
@@ -64,7 +56,7 @@ export default function NavigationBar({
       {canUploadQuiz && isAuthenticated && (
         <nav className='lg:hidden p-2 bg-slate-500 text-white flex justify-between'>
           <Link to='/quiz/create'>
-            <NavigationBarItem>Upload Quiz</NavigationBarItem>
+            <NavigationBarItem data-ct='quiz-upload-mobile'>Upload Quiz</NavigationBarItem>
           </Link>
           {isAuthenticated ? (
             <>
