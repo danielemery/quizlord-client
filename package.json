@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.7.0",
   "engines": {
-    "node": "v18.14.2"
+    "node": "v18.16.0"
   },
   "scripts": {
     "dev": "doppler run -- npm run init-local && vite",
