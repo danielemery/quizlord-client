@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { CreateQuiz } from './CreateQuiz';
 import EnterQuizResults from './EnterQuizResults';
+import Footer from './Footer';
 import NavigationBar from './NavigationBar';
 import QuizDetails from './QuizDetails';
 import QuizList from './QuizList';
@@ -56,6 +57,7 @@ export function App() {
           </Routes>
         )}
       </div>
+      <Footer />
     </>
   );
 }
