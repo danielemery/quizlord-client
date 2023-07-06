@@ -24,7 +24,7 @@ export function App() {
   const userHasRole = (user?.roles.length || 0) > 0;
 
   return (
-    <>
+    <div className='min-h-screen flex flex-col'>
       <NavigationBar
         isAuthenticated={isAuthenticated}
         onLogout={handleLogout}
@@ -33,7 +33,7 @@ export function App() {
         userName={user?.name}
         canUploadQuiz={userHasRole}
       />
-      <div className='container mx-auto px-0 mt-0 lg:px-8 lg:mt-12'>
+      <div className='container mx-auto px-0 mt-0 lg:px-8 lg:mt-12 grow'>
         {!isAuthenticated && (
           <div className='p-4 lg:p-0'>
             <p className='mb-4'>Thanks for visiting Quizlord, you'll need to sign in to get started.</p>
@@ -58,6 +58,6 @@ export function App() {
         )}
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
