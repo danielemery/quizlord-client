@@ -1,13 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useQuery } from '@apollo/client';
+import { faFilter, faFilterCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Fragment } from 'preact';
+import { useState } from 'preact/hooks';
 
 import Button from './components/Button';
 import Loader from './components/Loader';
 import { Table } from './components/Table';
 import { formatDate, formatDateTime, formatDateTimeShortDate, formatDateTimeShortTime } from './helpers';
-import { QUIZZES } from './queries/quiz';
+import { useQuizList } from './hooks/useQuizList.hook';
 import { User } from './types/user';
 
 interface QuizCompletion {
@@ -24,7 +26,8 @@ interface Node {
 }
 
 export default function QuizList() {
-  const { loading, data, fetchMore } = useQuery(QUIZZES);
+  const [isFilteringOnIncomplete, setIsFilteringOnIncomplete] = useState(true);
+  const { data, loading, fetchMore } = useQuizList(isFilteringOnIncomplete);
   const navigate = useNavigate();
 
   if (loading) return <Loader message='Loading available quizzes...' />;
@@ -34,6 +37,19 @@ export default function QuizList() {
 
   return (
     <>
+      <div
+        className='m-4 lg:m-0 lg:mb-4 cursor-pointer'
+        onClick={() => setIsFilteringOnIncomplete(!isFilteringOnIncomplete)}
+      >
+        <FontAwesomeIcon
+          icon={isFilteringOnIncomplete ? faFilter : faFilterCircleXmark}
+          size='xl'
+          className='text-gray-800'
+        />
+        <span className='ml-4'>
+          {isFilteringOnIncomplete ? 'Showing only incomplete quizzes' : 'Showing all quizzes'}
+        </span>
+      </div>
       <Table className='table-fixed'>
         <Table.Head>
           <Table.Row className='hidden lg:table-row' isHeader>

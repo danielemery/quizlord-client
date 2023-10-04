@@ -8,7 +8,7 @@ import QuizImageUpload, { FileAttributes } from './QuizImageUpload';
 import Button from './components/Button';
 import Loader from './components/Loader';
 import LoaderOverlay from './components/LoaderOverlay';
-import { CREATE_QUIZ, QUIZZES } from './queries/quiz';
+import { CREATE_QUIZ } from './queries/quiz';
 
 const defaultAttributes: FileAttributes = {
   type: 'QUESTION_AND_ANSWER',
@@ -20,9 +20,7 @@ export function CreateQuiz() {
   >([{ id: uuidv4(), attributes: { ...defaultAttributes } }]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedType, setSelectedType] = useState<string>('SHARK');
-  const [createQuiz, { loading: isCreatingQuiz }] = useMutation(CREATE_QUIZ, {
-    refetchQueries: [{ query: QUIZZES }],
-  });
+  const [createQuiz, { loading: isCreatingQuiz }] = useMutation(CREATE_QUIZ);
 
   const [isUploading, setIsUploading] = useState(false);
   const [complete, setComplete] = useState(false);

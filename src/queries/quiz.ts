@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const QUIZZES = gql`
-  query GetQuizzes($after: String, $first: Int) {
-    quizzes(after: $after, first: $first) {
+  query GetQuizzes($after: String, $first: Int, $filters: QuizFilters) {
+    quizzes(after: $after, first: $first, filters: $filters) {
       pageInfo {
         hasNextPage
         startCursor
