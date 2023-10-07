@@ -5,10 +5,10 @@ import EnterQuizResults from './EnterQuizResults';
 import Footer from './Footer';
 import NavigationBar from './NavigationBar';
 import QuizDetails from './QuizDetails';
-import QuizList from './QuizList';
 import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
+import QuizList from './pages/list/QuizList';
 
 export function App() {
   const { isAuthenticated, user, logout, loginWithRedirect, isLoading } = useQuizlord();
@@ -18,7 +18,7 @@ export function App() {
   }
 
   if (isLoading) {
-    return <Loader message='Quizlord is getting ready for you...' />;
+    return <Loader message='Quizlord is getting ready for you...' className='mt-10' />;
   }
 
   const userHasRole = (user?.roles.length || 0) > 0;

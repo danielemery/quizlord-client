@@ -51,7 +51,7 @@ export default function EnterQuizResults() {
     <div className='shadow sm:rounded-md sm:overflow-hidden relative'>
       {isCompletingQuiz && (
         <LoaderOverlay>
-          <Loader message='Submitting your results...' />
+          <Loader message='Submitting your results...' className='mt-10' />
         </LoaderOverlay>
       )}
       <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>

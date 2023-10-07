@@ -29,7 +29,7 @@ const AuthorizedApolloProvider = ({ children }: { children: ComponentChildren })
       typePolicies: {
         Query: {
           fields: {
-            quizzes: relayStylePagination(),
+            quizzes: relayStylePagination(['filters']),
           },
         },
       },
