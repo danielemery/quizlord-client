@@ -5,10 +5,10 @@ import EnterQuizResults from './EnterQuizResults';
 import Footer from './Footer';
 import NavigationBar from './NavigationBar';
 import QuizDetails from './QuizDetails';
-import QuizList from './pages/list/QuizList';
 import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
+import QuizList from './pages/list/QuizList';
 
 export function App() {
   const { isAuthenticated, user, logout, loginWithRedirect, isLoading } = useQuizlord();
