@@ -1,7 +1,6 @@
 {
   "name": "@quizlord/client",
   "private": true,
-  "version": "0.7.2",
   "engines": {
     "node": "v18.16.0"
   },
