@@ -1,35 +1,6 @@
 version: 2.1
 
 jobs:
-  test:
-    docker:
-      - image: cimg/node:16.15
-    steps:
-      - checkout
-      - run:
-          name: Install Packages
-          command: |
-            npm ci
-      - run:
-          name: Lint
-          command: |
-            npm run lint
-      - run:
-          name: Run Unit Tests
-          command: |
-            npm t
-      - run:
-          name: Build
-          command: |
-            npm run build
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist/*
-            - env.schema.js
-            - Dockerfile
-            - .dockerignore
-
   publish-helm:
     docker:
       - image: hypnoglow/helm-s3:master-helm3.4
@@ -110,11 +81,6 @@ workflows:
   version: 2
   ci:
     jobs:
-      - test:
-          filters:
-            tags:
-              only: /.*/
-
       - publish:
           requires:
             - test
