@@ -18,7 +18,7 @@ export function App() {
   }
 
   if (isLoading) {
-    return <Loader message='Quizlord is getting ready for you...' />;
+    return <Loader message='Quizlord is getting ready for you...' className='mt-10' />;
   }
 
   const userHasRole = (user?.roles.length || 0) > 0;

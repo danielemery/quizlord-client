@@ -27,7 +27,7 @@ export default function Quiz() {
     variables: { id },
   });
 
-  if (loading || data === undefined) return <Loader message='Loading your quiz...' />;
+  if (loading || data === undefined) return <Loader message='Loading your quiz...' className='mt-10' />;
 
   return (
     <div>

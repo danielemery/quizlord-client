@@ -68,14 +68,18 @@ export default function QuizList() {
           </Table.Head>
           <Table.Body>
             {loading && (
-              <Table.Row>
-                <Table.Cell colSpan={2} className='lg:hidden'>
-                  <Loader message='Loading available quizzes...' />
-                </Table.Cell>
-                <Table.Cell colSpan={5} className='hidden lg:table-row'>
-                  <Loader message='Loading available quizzes...' />
-                </Table.Cell>
-              </Table.Row>
+              <>
+                <Table.Row className='hidden lg:table-row'>
+                  <Table.Cell colSpan={5}>
+                    <Loader message='Loading available quizzes...' />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row className='lg:hidden'>
+                  <Table.Cell colSpan={2}>
+                    <Loader message='Loading available quizzes...' />
+                  </Table.Cell>
+                </Table.Row>
+              </>
             )}
             {!loading &&
               data.quizzes.edges.map(({ node }: { node: Node }) => (

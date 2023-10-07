@@ -80,7 +80,7 @@ export function CreateQuiz() {
       <div className='shadow sm:rounded-md sm:overflow-hidden relative'>
         {isLoading && (
           <LoaderOverlay>
-            <Loader message='Creating Quiz...' />
+            <Loader message='Creating Quiz...' className='mt-10' />
           </LoaderOverlay>
         )}
         <div className='px-4 py-5 bg-white space-y-6 sm:p-6'>
