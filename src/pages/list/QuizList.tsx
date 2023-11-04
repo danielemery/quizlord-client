@@ -8,7 +8,13 @@ import { useState } from 'preact/hooks';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import { Table } from '../../components/Table';
-import { formatDate, formatDateTime, formatDateTimeShortDate, formatDateTimeShortTime } from '../../helpers';
+import {
+  formatDate,
+  formatDateTime,
+  formatDateTimeShortDate,
+  formatDateTimeShortTime,
+  userIdentifier,
+} from '../../helpers';
 import { useQuizList } from '../../hooks/useQuizList.hook';
 import { User } from '../../types/user';
 import { QuizListFilters } from './QuizListFilters';
@@ -87,7 +93,7 @@ export default function QuizList() {
                   <Table.Row className='hidden lg:table-row' isHoverable onClick={() => navigate(`/quiz/${node.id}`)}>
                     <Table.Cell>{formatDate(node.date)}</Table.Cell>
                     <Table.Cell>{node.type}</Table.Cell>
-                    <Table.Cell>{node.uploadedBy.name ?? node.uploadedBy.email}</Table.Cell>
+                    <Table.Cell>{userIdentifier(node.uploadedBy)}</Table.Cell>
                     <Table.Cell>
                       {node.myCompletions.length > 0 ? formatDateTime(node.myCompletions[0].completedAt) : ''}
                     </Table.Cell>
@@ -98,7 +104,7 @@ export default function QuizList() {
                       <ul>
                         <li>{node.type}</li>
                         <li>{formatDate(node.date)}</li>
-                        <li className='italic'>{node.uploadedBy.name ?? node.uploadedBy.email}</li>
+                        <li className='italic'>{userIdentifier(node.uploadedBy)}</li>
                       </ul>
                     </Table.Cell>
                     <Table.Cell>

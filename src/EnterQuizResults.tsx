@@ -7,7 +7,7 @@ import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
 import LoaderOverlay from './components/LoaderOverlay';
-import { formatDate } from './helpers';
+import { formatDate, userIdentifier } from './helpers';
 import { COMPLETE_QUIZ, QUIZ, QUIZ_AND_AVAILABLE_USERS, QUIZZES } from './queries/quiz';
 import { Quiz } from './types/quiz';
 import { User } from './types/user';
@@ -83,7 +83,7 @@ export default function EnterQuizResults() {
                 Participants
               </label>
               <p className='text-sm text-gray-500'>
-                {authenticatedUser?.name ?? authenticatedUser?.email} <strong>AND</strong>
+                {userIdentifier(authenticatedUser)} <strong>AND</strong>
               </p>
               <select
                 multiple
@@ -99,7 +99,7 @@ export default function EnterQuizResults() {
                   .filter((user) => user.node.email !== authenticatedUser?.email)
                   .map((user) => (
                     <option selected={participants.includes(user.node.email)} value={user.node.email}>
-                      {user.node.name ?? user.node.email}
+                      {userIdentifier(user.node)}
                     </option>
                   ))}
               </select>
