@@ -9,6 +9,7 @@ import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
 import QuizList from './pages/list/QuizList';
+import QuizStatistics from './pages/statistics/QuizStatistics';
 
 export function App() {
   const { isAuthenticated, user, logout, loginWithRedirect, isLoading } = useQuizlord();
@@ -54,6 +55,7 @@ export function App() {
             <Route path='/quiz/create' element={<CreateQuiz />} />
             <Route path='/quiz/:id' element={<QuizDetails />} />
             <Route path='/quiz/:id/enter' element={<EnterQuizResults />} />
+            <Route path='/stats' element={<QuizStatistics />} />
           </Routes>
         )}
       </div>

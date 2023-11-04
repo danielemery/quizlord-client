@@ -47,6 +47,9 @@ export default function NavigationBar({
               <NavigationBarItem>Upload Quiz</NavigationBarItem>
             </Link>
           )}
+          <Link className='hidden lg:block' to='/stats'>
+            <NavigationBarItem>Statistics</NavigationBarItem>
+          </Link>
         </div>
         <div>
           {isAuthenticated ? (
@@ -65,6 +68,9 @@ export default function NavigationBar({
         <nav className='lg:hidden p-2 bg-slate-500 text-white flex justify-between'>
           <Link to='/quiz/create'>
             <NavigationBarItem>Upload Quiz</NavigationBarItem>
+          </Link>
+          <Link to='/stats'>
+            <NavigationBarItem>Statistics</NavigationBarItem>
           </Link>
           {isAuthenticated ? (
             <>
