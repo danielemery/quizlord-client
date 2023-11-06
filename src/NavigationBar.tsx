@@ -42,14 +42,18 @@ export default function NavigationBar({
           <Link to='/'>
             <h1 className='inline-block text-3xl mr-8'>Quizlord</h1>
           </Link>
-          {canUploadQuiz && (
-            <Link className='hidden lg:block' to='/quiz/create'>
-              <NavigationBarItem>Upload Quiz</NavigationBarItem>
-            </Link>
+          {isAuthenticated && (
+            <>
+              {canUploadQuiz && (
+                <Link className='hidden lg:block' to='/quiz/create'>
+                  <NavigationBarItem>Upload Quiz</NavigationBarItem>
+                </Link>
+              )}
+              <Link className='hidden lg:block' to='/stats'>
+                <NavigationBarItem>Statistics</NavigationBarItem>
+              </Link>
+            </>
           )}
-          <Link className='hidden lg:block' to='/stats'>
-            <NavigationBarItem>Statistics</NavigationBarItem>
-          </Link>
         </div>
         <div>
           {isAuthenticated ? (
@@ -64,21 +68,19 @@ export default function NavigationBar({
           )}
         </div>
       </nav>
-      {canUploadQuiz && isAuthenticated && (
+      {isAuthenticated && (
         <nav className='lg:hidden p-2 bg-slate-500 text-white flex justify-between'>
-          <Link to='/quiz/create'>
-            <NavigationBarItem>Upload Quiz</NavigationBarItem>
-          </Link>
-          <Link to='/stats'>
-            <NavigationBarItem>Statistics</NavigationBarItem>
-          </Link>
-          {isAuthenticated ? (
-            <>
-              <NavigationBarItem onClick={() => onLogout()}>Log Out</NavigationBarItem>
-            </>
-          ) : (
-            <NavigationBarItem onClick={() => onLogin()}>Log In</NavigationBarItem>
-          )}
+          <>
+            {canUploadQuiz && (
+              <Link to='/quiz/create'>
+                <NavigationBarItem>Upload Quiz</NavigationBarItem>
+              </Link>
+            )}
+            <Link to='/stats'>
+              <NavigationBarItem>Statistics</NavigationBarItem>
+            </Link>
+            <NavigationBarItem onClick={() => onLogout()}>Log Out</NavigationBarItem>
+          </>
         </nav>
       )}
     </>

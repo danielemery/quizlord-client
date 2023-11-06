@@ -10,6 +10,7 @@ import Button from './components/Button';
 import Loader from './components/Loader';
 import QuizList from './pages/list/QuizList';
 import QuizStatistics from './pages/statistics/QuizStatistics';
+import { userCanPerformAction } from './services/authorization';
 
 export function App() {
   const { isAuthenticated, user, logout, loginWithRedirect, isLoading } = useQuizlord();
@@ -22,8 +23,6 @@ export function App() {
     return <Loader message='Quizlord is getting ready for you...' className='mt-10' />;
   }
 
-  const userHasRole = (user?.roles.length || 0) > 0;
-
   return (
     <div className='min-h-screen flex flex-col'>
       <NavigationBar
@@ -32,7 +31,7 @@ export function App() {
         onLogin={loginWithRedirect}
         userImage={user?.pictureUrl}
         userName={user?.name}
-        canUploadQuiz={userHasRole}
+        canUploadQuiz={userCanPerformAction(user, 'UPLOAD_QUIZ')}
       />
       <div className='container mx-auto px-0 mt-0 lg:px-8 lg:my-12 grow'>
         {!isAuthenticated && (
@@ -41,15 +40,15 @@ export function App() {
             <Button onClick={() => loginWithRedirect()}>Log In</Button>
           </div>
         )}
-        {isAuthenticated && !userHasRole && (
-          <div>
+        {isAuthenticated && !userCanPerformAction(user, 'USE_APP') && (
+          <div className='container'>
             <p>
               Thanks for signing up for Quizlord, your application to join is being reviewed. Please get in touch with
               Daniel to speed things along!
             </p>
           </div>
         )}
-        {isAuthenticated && userHasRole && (
+        {isAuthenticated && userCanPerformAction(user, 'USE_APP') && (
           <Routes>
             <Route path='/' element={<QuizList />} />
             <Route path='/quiz/create' element={<CreateQuiz />} />
