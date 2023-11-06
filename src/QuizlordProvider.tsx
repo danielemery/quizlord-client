@@ -3,9 +3,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { ComponentChildren, createContext } from 'preact';
 import { useContext } from 'preact/hooks';
 
-export type Role = 'USER' | 'ADMIN';
+import { Role } from './services/authorization.policy';
 
-interface User {
+export interface CurrentUser {
   email: string;
   roles: Role[];
   name?: string;
@@ -23,7 +23,7 @@ const ME = gql`
 
 export const QuizlordContext = createContext<{
   isAuthenticated: boolean;
-  user?: User;
+  user?: CurrentUser;
   logout: (options: { returnTo: string }) => void;
   loginWithRedirect: () => Promise<void>;
   isLoading: boolean;
