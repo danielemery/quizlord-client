@@ -1,13 +1,13 @@
+import Loader from '../../components/Loader';
 import { Table } from '../../components/Table';
 import { formatPercent, userIdentifier } from '../../helpers';
 import { useQuizStatistics } from '../../hooks/useQuizStatistics.hook';
 
 export default function QuizList() {
-  const { data, loading, refetch } = useQuizStatistics();
-  console.log({ data, loading, refetch });
+  const { data, loading } = useQuizStatistics();
 
   if (loading || !data) {
-    return <span>Loading...</span>;
+    return <Loader message='Loading quiz statistics...' />;
   }
 
   return (
