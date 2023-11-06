@@ -30,6 +30,9 @@ export default function QuizList() {
           ))}
         </Table.Body>
       </Table>
+      <i className='p-4 lg:p-0 inline-block mt-4 text-gray-600'>
+        <strong>Please note:</strong> statistics shown here may be delayed by up to 24 hours.
+      </i>
     </div>
   );
 }

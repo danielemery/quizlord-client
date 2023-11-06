@@ -41,7 +41,7 @@ export function App() {
           </div>
         )}
         {isAuthenticated && !userCanPerformAction(user, 'USE_APP') && (
-          <div className='container'>
+          <div className='container p-4 lg:p-0'>
             <p>
               Thanks for signing up for Quizlord, your application to join is being reviewed. Please get in touch with
               Daniel to speed things along!
