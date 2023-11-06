@@ -9,6 +9,7 @@ import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
 import QuizList from './pages/list/QuizList';
+import QuizStatistics from './pages/statistics/QuizStatistics';
 import { userCanPerformAction } from './services/authorization';
 
 export function App() {
@@ -40,7 +41,7 @@ export function App() {
           </div>
         )}
         {isAuthenticated && !userCanPerformAction(user, 'USE_APP') && (
-          <div className='container'>
+          <div className='container p-4 lg:p-0'>
             <p>
               Thanks for signing up for Quizlord, your application to join is being reviewed. Please get in touch with
               Daniel to speed things along!
@@ -53,6 +54,7 @@ export function App() {
             <Route path='/quiz/create' element={<CreateQuiz />} />
             <Route path='/quiz/:id' element={<QuizDetails />} />
             <Route path='/quiz/:id/enter' element={<EnterQuizResults />} />
+            <Route path='/stats' element={<QuizStatistics />} />
           </Routes>
         )}
       </div>

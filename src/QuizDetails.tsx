@@ -7,7 +7,13 @@ import QuizImageComponent from './QuizImage';
 import Button from './components/Button';
 import Loader from './components/Loader';
 import { Table } from './components/Table';
-import { formatDate, formatDateTime, formatDateTimeShortDate, formatDateTimeShortTime } from './helpers';
+import {
+  formatDate,
+  formatDateTime,
+  formatDateTimeShortDate,
+  formatDateTimeShortTime,
+  userIdentifier,
+} from './helpers';
 import { QUIZ } from './queries/quiz';
 import { Quiz as QuizType } from './types/quiz';
 
@@ -44,9 +50,7 @@ export default function Quiz() {
             </div>
             <div>
               <dt className='text-sm lg:font-medium text-gray-900'>Uploaded By</dt>
-              <dd className='text-xs mt-2 lg:text-sm text-gray-500'>
-                {data.quiz.uploadedBy.name ?? data.quiz.uploadedBy.email}
-              </dd>
+              <dd className='text-xs mt-2 lg:text-sm text-gray-500'>{userIdentifier(data.quiz.uploadedBy)}</dd>
             </div>
             <div>
               <dt className='text-sm lg:font-medium text-gray-900'>Uploaded At</dt>
@@ -87,9 +91,7 @@ export default function Quiz() {
               <Table.Row className='hidden lg:table-row'>
                 <Table.Cell>{formatDateTime(completion.completedAt)}</Table.Cell>
                 <Table.Cell>
-                  {completion.completedBy
-                    .map((completedByUser) => completedByUser.name ?? completedByUser.email)
-                    .join(', ')}
+                  {completion.completedBy.map((completedByUser) => userIdentifier(completedByUser)).join(', ')}
                 </Table.Cell>
                 <Table.Cell>{completion.score}</Table.Cell>
               </Table.Row>
@@ -104,7 +106,7 @@ export default function Quiz() {
                 <Table.Cell>
                   <ul>
                     {completion.completedBy.map((p) => (
-                      <li key={p.email}>{p.name ?? p.email}</li>
+                      <li key={p.email}>{userIdentifier(p)}</li>
                     ))}
                   </ul>
                 </Table.Cell>
