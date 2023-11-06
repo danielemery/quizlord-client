@@ -61,20 +61,18 @@ export default function NavigationBar({
           )}
         </div>
       </nav>
-      {canUploadQuiz && isAuthenticated && (
-        <nav className='lg:hidden p-2 bg-slate-500 text-white flex justify-between'>
+      <nav className='lg:hidden p-2 bg-slate-500 text-white flex justify-between'>
+        {canUploadQuiz && (
           <Link to='/quiz/create'>
             <NavigationBarItem>Upload Quiz</NavigationBarItem>
           </Link>
-          {isAuthenticated ? (
-            <>
-              <NavigationBarItem onClick={() => onLogout()}>Log Out</NavigationBarItem>
-            </>
-          ) : (
-            <NavigationBarItem onClick={() => onLogin()}>Log In</NavigationBarItem>
-          )}
-        </nav>
-      )}
+        )}
+        {isAuthenticated ? (
+          <NavigationBarItem onClick={() => onLogout()}>Log Out</NavigationBarItem>
+        ) : (
+          <NavigationBarItem onClick={() => onLogin()}>Log In</NavigationBarItem>
+        )}
+      </nav>
     </>
   );
 }
