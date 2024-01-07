@@ -1,15 +1,13 @@
 import { useQuery } from '@apollo/client';
 
 import { ACTIVITY_FEED } from '../queries/feed';
+import { User } from '../types/user';
 
 // TODO this should be generated from the GraphQL schema
 export interface RecentActivityItem {
   date: Date;
   text: string;
-  action?: {
-    name: string;
-    link: string;
-  };
+  users: User[];
 }
 
 export function useActivityFeed(): {
