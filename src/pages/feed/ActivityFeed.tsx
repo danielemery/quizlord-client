@@ -1,9 +1,10 @@
+import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-import { formatDate } from '../../helpers';
+import { formatDate, userIdentifier } from '../../helpers';
 import { useActivityFeed } from '../../hooks/useActivityFeed.hook';
 
 export default function ActivityFeed() {
-  const { data, loading } = useActivityFeed();
+  const { data, loading, refetch } = useActivityFeed();
 
   if (loading || !data) {
     return <Loader message='Loading recent activities...' />;
@@ -13,9 +14,16 @@ export default function ActivityFeed() {
     <ul>
       {data?.activityFeed.map((activity) => (
         <li className='mt-4'>
-          <strong>{formatDate(activity.date)}:</strong> {activity.text}
+          <strong>{formatDate(activity.date)}:</strong> {activity.text}{' '}
+          {activity.users.map((u) => userIdentifier(u)).join(', ')}
         </li>
       ))}
+      {/* // TODO Remove or replace */}
+      <li>
+        <Button onClick={() => refetch()} className='mt-4'>
+          Test
+        </Button>
+      </li>
     </ul>
   );
 }
