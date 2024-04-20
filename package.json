@@ -2,7 +2,7 @@
   "name": "@quizlord/client",
   "private": true,
   "engines": {
-    "node": "v18.16.0"
+    "node": "v20.12.2"
   },
   "scripts": {
     "dev": "doppler run -- npm run init-local && vite",

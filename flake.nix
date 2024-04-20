@@ -19,7 +19,7 @@
           default = pkgs.mkShell {
             buildInputs = with pkgs; [
               doppler
-              nodejs-18_x
+              nodejs_20
             ];
           };
         });
