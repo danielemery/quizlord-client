@@ -5,6 +5,7 @@
     "node": "v20.12.2"
   },
   "scripts": {
+    "start": "npm run dev",
     "dev": "doppler run -- npm run init-local && vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
