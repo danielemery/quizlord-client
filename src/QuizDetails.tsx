@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 import { useMutation, useQuery } from '@apollo/client';
 import { Fragment } from 'preact';
@@ -33,9 +33,12 @@ export default function Quiz() {
   }>(QUIZ, {
     variables: { id },
   });
-
+  const navigate = useNavigate();
   const [markQuizIllegible, { loading: isMarkingQuizIllegible }] = useMutation(MARK_QUIZ_ILLEGIBLE, {
     refetchQueries: [{ query: QUIZZES }],
+    onCompleted: () => {
+      navigate('/');
+    },
   });
 
   if (loading || data === undefined) return <Loader message='Loading your quiz...' className='mt-10' />;
