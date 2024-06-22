@@ -1,5 +1,6 @@
 export interface ButtonProps extends JSX.HTMLAttributes<HTMLButtonElement> {
   danger?: boolean;
+  warning?: boolean;
 }
 
 const disabledClasses =
@@ -7,7 +8,7 @@ const disabledClasses =
 const commonClasses = `inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white ${disabledClasses}`;
 
 export default function Button(props: ButtonProps) {
-  const { danger, className, ...buttonProps } = props;
+  const { danger, warning, className, ...buttonProps } = props;
 
   if (danger) {
     return (
@@ -17,6 +18,16 @@ export default function Button(props: ButtonProps) {
       />
     );
   }
+
+  if (warning) {
+    return (
+      <button
+        className={`${commonClasses} bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 ${className}`}
+        {...buttonProps}
+      />
+    );
+  }
+
   return (
     <button
       className={`${commonClasses} bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${className}`}

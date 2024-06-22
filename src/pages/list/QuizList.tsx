@@ -36,8 +36,12 @@ interface Node {
 export default function QuizList() {
   const [quizFilters, setQuizFilters] = useState<QuizFilters>({
     isFilteringOnIncomplete: true,
+    isFilteringOnIllegible: true,
   });
-  const { data, loading, fetchMore, refetch } = useQuizList(quizFilters.isFilteringOnIncomplete);
+  const { data, loading, fetchMore, refetch } = useQuizList(
+    quizFilters.isFilteringOnIncomplete,
+    quizFilters.isFilteringOnIllegible,
+  );
   const navigate = useNavigate();
 
   return (
