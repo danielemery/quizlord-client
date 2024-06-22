@@ -127,3 +127,9 @@ export const CREATE_QUIZ = gql`
     }
   }
 `;
+
+export const MARK_QUIZ_ILLEGIBLE = gql`
+  mutation MarkQuizIllegible($id: String!) {
+    markQuizIllegible(quizId: $id)
+  }
+`;

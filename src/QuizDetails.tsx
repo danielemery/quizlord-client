@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Fragment } from 'preact';
 
 import QuizImageComponent from './QuizImage';
@@ -14,7 +14,8 @@ import {
   formatDateTimeShortTime,
   userIdentifier,
 } from './helpers';
-import { QUIZ } from './queries/quiz';
+import { QUIZ, QUIZZES } from './queries/quiz';
+import { MARK_QUIZ_ILLEGIBLE } from './queries/quiz';
 import { Quiz as QuizType } from './types/quiz';
 
 const imageTypeSortValues: {
@@ -31,6 +32,10 @@ export default function Quiz() {
     quiz: QuizType;
   }>(QUIZ, {
     variables: { id },
+  });
+
+  const [markQuizIllegible, { loading: isMarkingQuizIllegible }] = useMutation(MARK_QUIZ_ILLEGIBLE, {
+    refetchQueries: [{ query: QUIZZES }],
   });
 
   if (loading || data === undefined) return <Loader message='Loading your quiz...' className='mt-10' />;
@@ -64,10 +69,13 @@ export default function Quiz() {
             .map((image) => (
               <QuizImageComponent image={image} className='mt-2' />
             ))}
-          <div>
+          <div className='space-x-2'>
             <Link className='mt-4' to='./enter'>
-              <Button>Record Results</Button>
+              <Button disabled={isMarkingQuizIllegible}>Record Results</Button>
             </Link>
+            <Button onClick={() => markQuizIllegible({ variables: { id } })} disabled={isMarkingQuizIllegible} warning>
+              Mark Quiz Illegible
+            </Button>
           </div>
         </div>
       </div>
