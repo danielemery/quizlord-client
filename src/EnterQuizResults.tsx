@@ -92,6 +92,7 @@ export default function EnterQuizResults() {
                   .filter((userNode) => userNode.email !== authenticatedUser?.email)}
                 selectedUserEmails={participants}
                 onSelectionsChanged={setParticipants}
+                name='participants'
               />
             </div>
           </>
