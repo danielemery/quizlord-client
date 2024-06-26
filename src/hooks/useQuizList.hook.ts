@@ -1,12 +1,10 @@
 import { useQuery } from '@apollo/client';
 
-import { useQuizlord } from '../QuizlordProvider';
 import { QUIZZES } from '../queries/quiz';
 
-export function useQuizList(isFilteringOnIncomplete: boolean, isFilteringOnIllegible: boolean) {
-  const { user } = useQuizlord();
+export function useQuizList(excludedUserEmails: string[], isFilteringOnIllegible: boolean) {
   const filters = {
-    ...(isFilteringOnIncomplete ? { excludeCompletedBy: [user?.email] } : {}),
+    excludeCompletedBy: excludedUserEmails,
     ...(isFilteringOnIllegible ? { excludeIllegible: 'ANYONE' } : {}),
   };
   const { loading, data, fetchMore, refetch } = useQuery(QUIZZES, {

@@ -1,4 +1,4 @@
 export interface QuizFilters {
-  isFilteringOnIncomplete: boolean;
+  excludedUserEmails: string[];
   isFilteringOnIllegible: boolean;
 }
