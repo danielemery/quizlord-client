@@ -7,6 +7,7 @@ import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
 import LoaderOverlay from './components/LoaderOverlay';
+import { UserSelector } from './components/UserSelector';
 import { formatDate, userIdentifier } from './helpers';
 import { COMPLETE_QUIZ, QUIZ, QUIZ_AND_AVAILABLE_USERS, QUIZZES } from './queries/quiz';
 import { Quiz } from './types/quiz';
@@ -85,24 +86,13 @@ export default function EnterQuizResults() {
               <p className='text-sm text-gray-500'>
                 {userIdentifier(authenticatedUser)} <strong>AND</strong>
               </p>
-              <select
-                multiple
-                id='participants'
-                name='participants'
-                className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                onChange={(e) => {
-                  const items = [...(e.target as HTMLSelectElement).selectedOptions];
-                  setParticipants(items.map((item) => item.value));
-                }}
-              >
-                {data.users.edges
-                  .filter((user) => user.node.email !== authenticatedUser?.email)
-                  .map((user) => (
-                    <option selected={participants.includes(user.node.email)} value={user.node.email}>
-                      {userIdentifier(user.node)}
-                    </option>
-                  ))}
-              </select>
+              <UserSelector
+                availableUsers={data.users.edges
+                  .map((user) => user.node)
+                  .filter((userNode) => userNode.email !== authenticatedUser?.email)}
+                selectedUserEmails={participants}
+                onSelectionsChanged={setParticipants}
+              />
             </div>
           </>
         ) : (
