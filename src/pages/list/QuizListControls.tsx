@@ -54,7 +54,7 @@ export function QuizListControls({ filters, onFiltersChanged, onRefreshClicked, 
         </div>
       </div>
       {isSelectingUsers && (
-        <>
+        <div className='m-4 lg:m-0 lg:mb-4'>
           <label htmlFor='excludedUserEmails' className='block text-sm font-medium text-gray-700'>
             Excluded quizzes completed by
           </label>
@@ -104,7 +104,7 @@ export function QuizListControls({ filters, onFiltersChanged, onRefreshClicked, 
               Cancel
             </Button>
           </div>
-        </>
+        </div>
       )}
     </>
   );
