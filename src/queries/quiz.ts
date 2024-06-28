@@ -97,6 +97,24 @@ export const QUIZ_AND_AVAILABLE_USERS = gql`
   }
 `;
 
+export const AVAILABLE_USERS = gql`
+  query GetAvailableUsers {
+    users {
+      edges {
+        node {
+          email
+          name
+        }
+      }
+      pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
 export const COMPLETE_QUIZ = gql`
   mutation CompleteQuiz($quizId: String!, $completedBy: [String]!, $score: Float!) {
     completeQuiz(quizId: $quizId, completedBy: $completedBy, score: $score) {
