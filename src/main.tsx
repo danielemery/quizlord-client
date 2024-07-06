@@ -16,6 +16,7 @@ render(
       audience: window.env.VITE_AUTH0_AUDIENCE,
       redirect_uri: window.location.origin,
     }}
+    cacheLocation='localstorage'
   >
     <BrowserRouter>
       <AuthorizedApolloProvider>
