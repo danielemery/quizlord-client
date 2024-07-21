@@ -25,7 +25,7 @@ export function ActivityCard({ recentlyActivityItem }: { recentlyActivityItem: R
     <div className='bg-white m-2 p-2 rounded-lg border-solid border-2'>
       <div>
         <div className='flex justify-between'>
-          <div className="font-bold">{recentlyActivityItem.users.map((u) => userIdentifier(u)).join(', ')}</div>
+          <div className='font-bold'>{recentlyActivityItem.users.map((u) => userIdentifier(u)).join(', ')}</div>
           <i className='hidden lg:block'>{intlFormatDistance(recentlyActivityItem.date, new Date())}</i>
         </div>
       </div>
