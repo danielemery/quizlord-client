@@ -74,6 +74,9 @@ export default function NavigationBar({
       {isAuthenticated && (
         <nav className='lg:hidden p-2 bg-slate-500 text-white flex justify-between'>
           <>
+            <Link to='/feed'>
+              <NavigationBarItem>Activity</NavigationBarItem>
+            </Link>
             {canUploadQuiz && (
               <Link to='/quiz/create'>
                 <NavigationBarItem>Upload Quiz</NavigationBarItem>
