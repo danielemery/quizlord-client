@@ -7,6 +7,7 @@ import { User } from '../types/user';
 export interface RecentActivityItem {
   date: Date;
   text: string;
+  resourceId: string;
   users: User[];
 }
 

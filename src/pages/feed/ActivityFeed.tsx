@@ -1,7 +1,8 @@
+import { intlFormatDistance } from 'date-fns';
+
 import Loader from '../../components/Loader';
-import { Table } from '../../components/Table';
-import { formatDateTime, userIdentifier } from '../../helpers';
-import { useActivityFeed } from '../../hooks/useActivityFeed.hook';
+import { userIdentifier } from '../../helpers';
+import { RecentActivityItem, useActivityFeed } from '../../hooks/useActivityFeed.hook';
 
 export default function ActivityFeed() {
   const { data, loading } = useActivityFeed();
@@ -11,18 +12,27 @@ export default function ActivityFeed() {
   }
 
   return (
-    <Table>
-      <Table.Body>
-        {data?.activityFeed.map((activity) => (
-          <Table.Row>
-            <Table.Cell>{activity.users.map((u) => userIdentifier(u)).join(', ')}</Table.Cell>
-            <Table.Cell>{activity.text}</Table.Cell>
-            <Table.Cell>
-              <i>{formatDateTime(activity.date)}</i>
-            </Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table>
+    <div>
+      {data?.activityFeed.map((activity) => (
+        <ActivityCard key={activity.resourceId} recentlyActivityItem={activity} />
+      ))}
+    </div>
+  );
+}
+
+export function ActivityCard({ recentlyActivityItem }: { recentlyActivityItem: RecentActivityItem }) {
+  return (
+    <div className='bg-white m-2 p-2 rounded-lg border-solid border-2'>
+      <div>
+        <div className='flex justify-between'>
+          <div className="font-bold">{recentlyActivityItem.users.map((u) => userIdentifier(u)).join(', ')}</div>
+          <i className='hidden lg:block'>{intlFormatDistance(recentlyActivityItem.date, new Date())}</i>
+        </div>
+      </div>
+      <div>{recentlyActivityItem.text}</div>
+      <div className='lg:hidden'>
+        <i>{intlFormatDistance(recentlyActivityItem.date, new Date())}</i>
+      </div>
+    </div>
   );
 }

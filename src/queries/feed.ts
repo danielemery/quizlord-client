@@ -5,6 +5,7 @@ export const ACTIVITY_FEED = gql`
     activityFeed {
       date
       text
+      resourceId
       users {
         name
         email
