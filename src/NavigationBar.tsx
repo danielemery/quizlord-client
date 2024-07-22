@@ -1,21 +1,27 @@
 import { Link } from 'react-router-dom';
 
+import { faChartLine, faArrowUp, faRightFromBracket, faUsers, faListUl } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 import classnames from 'classnames';
-import type { ComponentChildren } from 'preact';
 
 function NavigationBarItem({
-  children,
+  title,
   onClick,
   className,
+  icon,
+  mobile = false,
 }: {
-  children: ComponentChildren;
+  title?: string;
   onClick?: () => void;
   className?: string;
+  icon?: FontAwesomeIconProps['icon'];
+  mobile?: boolean;
 }) {
   const mergedClasses = classnames(className, 'text-white px-3 py-2 text-sm font-medium');
   return (
-    <button className={mergedClasses} onClick={onClick}>
-      {children}
+    <button className={mergedClasses} onClick={onClick} title={mobile ? title : undefined}>
+      {icon && <FontAwesomeIcon icon={icon} className='mr-2' />}
+      {!mobile ? title : null}
     </button>
   );
 }
@@ -44,16 +50,19 @@ export default function NavigationBar({
           </Link>
           {isAuthenticated && (
             <>
-              <Link className='hidden lg:block' to='/feed'>
-                <NavigationBarItem>Activity</NavigationBarItem>
+              <Link className='hidden md:block' to='/'>
+                <NavigationBarItem icon={faListUl} title='Quizzes' />
+              </Link>
+              <Link className='hidden md:block' to='/feed'>
+                <NavigationBarItem title='Activity' icon={faUsers} />
               </Link>
               {canUploadQuiz && (
-                <Link className='hidden lg:block' to='/quiz/create'>
-                  <NavigationBarItem>Upload Quiz</NavigationBarItem>
+                <Link className='hidden md:block' to='/quiz/create'>
+                  <NavigationBarItem title='Upload Quiz' icon={faArrowUp} />
                 </Link>
               )}
-              <Link className='hidden lg:block' to='/stats'>
-                <NavigationBarItem>Statistics</NavigationBarItem>
+              <Link className='hidden md:block' to='/stats'>
+                <NavigationBarItem title='Statistics' icon={faChartLine} />
               </Link>
             </>
           )}
@@ -61,31 +70,42 @@ export default function NavigationBar({
         <div>
           {isAuthenticated ? (
             <>
-              <NavigationBarItem className='hidden lg:inline' onClick={() => onLogout()}>
-                Log Out
-              </NavigationBarItem>
+              <NavigationBarItem
+                icon={faRightFromBracket}
+                title='Log Out'
+                className='hidden md:inline'
+                onClick={() => onLogout()}
+              ></NavigationBarItem>
               <img className='inline-block max-h-12 rounded-full' src={userImage} alt={userName} />
             </>
           ) : (
-            <NavigationBarItem onClick={() => onLogin()}>Log In</NavigationBarItem>
+            <NavigationBarItem icon={faRightFromBracket} title='Log In' onClick={() => onLogin()} />
           )}
         </div>
       </nav>
       {isAuthenticated && (
-        <nav className='lg:hidden p-2 bg-slate-500 text-white flex justify-between'>
+        <nav className='md:hidden p-2 bg-slate-500 text-white flex justify-between'>
           <>
+            <Link to='/'>
+              <NavigationBarItem icon={faListUl} title='Quizzes' mobile />
+            </Link>
             <Link to='/feed'>
-              <NavigationBarItem>Activity</NavigationBarItem>
+              <NavigationBarItem icon={faUsers} title='Activity' mobile />
             </Link>
             {canUploadQuiz && (
               <Link to='/quiz/create'>
-                <NavigationBarItem>Upload Quiz</NavigationBarItem>
+                <NavigationBarItem icon={faArrowUp} title='Upload Quiz' mobile></NavigationBarItem>
               </Link>
             )}
             <Link to='/stats'>
-              <NavigationBarItem>Statistics</NavigationBarItem>
+              <NavigationBarItem icon={faChartLine} title='Statistics' mobile></NavigationBarItem>
             </Link>
-            <NavigationBarItem onClick={() => onLogout()}>Log Out</NavigationBarItem>
+            <NavigationBarItem
+              icon={faRightFromBracket}
+              title='Log Out'
+              onClick={() => onLogout()}
+              mobile
+            ></NavigationBarItem>
           </>
         </nav>
       )}
