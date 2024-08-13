@@ -8,9 +8,17 @@ export type Action =
   /** Basic app usage. Includes viewing and completing quizzes. */
   | 'USE_APP'
   /** Uploading new quizzes. */
-  | 'UPLOAD_QUIZ';
+  | 'UPLOAD_QUIZ'
+  /** Deleting quizzes. */
+  | 'DELETE_QUIZ'
+  /** Deleting quizzes that you have uploaded yourself. */
+  | 'DELETE_OWN_QUIZ'
+  /** Updating quizzes. */
+  | 'UPDATE_QUIZ'
+  /** Updating quizzes that you have uploaded yourself. */
+  | 'UPDATE_OWN_QUIZ';
 
 export const allowedActions: Record<Role, Action[]> = {
-  ADMIN: ['USE_APP', 'UPLOAD_QUIZ'],
-  USER: ['USE_APP', 'UPLOAD_QUIZ'],
+  ADMIN: ['USE_APP', 'UPLOAD_QUIZ', 'DELETE_QUIZ', 'DELETE_OWN_QUIZ', 'UPDATE_QUIZ', 'UPDATE_OWN_QUIZ'],
+  USER: ['USE_APP', 'UPLOAD_QUIZ', 'DELETE_OWN_QUIZ', 'UPDATE_OWN_QUIZ'],
 };
