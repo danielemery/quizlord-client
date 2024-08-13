@@ -4,7 +4,7 @@ import { useState } from 'preact/hooks';
 
 import { useQuizlord } from '../../QuizlordProvider';
 import Button from '../../components/Button';
-import { userIdentifier } from '../../helpers';
+import { userIdentifier } from '../../helpers/helpers';
 import { UserSelectorWithLoader } from './UserSelectorWithLoader';
 import { QuizFilters } from './quizFilters';
 

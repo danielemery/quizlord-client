@@ -3,20 +3,20 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { Fragment } from 'preact';
 
-import QuizImageComponent from './QuizImage';
-import Button from './components/Button';
-import Loader from './components/Loader';
-import { Table } from './components/Table';
+import Button from '../../components/Button';
+import Loader from '../../components/Loader';
+import { Table } from '../../components/Table';
 import {
   formatDate,
   formatDateTime,
   formatDateTimeShortDate,
   formatDateTimeShortTime,
   userIdentifier,
-} from './helpers';
-import { QUIZ, QUIZZES } from './queries/quiz';
-import { MARK_QUIZ_ILLEGIBLE } from './queries/quiz';
-import { Quiz as QuizType } from './types/quiz';
+} from '../../helpers/helpers';
+import { QUIZ, QUIZZES } from '../../queries/quiz';
+import { MARK_QUIZ_ILLEGIBLE } from '../../queries/quiz';
+import { Quiz as QuizType } from '../../types/quiz';
+import QuizImageComponent from './QuizImage';
 
 const imageTypeSortValues: {
   [imageType: string]: number;

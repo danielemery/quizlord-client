@@ -1,16 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { CreateQuiz } from './CreateQuiz';
-import EnterQuizResults from './EnterQuizResults';
-import Footer from './Footer';
-import NavigationBar from './NavigationBar';
-import QuizDetails from './QuizDetails';
 import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
 import ActivityFeed from './pages/feed/ActivityFeed';
 import QuizList from './pages/list/QuizList';
+import QuizDetails from './pages/quiz/QuizDetails';
+import { CreateQuiz } from './pages/quiz/create/CreateQuiz';
+import EnterQuizResults from './pages/quiz/enter/EnterQuizResults';
 import QuizStatistics from './pages/statistics/QuizStatistics';
+import Footer from './sections/Footer';
+import NavigationBar from './sections/NavigationBar';
 import { userCanPerformAction } from './services/authorization';
 
 export function App() {

@@ -13,7 +13,7 @@ import {
   formatDateTimeShortDate,
   formatDateTimeShortTime,
   userIdentifier,
-} from '../../helpers';
+} from '../../helpers/helpers';
 import { useQuizList } from '../../hooks/useQuizList.hook';
 import { User } from '../../types/user';
 import { QuizListControls } from './QuizListControls';

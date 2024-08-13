@@ -1,6 +1,6 @@
 import Loader from '../../components/Loader';
 import { Table } from '../../components/Table';
-import { formatPercent, userIdentifier } from '../../helpers';
+import { formatPercent, userIdentifier } from '../../helpers/helpers';
 import { useQuizStatistics } from '../../hooks/useQuizStatistics.hook';
 
 export default function QuizList() {

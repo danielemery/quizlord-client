@@ -4,11 +4,11 @@ import { useMutation } from '@apollo/client';
 import { useState } from 'preact/hooks';
 import { v4 as uuidv4 } from 'uuid';
 
+import Button from '../../../components/Button';
+import Loader from '../../../components/Loader';
+import LoaderOverlay from '../../../components/LoaderOverlay';
+import { CREATE_QUIZ } from '../../../queries/quiz';
 import QuizImageUpload, { FileAttributes } from './QuizImageUpload';
-import Button from './components/Button';
-import Loader from './components/Loader';
-import LoaderOverlay from './components/LoaderOverlay';
-import { CREATE_QUIZ } from './queries/quiz';
 
 const defaultAttributes: FileAttributes = {
   type: 'QUESTION_AND_ANSWER',

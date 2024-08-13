@@ -1,4 +1,4 @@
-import { useVersionStore } from './services/version';
+import { useVersionStore } from '../services/version';
 
 export default function Footer() {
   const apiVersion = useVersionStore((state) => state.version);
