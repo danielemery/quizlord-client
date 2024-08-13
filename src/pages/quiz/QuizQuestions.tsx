@@ -1,23 +1,9 @@
 import classNames from 'classnames';
 import { useState } from 'preact/hooks';
 
-import { ExpandCollapseSection } from './components/ExpandCollapseSection';
-import { QuestionDetails } from './components/QuestionDetails';
-import { QuestionScore } from './types/quiz';
-
-export interface QuizQuestionResult {
-  users: string[];
-  score: QuestionScore;
-}
-
-export interface QuizQuestionWithResults {
-  questionNum: number;
-  question?: string;
-  answer?: string;
-  userResults: QuizQuestionResult[];
-  myScore?: QuestionScore;
-  averageScore?: number;
-}
+import { ExpandCollapseSection } from '../../components/ExpandCollapseSection';
+import { QuestionDetails } from '../../components/QuestionDetails';
+import { QuizQuestionWithResults } from '../../types/quiz';
 
 export interface QuizQuestionsProps {
   questions: QuizQuestionWithResults[];

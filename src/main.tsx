@@ -3,9 +3,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { render } from 'preact';
 
-import AuthorizedApolloProvider from './AuthorizedApolloProvider';
-import QuizlordProvider from './QuizlordProvider';
 import { App } from './app';
+import AuthorizedApolloProvider from './context/AuthorizedApolloProvider';
+import QuizlordProvider from './context/QuizlordProvider';
 import './index.css';
 import './tools/sentry';
 

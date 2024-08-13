@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { useState } from 'preact/hooks';
 
-import { useQuizlord } from './QuizlordProvider';
-import Button from './components/Button';
-import Loader from './components/Loader';
-import LoaderOverlay from './components/LoaderOverlay';
-import { UserSelector } from './components/UserSelector';
-import { formatDate, userIdentifier } from './helpers';
-import useAssertParams from './hooks/useAssertParams';
-import { useUnsubmittedAnswers } from './hooks/useUnsubmittedAnswers';
-import { COMPLETE_QUIZ, QUIZ, QUIZ_AND_AVAILABLE_USERS, QUIZZES } from './queries/quiz';
-import { UnsubmittedAnswer } from './services/db';
-import { Quiz } from './types/quiz';
-import { User } from './types/user';
+import Button from '../../../components/Button';
+import Loader from '../../../components/Loader';
+import LoaderOverlay from '../../../components/LoaderOverlay';
+import { UserSelector } from '../../../components/UserSelector';
+import { useQuizlord } from '../../../context/QuizlordProvider';
+import { formatDate, userIdentifier } from '../../../helpers/helpers';
+import useAssertParams from '../../../hooks/useAssertParams';
+import { useUnsubmittedAnswers } from '../../../hooks/useUnsubmittedAnswers';
+import { COMPLETE_QUIZ, QUIZ, QUIZ_AND_AVAILABLE_USERS, QUIZZES } from '../../../queries/quiz';
+import { UnsubmittedAnswer } from '../../../services/db';
+import { Quiz } from '../../../types/quiz';
+import { User } from '../../../types/user';
 
 export default function EnterQuizResults() {
   const { id } = useAssertParams();

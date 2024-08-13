@@ -1,4 +1,4 @@
-import { userIdentifier } from '../helpers';
+import { userIdentifier } from '../helpers/helpers';
 import { User } from '../types/user';
 
 export interface UserSelectorProps {

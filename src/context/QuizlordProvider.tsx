@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { ComponentChildren, createContext } from 'preact';
 import { useContext } from 'preact/hooks';
 
-import { Role } from './services/authorization.policy';
+import { Role } from '../services/authorization.policy';
 
 export interface CurrentUser {
   email: string;

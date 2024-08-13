@@ -1,4 +1,4 @@
-import { CurrentUser } from '../QuizlordProvider';
+import { CurrentUser } from '../context/QuizlordProvider';
 import { Action, allowedActions } from './authorization.policy';
 
 /**

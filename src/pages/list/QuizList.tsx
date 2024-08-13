@@ -2,17 +2,17 @@ import { useNavigate } from 'react-router-dom';
 
 import { Fragment } from 'preact';
 
-import { useQuizlord } from '../../QuizlordProvider';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import { Table } from '../../components/Table';
+import { useQuizlord } from '../../context/QuizlordProvider';
 import {
   formatDate,
   formatDateTime,
   formatDateTimeShortDate,
   formatDateTimeShortTime,
   userIdentifier,
-} from '../../helpers';
+} from '../../helpers/helpers';
 import { useQuizFilters } from '../../hooks/useQuizFilters';
 import { useQuizList } from '../../hooks/useQuizList.hook';
 import { User } from '../../types/user';

@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { useState } from 'preact/hooks';
 
+import Button from '../../../components/Button';
+import Loader from '../../../components/Loader';
+import useAssertParams from '../../../hooks/useAssertParams';
+import { useQuizQuestions } from '../../../hooks/useQuizQuestions';
+import { useSettings } from '../../../hooks/useSettings';
 import QuestionOverview from './QuestionOverview';
-import Button from './components/Button';
-import Loader from './components/Loader';
-import useAssertParams from './hooks/useAssertParams';
-import { useQuizQuestions } from './hooks/useQuizQuestions';
-import { useSettings } from './hooks/useSettings';
 
 export default function QuizQuestion() {
   const { id, questionNumber } = useAssertParams();

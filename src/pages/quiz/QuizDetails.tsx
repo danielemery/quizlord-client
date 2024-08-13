@@ -3,22 +3,23 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { Fragment } from 'preact';
 
-import QuizImageComponent from './QuizImage';
-import QuizQuestions, { QuizQuestionWithResults } from './QuizQuestions';
-import { useQuizlord } from './QuizlordProvider';
-import Button from './components/Button';
-import Loader from './components/Loader';
-import { Table } from './components/Table';
+import Button from '../../components/Button';
+import Loader from '../../components/Loader';
+import { Table } from '../../components/Table';
+import { useQuizlord } from '../../context/QuizlordProvider';
 import {
   formatDate,
   formatDateTime,
   formatDateTimeShortDate,
   formatDateTimeShortTime,
   userIdentifier,
-} from './helpers';
-import { AI_PROCESS_QUIZ_IMAGES, MARK_INACCURATE_OCR, MARK_QUIZ_ILLEGIBLE, QUIZ, QUIZZES } from './queries/quiz';
-import { userCanPerformAction } from './services/authorization';
-import { QuizCompletion, QuizQuestion, Quiz as QuizType } from './types/quiz';
+} from '../../helpers/helpers';
+import { AI_PROCESS_QUIZ_IMAGES, MARK_INACCURATE_OCR, QUIZ, QUIZZES } from '../../queries/quiz';
+import { MARK_QUIZ_ILLEGIBLE } from '../../queries/quiz';
+import { userCanPerformAction } from '../../services/authorization';
+import { QuizCompletion, QuizQuestion, QuizQuestionWithResults, Quiz as QuizType } from '../../types/quiz';
+import QuizImageComponent from './QuizImage';
+import QuizQuestions from './QuizQuestions';
 
 const imageTypeSortValues: {
   [imageType: string]: number;

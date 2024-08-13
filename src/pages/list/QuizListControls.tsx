@@ -2,9 +2,9 @@ import { faFilter, faFilterCircleXmark, faRefresh } from '@fortawesome/free-soli
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'preact/hooks';
 
-import { useQuizlord } from '../../QuizlordProvider';
 import Button from '../../components/Button';
-import { userIdentifier } from '../../helpers';
+import { useQuizlord } from '../../context/QuizlordProvider';
+import { userIdentifier } from '../../helpers/helpers';
 import { QuizFilters } from '../../hooks/useQuizFilters';
 import { UserSelectorWithLoader } from './UserSelectorWithLoader';
 

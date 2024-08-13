@@ -41,3 +41,17 @@ export interface Quiz {
   aiProcessingState: QuizAIProcessingState;
   reportedInaccurateOCR: boolean;
 }
+
+export interface QuizQuestionResult {
+  users: string[];
+  score: QuestionScore;
+}
+
+export interface QuizQuestionWithResults {
+  questionNum: number;
+  question?: string;
+  answer?: string;
+  userResults: QuizQuestionResult[];
+  myScore?: QuestionScore;
+  averageScore?: number;
+}

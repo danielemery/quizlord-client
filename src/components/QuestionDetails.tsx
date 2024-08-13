@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 
-import { QuizQuestionWithResults } from '../QuizQuestions';
 import { closestScore, scoreToColor } from '../services/util';
+import { QuizQuestionWithResults } from '../types/quiz';
 import { QuestionCube } from './QuestionCube';
 
 export interface QuestionResultBreakdownProps {

@@ -1,7 +1,7 @@
 import { intlFormatDistance } from 'date-fns';
 
 import Loader from '../../components/Loader';
-import { userIdentifier } from '../../helpers';
+import { userIdentifier } from '../../helpers/helpers';
 import { RecentActivityItem, useActivityFeed } from '../../hooks/useActivityFeed.hook';
 
 export default function ActivityFeed() {

@@ -1,8 +1,8 @@
 import classnames from 'classnames';
 import { useState } from 'preact/hooks';
 
-import Button from './components/Button';
-import { QuizImage, QuizImageType } from './types/quiz';
+import Button from '../../components/Button';
+import { QuizImage, QuizImageType } from '../../types/quiz';
 
 interface QuizImageProps {
   image: QuizImage;

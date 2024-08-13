@@ -4,7 +4,7 @@ import { relayStylePagination } from '@apollo/client/utilities';
 import { useAuth0 } from '@auth0/auth0-react';
 import type { ComponentChildren } from 'preact';
 
-import { extractVersionLink } from './services/version';
+import { extractVersionLink } from '../services/version';
 
 const AuthorizedApolloProvider = ({ children }: { children: ComponentChildren }) => {
   const { getAccessTokenSilently } = useAuth0();

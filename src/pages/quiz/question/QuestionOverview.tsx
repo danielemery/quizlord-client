@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
-import { QuestionCube } from './components/QuestionCube';
-import { LocalQuestion } from './hooks/useQuizQuestions';
+import { QuestionCube } from '../../../components/QuestionCube';
+import { LocalQuestion } from '../../../hooks/useQuizQuestions';
 
 interface QuestionOverviewProps {
   quizId: string;
