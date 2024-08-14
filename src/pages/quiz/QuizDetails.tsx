@@ -17,6 +17,7 @@ import {
 import { AI_PROCESS_QUIZ_IMAGES, MARK_INACCURATE_OCR, QUIZ, QUIZZES } from '../../queries/quiz';
 import { MARK_QUIZ_ILLEGIBLE } from '../../queries/quiz';
 import { userCanPerformAction } from '../../services/authorization';
+import { userCanDeleteQuiz } from '../../services/authorization';
 import { QuizCompletion, QuizQuestion, QuizQuestionWithResults, Quiz as QuizType } from '../../types/quiz';
 import QuizImageComponent from './QuizImage';
 import QuizQuestions from './QuizQuestions';
@@ -30,6 +31,7 @@ const imageTypeSortValues: {
 };
 
 export default function Quiz() {
+  const { user, isLoading: providerIsLoading } = useQuizlord();
   const { id } = useParams();
   const { loading, data } = useQuery<{
     quiz: QuizType;
@@ -37,7 +39,6 @@ export default function Quiz() {
     variables: { id },
   });
   const navigate = useNavigate();
-  const { user } = useQuizlord();
   const [markQuizIllegible, { loading: isMarkingQuizIllegible }] = useMutation(MARK_QUIZ_ILLEGIBLE, {
     refetchQueries: [{ query: QUIZZES }],
     onCompleted: () => {
@@ -51,7 +52,8 @@ export default function Quiz() {
     refetchQueries: [{ query: QUIZ, variables: { id } }],
   });
 
-  if (loading || data === undefined) return <Loader message='Loading your quiz...' className='mt-10' />;
+  if (loading || providerIsLoading || data === undefined || user === undefined)
+    return <Loader message='Loading your quiz...' className='mt-10' />;
 
   return (
     <div>
@@ -119,6 +121,14 @@ export default function Quiz() {
               >
                 Trigger AI Processing
               </Button>
+            )}
+
+            {userCanDeleteQuiz(user, data.quiz) && (
+              <Link to={`/quiz/${id}/delete`}>
+                <Button className='mr-2' danger disabled={isMarkingQuizIllegible}>
+                  Delete Quiz
+                </Button>
+              </Link>
             )}
           </div>
         </div>

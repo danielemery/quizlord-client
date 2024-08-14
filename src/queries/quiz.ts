@@ -183,3 +183,9 @@ export const AI_PROCESS_QUIZ_IMAGES = gql`
     aiProcessQuizImages(quizId: $id)
   }
 `;
+
+export const DELETE_QUIZ = gql`
+  mutation DeleteQuiz($id: String!, $deletionReason: String!) {
+    deleteQuiz(quizId: $id, deletionReason: $deletionReason)
+  }
+`;
