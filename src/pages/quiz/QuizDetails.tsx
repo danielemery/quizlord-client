@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { Fragment } from 'preact';
 
+import { useQuizlord } from '../../QuizlordProvider';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import { Table } from '../../components/Table';
@@ -15,6 +16,7 @@ import {
 } from '../../helpers/helpers';
 import { QUIZ, QUIZZES } from '../../queries/quiz';
 import { MARK_QUIZ_ILLEGIBLE } from '../../queries/quiz';
+import { userCanDeleteQuiz } from '../../services/authorization';
 import { Quiz as QuizType } from '../../types/quiz';
 import QuizImageComponent from './QuizImage';
 
@@ -27,6 +29,7 @@ const imageTypeSortValues: {
 };
 
 export default function Quiz() {
+  const { user, isLoading: providerIsLoading } = useQuizlord();
   const { id } = useParams();
   const { loading, data } = useQuery<{
     quiz: QuizType;
@@ -41,7 +44,8 @@ export default function Quiz() {
     },
   });
 
-  if (loading || data === undefined) return <Loader message='Loading your quiz...' className='mt-10' />;
+  if (loading || providerIsLoading || data === undefined || user === undefined)
+    return <Loader message='Loading your quiz...' className='mt-10' />;
 
   return (
     <div>
@@ -79,6 +83,13 @@ export default function Quiz() {
             <Button onClick={() => markQuizIllegible({ variables: { id } })} disabled={isMarkingQuizIllegible} warning>
               Mark Quiz Illegible
             </Button>
+            {userCanDeleteQuiz(user, data.quiz) && (
+              <Link to={`/quiz/${id}/delete`}>
+                <Button className='mr-2' danger disabled={isMarkingQuizIllegible}>
+                  Delete Quiz
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

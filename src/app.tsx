@@ -7,6 +7,7 @@ import ActivityFeed from './pages/feed/ActivityFeed';
 import QuizList from './pages/list/QuizList';
 import QuizDetails from './pages/quiz/QuizDetails';
 import { CreateQuiz } from './pages/quiz/create/CreateQuiz';
+import DeleteQuiz from './pages/quiz/delete/DeleteQuiz';
 import EnterQuizResults from './pages/quiz/enter/EnterQuizResults';
 import QuizStatistics from './pages/statistics/QuizStatistics';
 import Footer from './sections/Footer';
@@ -55,6 +56,7 @@ export function App() {
             <Route path='/quiz/create' element={<CreateQuiz />} />
             <Route path='/quiz/:id' element={<QuizDetails />} />
             <Route path='/quiz/:id/enter' element={<EnterQuizResults />} />
+            <Route path='/quiz/:id/delete' element={<DeleteQuiz />} />
             <Route path='/stats' element={<QuizStatistics />} />
             <Route path='/feed' element={<ActivityFeed />} />
           </Routes>

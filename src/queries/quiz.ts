@@ -151,3 +151,9 @@ export const MARK_QUIZ_ILLEGIBLE = gql`
     markQuizIllegible(quizId: $id)
   }
 `;
+
+export const DELETE_QUIZ = gql`
+  mutation DeleteQuiz($id: String!, $deletionReason: String!) {
+    deleteQuiz(quizId: $id, deletionReason: $deletionReason)
+  }
+`;
