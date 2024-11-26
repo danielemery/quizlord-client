@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 
-export function Table(props: Omit<JSX.HTMLAttributes<HTMLTableElement>, 'className'> & { className?: string }) {
+export function Table(props: Omit<JSX.TableHTMLAttributes<HTMLTableElement>, 'className'> & { className?: string }) {
   return <table {...props} className={classnames('border-collapse table-auto w-full text-sm', props.className)} />;
 }
 
@@ -28,14 +28,14 @@ Table.Row = function (
 };
 
 Table.HeaderCell = function (
-  props: Omit<JSX.HTMLAttributes<HTMLTableCellElement>, 'className'> & { className?: string },
+  props: Omit<JSX.ThHTMLAttributes<HTMLTableCellElement>, 'className'> & { className?: string },
 ) {
   return (
     <th {...props} className={classnames(`text-sm font-medium text-white px-6 py-4 text-left`, props.className)} />
   );
 };
 
-Table.Cell = function (props: Omit<JSX.HTMLAttributes<HTMLTableCellElement>, 'className'> & { className?: string }) {
+Table.Cell = function (props: Omit<JSX.TdHTMLAttributes<HTMLTableCellElement>, 'className'> & { className?: string }) {
   return (
     <td
       {...props}
