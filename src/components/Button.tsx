@@ -1,4 +1,4 @@
-export interface ButtonProps extends JSX.HTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
   danger?: boolean;
   warning?: boolean;
 }
