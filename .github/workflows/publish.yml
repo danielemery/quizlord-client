@@ -39,7 +39,7 @@ jobs:
         run: npm run build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.5.0
         with:
           name: build-artifacts
           path: |
@@ -49,7 +49,7 @@ jobs:
             .dockerignore
 
       - name: Upload helm chart
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.5.0
         with:
           name: helm-chart
           path: helm
