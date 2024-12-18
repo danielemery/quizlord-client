@@ -2,7 +2,7 @@
   "name": "@quizlord/client",
   "private": true,
   "engines": {
-    "node": "v22.10.0"
+    "node": "22.12.0"
   },
   "scripts": {
     "start": "npm run dev",
