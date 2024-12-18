@@ -40,7 +40,7 @@
     "autoprefixer": "^10.4.7",
     "cssnano": "^7.0.4",
     "eslint": "^8.19.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "postcss": "^8.4.31",
     "prettier": "^2.7.1",
