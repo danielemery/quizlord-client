@@ -14,6 +14,12 @@ export interface QuizImage {
   type: QuizImageType;
 }
 
+export interface QuizQuestion {
+  questionNum: number;
+  question: string;
+  answer: string;
+}
+
 export interface Quiz {
   id: string;
   date: string;
@@ -22,4 +28,5 @@ export interface Quiz {
   uploadedAt: string;
   completions: QuizCompletion[];
   images: QuizImage[];
+  questions: QuizQuestion[];
 }
