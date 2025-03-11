@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Fragment } from 'preact';
 
 import QuizImageComponent from './QuizImage';
+import QuizQuestions from './QuizQuestions';
 import Button from './components/Button';
 import Loader from './components/Loader';
 import { Table } from './components/Table';
@@ -65,6 +66,7 @@ export default function Quiz() {
               <dd className='text-xs mt-2 lg:text-sm text-gray-500'>{formatDateTime(data.quiz.uploadedAt)}</dd>
             </div>
           </dl>
+          {data.quiz.questions.length > 0 ? <QuizQuestions questions={data.quiz.questions} /> : null}
           {[...data.quiz.images]
             .sort((a, b) => {
               return imageTypeSortValues[a.type] - imageTypeSortValues[b.type];

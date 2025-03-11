@@ -12,11 +12,14 @@ interface QuizImageProps {
 function typeToHeading(type: QuizImageType) {
   switch (type) {
     case 'ANSWER':
-      return { title: 'Answers', subtitle: "This image contains answers, it's hidden by default" };
+      return { title: 'Answers Image', subtitle: "This image contains answers, it's hidden by default." };
     case 'QUESTION':
-      return { title: 'Questions' };
+      return { title: 'Questions Image' };
     case 'QUESTION_AND_ANSWER':
-      return { title: 'Questions with Answers', subtitle: "This image contains answers, it's hidden by default" };
+      return {
+        title: 'Questions with Answers Image',
+        subtitle: "This image contains answers, it's hidden by default.",
+      };
   }
 }
 
@@ -24,7 +27,7 @@ export default function QuizImageComponent({ image, className }: QuizImageProps)
   const [isShown, setIsShown] = useState(image.type === 'QUESTION');
   const { title, subtitle } = typeToHeading(image.type);
   return (
-    <div className={classnames('border-solid border-y-2 py-2', className)}>
+    <div className={classnames('border-solid border-t-2 py-2', className)}>
       <div className='mb-2 lg:mb-4 lg:flex'>
         <h2 className='lg:inline lg:flex-auto font-semibold mb-2'>{title}</h2>
         <Button danger className='flex-none' onClick={() => setIsShown((prev) => !prev)}>

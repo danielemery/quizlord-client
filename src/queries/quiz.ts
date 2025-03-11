@@ -52,6 +52,11 @@ export const QUIZ = gql`
         state
         type
       }
+      questions {
+        questionNum
+        question
+        answer
+      }
     }
   }
 `;
