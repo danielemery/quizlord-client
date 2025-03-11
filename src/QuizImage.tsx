@@ -12,11 +12,14 @@ interface QuizImageProps {
 function typeToHeading(type: QuizImageType) {
   switch (type) {
     case 'ANSWER':
-      return { title: 'Answers Image', subtitle: "This image contains answers, it's hidden by default" };
+      return { title: 'Answers Image', subtitle: "This image contains answers, it's hidden by default." };
     case 'QUESTION':
       return { title: 'Questions Image' };
     case 'QUESTION_AND_ANSWER':
-      return { title: 'Questions with Answers Image', subtitle: "This image contains answers, it's hidden by default" };
+      return {
+        title: 'Questions with Answers Image',
+        subtitle: "This image contains answers, it's hidden by default.",
+      };
   }
 }
 
