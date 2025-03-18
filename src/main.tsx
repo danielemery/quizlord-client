@@ -7,6 +7,7 @@ import AuthorizedApolloProvider from './AuthorizedApolloProvider';
 import QuizlordProvider from './QuizlordProvider';
 import { App } from './app';
 import './index.css';
+import './tools/sentry';
 
 render(
   <Auth0Provider
