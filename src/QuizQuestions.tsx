@@ -1,17 +1,20 @@
+import classNames from 'classnames';
+
 import { ExpandCollapseSection } from './components/ExpandCollapseSection';
 import { QuizQuestion } from './types/quiz';
 
 export interface QuizQuestionsProps {
   questions: QuizQuestion[];
+  reportedInaccurateOCR: boolean;
 }
 
-export default function QuizQuestions({ questions }: QuizQuestionsProps) {
+export default function QuizQuestions({ questions, reportedInaccurateOCR }: QuizQuestionsProps) {
   return (
     <>
-      <ExpandCollapseSection title='Questions' initiallyShown={true}>
-        <div className='font-bold italic text-sm mb-4'>
+      <ExpandCollapseSection title='Questions' initiallyShown={!reportedInaccurateOCR}>
+        <div className={classNames('font-bold italic text-sm mb-4', { 'text-red-500': reportedInaccurateOCR })}>
           Please note these questions have been extracted using google gemini, there is no guarantee on the accuracy of
-          the question extraction.
+          the question extraction.{reportedInaccurateOCR && ' At least one user has reported the OCR to be inaccurate.'}
         </div>
         <ol>
           {questions.map((question) => (
@@ -22,9 +25,9 @@ export default function QuizQuestions({ questions }: QuizQuestionsProps) {
         </ol>
       </ExpandCollapseSection>
       <ExpandCollapseSection title='Answers' fallbackText='Answers are hidden by default.' initiallyShown={false}>
-        <div className='font-bold italic text-sm mb-4'>
+        <div className={classNames('font-bold italic text-sm mb-4', { 'text-red-500': reportedInaccurateOCR })}>
           Please note these answers have been extracted using google gemini, there is no guarantee on the accuracy of
-          the answer extraction.
+          the answer extraction.{reportedInaccurateOCR && ' At least one user has reported the OCR to be inaccurate.'}
         </div>
         <ol>
           {questions.map((question) => (

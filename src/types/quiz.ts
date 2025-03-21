@@ -32,4 +32,5 @@ export interface Quiz {
   images: QuizImage[];
   questions: QuizQuestion[];
   aiProcessingState: QuizAIProcessingState;
+  reportedInaccurateOCR: boolean;
 }

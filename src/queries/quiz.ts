@@ -58,6 +58,7 @@ export const QUIZ = gql`
         answer
       }
       aiProcessingState
+      reportedInaccurateOCR
     }
   }
 `;
@@ -155,6 +156,12 @@ export const CREATE_QUIZ = gql`
 export const MARK_QUIZ_ILLEGIBLE = gql`
   mutation MarkQuizIllegible($id: String!) {
     markQuizIllegible(quizId: $id)
+  }
+`;
+
+export const MARK_INACCURATE_OCR = gql`
+  mutation MarkInaccurateOCR($id: String!) {
+    markInaccurateOCR(quizId: $id)
   }
 `;
 

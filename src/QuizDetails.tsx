@@ -16,8 +16,7 @@ import {
   formatDateTimeShortTime,
   userIdentifier,
 } from './helpers';
-import { AI_PROCESS_QUIZ_IMAGES, QUIZ, QUIZZES } from './queries/quiz';
-import { MARK_QUIZ_ILLEGIBLE } from './queries/quiz';
+import { AI_PROCESS_QUIZ_IMAGES, MARK_INACCURATE_OCR, MARK_QUIZ_ILLEGIBLE, QUIZ, QUIZZES } from './queries/quiz';
 import { userCanPerformAction } from './services/authorization';
 import { Quiz as QuizType } from './types/quiz';
 
@@ -43,6 +42,9 @@ export default function Quiz() {
     onCompleted: () => {
       navigate('/');
     },
+  });
+  const [markInaccurateOCR, { loading: isMarkingQuizInaccurateOCR }] = useMutation(MARK_INACCURATE_OCR, {
+    refetchQueries: [{ query: QUIZ, variables: { id } }],
   });
   const [aiProcessQuizImages, { loading: isProcessingQuizImages }] = useMutation(AI_PROCESS_QUIZ_IMAGES, {
     refetchQueries: [{ query: QUIZ, variables: { id } }],
@@ -78,7 +80,9 @@ export default function Quiz() {
               </div>
             )}
           </dl>
-          {data.quiz.questions.length > 0 ? <QuizQuestions questions={data.quiz.questions} /> : null}
+          {data.quiz.questions.length > 0 ? (
+            <QuizQuestions questions={data.quiz.questions} reportedInaccurateOCR={data.quiz.reportedInaccurateOCR} />
+          ) : null}
           {[...data.quiz.images]
             .sort((a, b) => {
               return imageTypeSortValues[a.type] - imageTypeSortValues[b.type];
@@ -93,13 +97,23 @@ export default function Quiz() {
             <Button onClick={() => markQuizIllegible({ variables: { id } })} disabled={isMarkingQuizIllegible} warning>
               Mark Quiz Illegible
             </Button>
+            {!data.quiz.reportedInaccurateOCR && (
+              <Button
+                onClick={() => markInaccurateOCR({ variables: { id } })}
+                disabled={isMarkingQuizInaccurateOCR}
+                warning
+              >
+                Mark Inaccurate OCR
+              </Button>
+            )}
+
             {userCanPerformAction(user, 'TRIGGER_AI_PROCESSING') && data.quiz.aiProcessingState !== 'QUEUED' && (
               <Button
                 onClick={() => aiProcessQuizImages({ variables: { id } })}
                 disabled={isProcessingQuizImages}
                 warning
               >
-                {isProcessingQuizImages ? 'Processing...' : 'Trigger AI Processing'}
+                Trigger AI Processing
               </Button>
             )}
           </div>
