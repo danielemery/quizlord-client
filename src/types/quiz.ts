@@ -20,6 +20,8 @@ export interface QuizQuestion {
   answer: string;
 }
 
+export type QuizAIProcessingState = 'NOT_QUEUED' | 'QUEUED' | 'COMPLETED' | 'ERRORED';
+
 export interface Quiz {
   id: string;
   date: string;
@@ -29,4 +31,5 @@ export interface Quiz {
   completions: QuizCompletion[];
   images: QuizImage[];
   questions: QuizQuestion[];
+  aiProcessingState: QuizAIProcessingState;
 }
