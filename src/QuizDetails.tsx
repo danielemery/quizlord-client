@@ -5,6 +5,7 @@ import { Fragment } from 'preact';
 
 import QuizImageComponent from './QuizImage';
 import QuizQuestions from './QuizQuestions';
+import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
 import { Table } from './components/Table';
@@ -15,8 +16,9 @@ import {
   formatDateTimeShortTime,
   userIdentifier,
 } from './helpers';
-import { QUIZ, QUIZZES } from './queries/quiz';
+import { AI_PROCESS_QUIZ_IMAGES, QUIZ, QUIZZES } from './queries/quiz';
 import { MARK_QUIZ_ILLEGIBLE } from './queries/quiz';
+import { userCanPerformAction } from './services/authorization';
 import { Quiz as QuizType } from './types/quiz';
 
 const imageTypeSortValues: {
@@ -35,11 +37,15 @@ export default function Quiz() {
     variables: { id },
   });
   const navigate = useNavigate();
+  const { user } = useQuizlord();
   const [markQuizIllegible, { loading: isMarkingQuizIllegible }] = useMutation(MARK_QUIZ_ILLEGIBLE, {
     refetchQueries: [{ query: QUIZZES }],
     onCompleted: () => {
       navigate('/');
     },
+  });
+  const [aiProcessQuizImages, { loading: isProcessingQuizImages }] = useMutation(AI_PROCESS_QUIZ_IMAGES, {
+    refetchQueries: [{ query: QUIZ, variables: { id } }],
   });
 
   if (loading || data === undefined) return <Loader message='Loading your quiz...' className='mt-10' />;
@@ -65,6 +71,12 @@ export default function Quiz() {
               <dt className='text-sm lg:font-medium text-gray-900'>Uploaded At</dt>
               <dd className='text-xs mt-2 lg:text-sm text-gray-500'>{formatDateTime(data.quiz.uploadedAt)}</dd>
             </div>
+            {userCanPerformAction(user, 'TRIGGER_AI_PROCESSING') && (
+              <div>
+                <dt className='text-sm lg:font-medium text-gray-900'>AI Processing Status</dt>
+                <dd className='text-xs mt-2 lg:text-sm text-gray-500'>{data.quiz.aiProcessingState}</dd>
+              </div>
+            )}
           </dl>
           {data.quiz.questions.length > 0 ? <QuizQuestions questions={data.quiz.questions} /> : null}
           {[...data.quiz.images]
@@ -81,6 +93,15 @@ export default function Quiz() {
             <Button onClick={() => markQuizIllegible({ variables: { id } })} disabled={isMarkingQuizIllegible} warning>
               Mark Quiz Illegible
             </Button>
+            {userCanPerformAction(user, 'TRIGGER_AI_PROCESSING') && data.quiz.aiProcessingState !== 'QUEUED' && (
+              <Button
+                onClick={() => aiProcessQuizImages({ variables: { id } })}
+                disabled={isProcessingQuizImages}
+                warning
+              >
+                {isProcessingQuizImages ? 'Processing...' : 'Trigger AI Processing'}
+              </Button>
+            )}
           </div>
         </div>
       </div>

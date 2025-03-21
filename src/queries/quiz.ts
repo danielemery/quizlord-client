@@ -57,6 +57,7 @@ export const QUIZ = gql`
         question
         answer
       }
+      aiProcessingState
     }
   }
 `;
@@ -154,5 +155,11 @@ export const CREATE_QUIZ = gql`
 export const MARK_QUIZ_ILLEGIBLE = gql`
   mutation MarkQuizIllegible($id: String!) {
     markQuizIllegible(quizId: $id)
+  }
+`;
+
+export const AI_PROCESS_QUIZ_IMAGES = gql`
+  mutation AIProcessQuizImages($id: String!) {
+    aiProcessQuizImages(quizId: $id)
   }
 `;
