@@ -57,7 +57,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: nowsprinting/check-version-format-action@v4.0.3
+      - uses: nowsprinting/check-version-format-action@v4.0.6
         id: version
         with:
           prefix: 'v'
@@ -99,7 +99,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: nowsprinting/check-version-format-action@v4.0.3
+      - uses: nowsprinting/check-version-format-action@v4.0.6
         id: version
         with:
           prefix: 'v'
