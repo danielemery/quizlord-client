@@ -4,15 +4,17 @@ export function Table(props: Omit<JSX.TableHTMLAttributes<HTMLTableElement>, 'cl
   return <table {...props} className={classnames('border-collapse table-auto w-full text-sm', props.className)} />;
 }
 
-Table.Head = function (props: Omit<JSX.HTMLAttributes<HTMLTableSectionElement>, 'className'> & { className?: string }) {
+Table.Head = function TableHead(
+  props: Omit<JSX.HTMLAttributes<HTMLTableSectionElement>, 'className'> & { className?: string },
+) {
   return <thead {...props} className={classnames(`border-b bg-gray-800`, props.className)} />;
 };
 
-Table.Body = function (props: JSX.HTMLAttributes<HTMLTableSectionElement>) {
+Table.Body = function TableBody(props: JSX.HTMLAttributes<HTMLTableSectionElement>) {
   return <tbody {...props} />;
 };
 
-Table.Row = function (
+Table.Row = function TableRow(
   props: Omit<JSX.HTMLAttributes<HTMLTableRowElement>, 'className'> & {
     isHoverable?: boolean;
     isHeader?: boolean;
@@ -27,7 +29,7 @@ Table.Row = function (
   return <tr {...trProps} className={classNames} />;
 };
 
-Table.HeaderCell = function (
+Table.HeaderCell = function TableHeaderCell(
   props: Omit<JSX.ThHTMLAttributes<HTMLTableCellElement>, 'className'> & { className?: string },
 ) {
   return (
@@ -35,7 +37,9 @@ Table.HeaderCell = function (
   );
 };
 
-Table.Cell = function (props: Omit<JSX.TdHTMLAttributes<HTMLTableCellElement>, 'className'> & { className?: string }) {
+Table.Cell = function TableCell(
+  props: Omit<JSX.TdHTMLAttributes<HTMLTableCellElement>, 'className'> & { className?: string },
+) {
   return (
     <td
       {...props}

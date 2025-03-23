@@ -26,7 +26,7 @@ export function UserSelector({
       }}
     >
       {availableUsers.map((user) => (
-        <option selected={selectedUserEmails.includes(user.email)} value={user.email}>
+        <option key={user.email} selected={selectedUserEmails.includes(user.email)} value={user.email}>
           {userIdentifier(user)}
         </option>
       ))}

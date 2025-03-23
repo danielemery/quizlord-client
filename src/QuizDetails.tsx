@@ -88,7 +88,7 @@ export default function Quiz() {
               return imageTypeSortValues[a.type] - imageTypeSortValues[b.type];
             })
             .map((image) => (
-              <QuizImageComponent image={image} className='mt-2' />
+              <QuizImageComponent key={image.imageLink} image={image} className='mt-2' />
             ))}
           <div className='space-x-2'>
             <Link className='mt-4' to='./enter'>

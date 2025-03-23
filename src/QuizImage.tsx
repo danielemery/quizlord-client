@@ -33,7 +33,7 @@ export default function QuizImageComponent({ image, className }: QuizImageProps)
         <Button danger className='flex-none' onClick={() => setIsShown((prev) => !prev)}>
           {isShown ? 'Hide' : 'Show'}
         </Button>
-        <a href={image.imageLink} target='_blank'>
+        <a href={image.imageLink} target='_blank' rel='noreferrer'>
           <Button danger className='flex-none ml-2'>
             Open
           </Button>

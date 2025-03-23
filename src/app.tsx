@@ -37,7 +37,7 @@ export function App() {
       <div className='container mx-auto px-0 mt-0 lg:px-8 lg:my-12 grow'>
         {!isAuthenticated && (
           <div className='p-4 lg:p-0'>
-            <p className='mb-4'>Thanks for visiting Quizlord, you'll need to sign in to get started.</p>
+            <p className='mb-4'>Thanks for visiting Quizlord, you&apos;ll need to sign in to get started.</p>
             <Button onClick={() => loginWithRedirect()}>Log In</Button>
           </div>
         )}
