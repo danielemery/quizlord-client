@@ -7,6 +7,7 @@ import AuthorizedApolloProvider from './AuthorizedApolloProvider';
 import QuizlordProvider from './QuizlordProvider';
 import { App } from './app';
 import './index.css';
+import { RXDBProvider } from './rxdb/RXDBProvider';
 import './tools/sentry';
 
 render(
@@ -22,7 +23,9 @@ render(
     <BrowserRouter>
       <AuthorizedApolloProvider>
         <QuizlordProvider>
-          <App />
+          <RXDBProvider>
+            <App />
+          </RXDBProvider>
         </QuizlordProvider>
       </AuthorizedApolloProvider>
     </BrowserRouter>
