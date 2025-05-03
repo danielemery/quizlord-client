@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import classNames from 'classnames';
 import { useState } from 'preact/hooks';
@@ -174,12 +174,11 @@ export default function QuizQuestion() {
         <>
           <br />
           <br />
-          <Button
-            onClick={() => {}}
-            disabled={!!Array.from(questions?.values() || []).find((question) => !question.unsubmittedScore)}
-          >
-            Submit
-          </Button>
+          <Link to={`/quiz/${id}/enter`}>
+            <Button disabled={!!Array.from(questions?.values() || []).find((question) => !question.unsubmittedScore)}>
+              Submit Results
+            </Button>
+          </Link>
         </>
       )}
 

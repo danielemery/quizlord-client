@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useMutation, useQuery } from '@apollo/client';
 import { useState } from 'preact/hooks';
@@ -9,12 +9,14 @@ import Loader from './components/Loader';
 import LoaderOverlay from './components/LoaderOverlay';
 import { UserSelector } from './components/UserSelector';
 import { formatDate, userIdentifier } from './helpers';
+import useAssertParams from './hooks/useAssertParams';
+import { useUnsubmittedAnswers } from './hooks/useUnsubmittedAnswers';
 import { COMPLETE_QUIZ, QUIZ, QUIZ_AND_AVAILABLE_USERS, QUIZZES } from './queries/quiz';
 import { Quiz } from './types/quiz';
 import { User } from './types/user';
 
 export default function EnterQuizResults() {
-  const { id } = useParams();
+  const { id } = useAssertParams();
   const { loading, data } = useQuery<{
     quiz: Quiz;
     users: { edges: { node: User }[] };
@@ -32,6 +34,8 @@ export default function EnterQuizResults() {
 
   const { user: authenticatedUser } = useQuizlord();
 
+  const { unsubmittedAnswers, currentTotalScore, handleScoresDeleted } = useUnsubmittedAnswers(id);
+
   async function handleSubmit(score: number, participants: string[]) {
     const participantsWithAuthenticatedUser = [authenticatedUser?.email, ...participants];
     await completeQuiz({
@@ -40,7 +44,7 @@ export default function EnterQuizResults() {
     setComplete(true);
   }
 
-  const [score, setScore] = useState<number>(0);
+  const [manuallyEnteredScore, setManuallyEnteredTotalScore] = useState<number>(0);
   const [participants, setParticipants] = useState<string[]>([]);
   const [complete, setComplete] = useState(false);
 
@@ -69,14 +73,31 @@ export default function EnterQuizResults() {
                 Score
               </label>
               <div className='mt-1'>
-                <input
-                  type='number'
-                  name='score'
-                  autoComplete='quiz-score'
-                  value={score}
-                  onChange={(e) => setScore(parseFloat((e.target as HTMLInputElement).value))}
-                  className='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md'
-                />
+                {unsubmittedAnswers.length > 0 ? (
+                  <div>
+                    <div>Calculated: {currentTotalScore}</div>
+                    <Link to={`/quiz/${id}/question/1`}>
+                      <Button>Edit</Button>
+                    </Link>
+                    <Button warning onClick={() => handleScoresDeleted()}>
+                      Delete & Override
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                    <input
+                      type='number'
+                      name='score'
+                      autoComplete='quiz-score'
+                      value={manuallyEnteredScore}
+                      onChange={(e) => setManuallyEnteredTotalScore(parseFloat((e.target as HTMLInputElement).value))}
+                      className='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md'
+                    />
+                    <Link to={`/quiz/${id}/question/1`}>
+                      <Button>Individual Entry</Button>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
             <div>
@@ -119,7 +140,7 @@ export default function EnterQuizResults() {
               Cancel
             </Button>
           </Link>
-          <Button onClick={() => handleSubmit(score, participants)} disabled={isCompletingQuiz}>
+          <Button onClick={() => handleSubmit(manuallyEnteredScore, participants)} disabled={isCompletingQuiz}>
             Submit Results
           </Button>
         </div>
