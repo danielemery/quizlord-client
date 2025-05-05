@@ -18,7 +18,7 @@ jobs:
       - name: Configure node
         uses: actions/setup-node@v4.4.0
         with:
-          node-version: 22.14.0
+          node-version: 22.15.0
 
       - name: Install packages
         run: npm ci
@@ -45,7 +45,7 @@ jobs:
       - name: Configure node
         uses: actions/setup-node@v4.4.0
         with:
-          node-version: 22.14.0
+          node-version: 22.15.0
 
       - name: Install packages
         run: npm ci
