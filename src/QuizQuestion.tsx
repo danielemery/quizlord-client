@@ -8,15 +8,16 @@ import Button from './components/Button';
 import Loader from './components/Loader';
 import useAssertParams from './hooks/useAssertParams';
 import { useQuizQuestions } from './hooks/useQuizQuestions';
+import { useSettings } from './hooks/useSettings';
 
 export default function QuizQuestion() {
   const { id, questionNumber } = useAssertParams();
   const navigate = useNavigate();
 
-  const { loading, questions, handleScoreSelected } = useQuizQuestions(id);
-  const [answerShown, setAnswerShown] = useState(false);
-  const [lockAnswerShown, setLockAnswerShown] = useState(false);
-  const [autoContinue, setAutoContinue] = useState(false);
+  const { loading: questionsLoading, questions, handleScoreSelected } = useQuizQuestions(id);
+  const { loading: settingsLoading, settings, setSetting } = useSettings();
+
+  const [showAnswerOnce, setShowAnswerOnce] = useState(false);
 
   if (id === undefined || questionNumber === undefined) {
     return <div>Invalid quiz ID or question number</div>;
@@ -24,15 +25,17 @@ export default function QuizQuestion() {
 
   const questionNum = parseInt(questionNumber, 10);
 
-  if (loading || !questions) return <Loader message='Loading your quiz...' className='mt-10' />;
+  if (questionsLoading || settingsLoading || !questions)
+    return <Loader message='Loading your quiz...' className='mt-10' />;
 
   const matchingQuestion = questions.get(questionNum);
+  const answerShown = showAnswerOnce || settings?.LOCK_ANSWER;
 
   function navigateToNextQuestion() {
     const nextQuestion = questionNum + 1;
     if (questions && questions.has(nextQuestion)) {
-      if (!lockAnswerShown) {
-        setAnswerShown(false);
+      if (!settings?.LOCK_ANSWER) {
+        setShowAnswerOnce(false);
       }
       navigate(`/quiz/${id}/question/${nextQuestion}`);
     }
@@ -41,8 +44,8 @@ export default function QuizQuestion() {
   function navigateToPreviousQuestion() {
     const previousQuestion = questionNum - 1;
     if (questions && questions.has(previousQuestion)) {
-      if (!lockAnswerShown) {
-        setAnswerShown(false);
+      if (!settings?.LOCK_ANSWER) {
+        setShowAnswerOnce(false);
       }
       navigate(`/quiz/${id}/question/${previousQuestion}`);
     }
@@ -50,7 +53,7 @@ export default function QuizQuestion() {
 
   function onScoreSelected(quizId: string, questionNum: number, score: 'CORRECT' | 'INCORRECT' | 'HALF_CORRECT') {
     handleScoreSelected(quizId, questionNum, score);
-    if (autoContinue) {
+    if (settings?.AUTO_CONTINUE) {
       navigateToNextQuestion();
     }
   }
@@ -121,13 +124,13 @@ export default function QuizQuestion() {
             type='checkbox'
             id='showAnswer'
             className={classNames(['w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500'], {
-              'opacity-50 cursor-not-allowed': lockAnswerShown,
+              'opacity-50 cursor-not-allowed': settings?.LOCK_ANSWER,
             })}
-            disabled={lockAnswerShown}
+            disabled={settings?.LOCK_ANSWER}
             checked={answerShown}
             onChange={(e) => {
-              if (lockAnswerShown) return;
-              setAnswerShown((e.target as HTMLInputElement).checked);
+              if (settings?.LOCK_ANSWER) return;
+              setShowAnswerOnce((e.target as HTMLInputElement).checked);
             }}
           />
           <label htmlFor='showAnswer' className='text-sm font-medium text-gray-700'>
@@ -140,12 +143,12 @@ export default function QuizQuestion() {
             id='lockShowAnswer'
             className={classNames([
               'w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500',
-              { 'opacity-50 cursor-not-allowed': !answerShown },
+              { 'opacity-50 cursor-not-allowed': !showAnswerOnce && !settings?.LOCK_ANSWER },
             ])}
-            disabled={!answerShown}
-            checked={lockAnswerShown}
+            disabled={!showAnswerOnce && !settings?.LOCK_ANSWER}
+            checked={settings?.LOCK_ANSWER}
             onChange={(e) => {
-              setLockAnswerShown((e.target as HTMLInputElement).checked);
+              setSetting({ name: 'LOCK_ANSWER', value: (e.target as HTMLInputElement).checked });
             }}
           />
           <label htmlFor='lockShowAnswer' className='text-sm font-medium text-gray-700'>
@@ -158,9 +161,9 @@ export default function QuizQuestion() {
             type='checkbox'
             id='progressOnScoreSelected'
             className={classNames(['w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500'])}
-            checked={autoContinue}
+            checked={settings?.AUTO_CONTINUE}
             onChange={(e) => {
-              setAutoContinue((e.target as HTMLInputElement).checked);
+              setSetting({ name: 'AUTO_CONTINUE', value: (e.target as HTMLInputElement).checked });
             }}
           />
           <label htmlFor='progressOnScoreSelected' className='text-sm font-medium text-gray-700'>
