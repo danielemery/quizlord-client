@@ -56,6 +56,7 @@ export const QUIZ = gql`
         questionNum
         question
         answer
+        myScore
       }
       aiProcessingState
       reportedInaccurateOCR
