@@ -18,6 +18,7 @@ export interface QuizQuestion {
   questionNum: number;
   question: string;
   answer: string;
+  myScore: QuestionScore | null;
 }
 
 export type QuizAIProcessingState = 'NOT_QUEUED' | 'QUEUED' | 'COMPLETED' | 'ERRORED';
@@ -34,3 +35,5 @@ export interface Quiz {
   aiProcessingState: QuizAIProcessingState;
   reportedInaccurateOCR: boolean;
 }
+
+export type QuestionScore = 'CORRECT' | 'INCORRECT' | 'HALF_CORRECT';

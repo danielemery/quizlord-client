@@ -5,6 +5,7 @@ import EnterQuizResults from './EnterQuizResults';
 import Footer from './Footer';
 import NavigationBar from './NavigationBar';
 import QuizDetails from './QuizDetails';
+import QuizQuestion from './QuizQuestion';
 import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
@@ -55,6 +56,7 @@ export function App() {
             <Route path='/quiz/create' element={<CreateQuiz />} />
             <Route path='/quiz/:id' element={<QuizDetails />} />
             <Route path='/quiz/:id/enter' element={<EnterQuizResults />} />
+            <Route path='/quiz/:id/question/:questionNumber' element={<QuizQuestion />} />
             <Route path='/stats' element={<QuizStatistics />} />
             <Route path='/feed' element={<ActivityFeed />} />
           </Routes>

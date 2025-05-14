@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 export interface ButtonProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
   danger?: boolean;
   warning?: boolean;
@@ -8,30 +10,26 @@ const disabledClasses =
 const commonClasses = `inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white ${disabledClasses}`;
 
 export default function Button(props: ButtonProps) {
-  const { danger, warning, className, ...buttonProps } = props;
-
-  if (danger) {
-    return (
-      <button
-        className={`${commonClasses} bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 ${className}`}
-        {...buttonProps}
-      />
-    );
-  }
-
-  if (warning) {
-    return (
-      <button
-        className={`${commonClasses} bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 ${className}`}
-        {...buttonProps}
-      />
-    );
-  }
+  const { danger, warning, className, children, ...buttonProps } = props;
 
   return (
     <button
-      className={`${commonClasses} bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${className}`}
+      className={classNames(
+        commonClasses,
+        disabledClasses,
+        {
+          'bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500':
+            danger,
+          'bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500':
+            warning,
+          'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500':
+            !danger && !warning,
+        },
+        className,
+      )}
       {...buttonProps}
-    />
+    >
+      {children}
+    </button>
   );
 }

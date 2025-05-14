@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 
 import { ExpandCollapseSection } from './components/ExpandCollapseSection';
+import { QuestionCube } from './components/QuestionCube';
 import { QuizQuestion } from './types/quiz';
 
 export interface QuizQuestionsProps {
@@ -18,8 +19,15 @@ export default function QuizQuestions({ questions, reportedInaccurateOCR }: Quiz
         </div>
         <ol>
           {questions.map((question) => (
-            <li key={question.questionNum} className='mb-4'>
-              {question.questionNum}. {question.question}
+            <li key={question.questionNum} className='mb-4 flex items-start'>
+              <div className='flex-shrink-0 mr-2 w-12 text-center'>
+                <QuestionCube
+                  questionNum={question.questionNum}
+                  score={question.myScore ?? undefined}
+                  selected={false}
+                />
+              </div>
+              <div className='flex-grow'>{question.question}</div>
             </li>
           ))}
         </ol>
