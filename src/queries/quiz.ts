@@ -46,6 +46,10 @@ export const QUIZ = gql`
           name
         }
         score
+        questionResults {
+          questionId
+          score
+        }
       }
       images {
         imageLink
@@ -53,6 +57,7 @@ export const QUIZ = gql`
         type
       }
       questions {
+        id
         questionNum
         question
         answer

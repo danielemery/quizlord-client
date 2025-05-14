@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Fragment } from 'preact';
 
 import QuizImageComponent from './QuizImage';
-import QuizQuestions from './QuizQuestions';
+import QuizQuestions, { QuizQuestionWithResults } from './QuizQuestions';
 import { useQuizlord } from './QuizlordProvider';
 import Button from './components/Button';
 import Loader from './components/Loader';
@@ -18,7 +18,7 @@ import {
 } from './helpers';
 import { AI_PROCESS_QUIZ_IMAGES, MARK_INACCURATE_OCR, MARK_QUIZ_ILLEGIBLE, QUIZ, QUIZZES } from './queries/quiz';
 import { userCanPerformAction } from './services/authorization';
-import { Quiz as QuizType } from './types/quiz';
+import { QuizCompletion, QuizQuestion, Quiz as QuizType } from './types/quiz';
 
 const imageTypeSortValues: {
   [imageType: string]: number;
@@ -81,7 +81,10 @@ export default function Quiz() {
             )}
           </dl>
           {data.quiz.questions.length > 0 ? (
-            <QuizQuestions questions={data.quiz.questions} reportedInaccurateOCR={data.quiz.reportedInaccurateOCR} />
+            <QuizQuestions
+              questions={packAnswersIntoQuestions(data.quiz.questions, data.quiz.completions, user?.email)}
+              reportedInaccurateOCR={data.quiz.reportedInaccurateOCR}
+            />
           ) : null}
           {[...data.quiz.images]
             .sort((a, b) => {
@@ -165,4 +168,43 @@ export default function Quiz() {
       </Table>
     </div>
   );
+}
+
+function packAnswersIntoQuestions(
+  questions: QuizQuestion[],
+  completions: QuizCompletion[],
+  currentUserEmail?: string,
+): QuizQuestionWithResults[] {
+  return questions.map((question) => {
+    const resultsForQuestion = completions
+      .filter((completion) => completion.questionResults?.length)
+      .map((completion) => {
+        const questionResult = completion.questionResults.find((result) => result.questionId === question.id);
+        return {
+          users: completion.completedBy,
+          score: questionResult ? questionResult.score : 'INCORRECT',
+        };
+      });
+    const myScore = currentUserEmail
+      ? resultsForQuestion.find((result) => result.users.some((user) => user.email === currentUserEmail))?.score
+      : undefined;
+    const averageScore =
+      resultsForQuestion.length > 0
+        ? resultsForQuestion.reduce((acc, result) => {
+            if (result.score === 'CORRECT') return acc + 1;
+            if (result.score === 'HALF_CORRECT') return acc + 0.5;
+            return acc;
+          }, 0) / resultsForQuestion.length
+        : undefined;
+    const userResults = resultsForQuestion.map((result) => ({
+      users: result.users.map((user) => userIdentifier(user)),
+      score: result.score,
+    }));
+    return {
+      ...question,
+      userResults,
+      myScore,
+      averageScore,
+    };
+  });
 }

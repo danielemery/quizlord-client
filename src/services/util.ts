@@ -11,3 +11,22 @@ export const createBoundedUseStore = ((store) => (selector) => useStore(store, s
 };
 
 type ExtractState<S> = S extends { getState: () => infer X } ? X : never;
+
+export function scoreToColor(score: string | undefined): string {
+  switch (score) {
+    case 'CORRECT':
+      return 'bg-emerald-400';
+    case 'HALF_CORRECT':
+      return 'bg-amber-400';
+    case 'INCORRECT':
+      return 'bg-rose-400';
+    default:
+      return 'bg-gray-400';
+  }
+}
+
+export function closestScore(score: number): string {
+  if (score >= 0.75) return 'CORRECT';
+  if (score >= 0.25) return 'HALF_CORRECT';
+  return 'INCORRECT';
+}
