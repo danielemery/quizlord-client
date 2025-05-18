@@ -46,6 +46,10 @@ export const QUIZ = gql`
           name
         }
         score
+        questionResults {
+          questionId
+          score
+        }
       }
       images {
         imageLink
@@ -53,6 +57,7 @@ export const QUIZ = gql`
         type
       }
       questions {
+        id
         questionNum
         question
         answer
@@ -86,6 +91,9 @@ export const QUIZ_AND_AVAILABLE_USERS = gql`
         imageLink
         state
         type
+      }
+      questions {
+        questionNum
       }
     }
     users {
@@ -123,8 +131,13 @@ export const AVAILABLE_USERS = gql`
 `;
 
 export const COMPLETE_QUIZ = gql`
-  mutation CompleteQuiz($quizId: String!, $completedBy: [String]!, $score: Float!) {
-    completeQuiz(quizId: $quizId, completedBy: $completedBy, score: $score) {
+  mutation CompleteQuiz(
+    $quizId: String!
+    $completedBy: [String]!
+    $score: Float!
+    $questionResults: [QuizCompletionQuestionResult]
+  ) {
+    completeQuiz(quizId: $quizId, completedBy: $completedBy, score: $score, questionResults: $questionResults) {
       completion {
         completedAt
         completedBy {
