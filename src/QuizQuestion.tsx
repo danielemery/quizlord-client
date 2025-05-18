@@ -16,12 +16,7 @@ export default function QuizQuestion() {
 
   const { loading: questionsLoading, questions, handleScoreSelected } = useQuizQuestions(id);
   const { loading: settingsLoading, settings, setSetting } = useSettings();
-
   const [showAnswerOnce, setShowAnswerOnce] = useState(false);
-
-  if (id === undefined || questionNumber === undefined) {
-    return <div>Invalid quiz ID or question number</div>;
-  }
 
   const questionNum = parseInt(questionNumber, 10);
 
