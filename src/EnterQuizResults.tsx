@@ -107,9 +107,11 @@ export default function EnterQuizResults() {
                       onChange={(e) => setManuallyEnteredTotalScore(parseFloat((e.target as HTMLInputElement).value))}
                       className='shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md'
                     />
-                    <Link to={`/quiz/${id}/question/1`}>
-                      <Button>Individual Entry</Button>
-                    </Link>
+                    {(data.quiz.questions?.length ?? 0) > 0 && (
+                      <Link to={`/quiz/${id}/question/1`}>
+                        <Button>Individual Entry</Button>
+                      </Link>
+                    )}
                   </div>
                 )}
               </div>
