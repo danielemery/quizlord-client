@@ -23,8 +23,8 @@ export function useQuizQuestions(quizId: string) {
 
 export interface LocalQuestion {
   questionNum: number;
-  question: string;
-  answer: string;
+  question?: string;
+  answer?: string;
   unsubmittedScore?: UnsubmittedAnswer['score'];
 }
 
