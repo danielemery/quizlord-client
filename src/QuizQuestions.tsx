@@ -12,8 +12,8 @@ export interface QuizQuestionResult {
 
 export interface QuizQuestionWithResults {
   questionNum: number;
-  question: string;
-  answer: string;
+  question?: string;
+  answer?: string;
   userResults: QuizQuestionResult[];
   myScore?: QuestionScore;
   averageScore?: number;
@@ -32,7 +32,10 @@ export default function QuizQuestions({ questions, reportedInaccurateOCR }: Quiz
 
   return (
     <>
-      <ExpandCollapseSection title='Question Details' initiallyShown={!reportedInaccurateOCR}>
+      <ExpandCollapseSection
+        title='Question Details'
+        initiallyShown={!reportedInaccurateOCR && !!questions?.[0]?.question}
+      >
         <div className={classNames('font-bold italic text-sm mb-4', { 'text-red-500': reportedInaccurateOCR })}>
           Please note these questions have been extracted using google gemini, there is no guarantee on the accuracy of
           the question extraction.{reportedInaccurateOCR && ' At least one user has reported the OCR to be inaccurate.'}
