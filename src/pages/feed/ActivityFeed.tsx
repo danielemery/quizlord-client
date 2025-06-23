@@ -13,7 +13,9 @@ export default function ActivityFeed() {
 
   return (
     <div>
-      {data?.activityFeed.map((activity) => <ActivityCard key={activity.resourceId} recentlyActivityItem={activity} />)}
+      {data?.activityFeed.map((activity) => (
+        <ActivityCard key={activity.resourceId} recentlyActivityItem={activity} />
+      ))}
     </div>
   );
 }
