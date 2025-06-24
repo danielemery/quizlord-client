@@ -5,12 +5,12 @@ import { useState } from 'preact/hooks';
 import { useQuizlord } from '../../QuizlordProvider';
 import Button from '../../components/Button';
 import { userIdentifier } from '../../helpers';
+import { QuizFilters } from '../../hooks/useQuizFilters';
 import { UserSelectorWithLoader } from './UserSelectorWithLoader';
-import { QuizFilters } from './quizFilters';
 
 export interface QuizListControlsProps {
   filters: QuizFilters;
-  onFiltersChanged: (filterChanges: QuizFilters) => void;
+  onFiltersChanged: (filterChanges: Partial<QuizFilters>) => void;
   onRefreshClicked: () => void;
   className?: string;
 }
@@ -37,7 +37,6 @@ export function QuizListControls({ filters, onFiltersChanged, onRefreshClicked, 
           className={`cursor-pointer${className ? ` ${className}` : ''}`}
           onClick={() =>
             onFiltersChanged({
-              ...filters,
               isFilteringOnIllegible: !filters.isFilteringOnIllegible,
             })
           }
@@ -74,7 +73,6 @@ export function QuizListControls({ filters, onFiltersChanged, onRefreshClicked, 
             <Button
               onClick={() => {
                 onFiltersChanged({
-                  ...filters,
                   excludedUserEmails: [...pendingSelections, ...(authenticatedUser ? [authenticatedUser.email] : [])],
                 });
                 setIsSelectingUsers(false);
@@ -86,7 +84,6 @@ export function QuizListControls({ filters, onFiltersChanged, onRefreshClicked, 
               warning
               onClick={() => {
                 onFiltersChanged({
-                  ...filters,
                   excludedUserEmails: [],
                 });
                 setIsSelectingUsers(false);
