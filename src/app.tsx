@@ -34,6 +34,8 @@ export function App() {
         userImage={user?.pictureUrl}
         userName={user?.name}
         canUploadQuiz={userCanPerformAction(user, 'UPLOAD_QUIZ')}
+        canViewActivity={userCanPerformAction(user, 'VIEW_ACTIVITY')}
+        canViewStats={userCanPerformAction(user, 'VIEW_STATISTICS')}
       />
       <div className='container mx-auto px-0 mt-0 lg:px-8 lg:my-12 grow'>
         {!isAuthenticated && (
