@@ -38,7 +38,7 @@ jobs:
         run: npm run build
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v5.0.0
         with:
           name: build-artifacts
           path: |
@@ -48,7 +48,7 @@ jobs:
             .dockerignore
 
       - name: Upload helm chart
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v5.0.0
         with:
           name: helm-chart
           path: helm
@@ -63,7 +63,7 @@ jobs:
           prefix: 'v'
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4.3.0
+        uses: actions/download-artifact@v6.0.0
         with:
           name: build-artifacts
 
@@ -105,7 +105,7 @@ jobs:
           prefix: 'v'
 
       - name: Download chart definition
-        uses: actions/download-artifact@v4.3.0
+        uses: actions/download-artifact@v6.0.0
         with:
           name: helm-chart
           path: helm
