@@ -10,9 +10,13 @@ export type Action =
   /** Uploading new quizzes. */
   | 'UPLOAD_QUIZ'
   /** Triggering AI processing for a quiz. */
-  | 'TRIGGER_AI_PROCESSING';
+  | 'TRIGGER_AI_PROCESSING'
+  /** Viewing activity feed. */
+  | 'VIEW_ACTIVITY'
+  /** Viewing statistics about quiz results. */
+  | 'VIEW_STATISTICS';
 
 export const allowedActions: Record<Role, Action[]> = {
-  ADMIN: ['USE_APP', 'UPLOAD_QUIZ', 'TRIGGER_AI_PROCESSING'],
-  USER: ['USE_APP', 'UPLOAD_QUIZ'],
+  ADMIN: ['USE_APP', 'UPLOAD_QUIZ', 'TRIGGER_AI_PROCESSING', 'VIEW_ACTIVITY', 'VIEW_STATISTICS'],
+  USER: ['USE_APP', 'UPLOAD_QUIZ', 'VIEW_ACTIVITY', 'VIEW_STATISTICS'],
 };

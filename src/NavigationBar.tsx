@@ -25,6 +25,8 @@ export default function NavigationBar({
   onLogin,
   isAuthenticated,
   canUploadQuiz,
+  canViewActivity,
+  canViewStats,
   userImage,
   userName,
 }: {
@@ -32,6 +34,8 @@ export default function NavigationBar({
   onLogin: () => void;
   isAuthenticated: boolean;
   canUploadQuiz: boolean;
+  canViewActivity: boolean;
+  canViewStats: boolean;
   userImage?: string;
   userName?: string;
 }) {
@@ -44,17 +48,21 @@ export default function NavigationBar({
           </Link>
           {isAuthenticated && (
             <>
-              <Link className='hidden lg:block' to='/feed'>
-                <NavigationBarItem>Activity</NavigationBarItem>
-              </Link>
+              {canViewActivity && (
+                <Link className='hidden lg:block' to='/feed'>
+                  <NavigationBarItem>Activity</NavigationBarItem>
+                </Link>
+              )}
               {canUploadQuiz && (
                 <Link className='hidden lg:block' to='/quiz/create'>
                   <NavigationBarItem>Upload Quiz</NavigationBarItem>
                 </Link>
               )}
-              <Link className='hidden lg:block' to='/stats'>
-                <NavigationBarItem>Statistics</NavigationBarItem>
-              </Link>
+              {canViewStats && (
+                <Link className='hidden lg:block' to='/stats'>
+                  <NavigationBarItem>Statistics</NavigationBarItem>
+                </Link>
+              )}
             </>
           )}
         </div>
