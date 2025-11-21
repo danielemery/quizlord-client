@@ -36,10 +36,13 @@ npm run dev
 npm run build
 # Build a local image tagged with local
 docker build -t quizlord-client:local .
+# Push a local env file using doppler
+doppler secrets download --no-file --format docker > .env
 # Run local build using the env file
-docker run -p 3000:80 --env-file <(doppler secrets download --no-file --format docker) --name=quizlord-client quizlord-client:local
+docker run --rm -p 3000:80 --env-file=.env --name=quizlord-client quizlord-client:local
 # Cleanup
-docker rm quizlord-client && docker image rm quizlord-client:local
+docker image rm quizlord-client:local
+rm .env
 ```
 
 ### Test Helm Locally
