@@ -29,7 +29,7 @@
     "preact": "^10.5.15",
     "react-router-dom": "^7.0.1",
     "uuid": "^11.0.3",
-    "zod": "4.3.4",
+    "zod": "4.3.5",
     "zustand": "^5.0.1"
   },
   "devDependencies": {
