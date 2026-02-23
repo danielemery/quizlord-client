@@ -12,6 +12,7 @@ import Loader from './components/Loader';
 import ActivityFeed from './pages/feed/ActivityFeed';
 import QuizList from './pages/list/QuizList';
 import QuizStatistics from './pages/statistics/QuizStatistics';
+import PendingUsers from './pages/users/PendingUsers';
 import { userCanPerformAction } from './services/authorization';
 
 export function App() {
@@ -36,6 +37,7 @@ export function App() {
         canUploadQuiz={userCanPerformAction(user, 'UPLOAD_QUIZ')}
         canViewActivity={userCanPerformAction(user, 'VIEW_ACTIVITY')}
         canViewStats={userCanPerformAction(user, 'VIEW_STATISTICS')}
+        canManageUsers={userCanPerformAction(user, 'MANAGE_USERS')}
       />
       <div className='container mx-auto px-0 mt-0 lg:px-8 lg:my-12 grow'>
         {!isAuthenticated && (
@@ -61,6 +63,7 @@ export function App() {
             <Route path='/quiz/:id/question/:questionNumber' element={<QuizQuestion />} />
             <Route path='/stats' element={<QuizStatistics />} />
             <Route path='/feed' element={<ActivityFeed />} />
+            <Route path='/users' element={<PendingUsers />} />
           </Routes>
         )}
       </div>
