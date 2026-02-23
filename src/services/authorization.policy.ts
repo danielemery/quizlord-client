@@ -14,9 +14,11 @@ export type Action =
   /** Viewing activity feed. */
   | 'VIEW_ACTIVITY'
   /** Viewing statistics about quiz results. */
-  | 'VIEW_STATISTICS';
+  | 'VIEW_STATISTICS'
+  /** Managing user access (approving/rejecting). */
+  | 'MANAGE_USERS';
 
 export const allowedActions: Record<Role, Action[]> = {
-  ADMIN: ['USE_APP', 'UPLOAD_QUIZ', 'TRIGGER_AI_PROCESSING', 'VIEW_ACTIVITY', 'VIEW_STATISTICS'],
+  ADMIN: ['USE_APP', 'UPLOAD_QUIZ', 'TRIGGER_AI_PROCESSING', 'VIEW_ACTIVITY', 'VIEW_STATISTICS', 'MANAGE_USERS'],
   USER: ['USE_APP', 'UPLOAD_QUIZ', 'VIEW_ACTIVITY', 'VIEW_STATISTICS'],
 };

@@ -27,6 +27,7 @@ export default function NavigationBar({
   canUploadQuiz,
   canViewActivity,
   canViewStats,
+  canManageUsers,
   userImage,
   userName,
 }: {
@@ -36,6 +37,7 @@ export default function NavigationBar({
   canUploadQuiz: boolean;
   canViewActivity: boolean;
   canViewStats: boolean;
+  canManageUsers: boolean;
   userImage?: string;
   userName?: string;
 }) {
@@ -61,6 +63,11 @@ export default function NavigationBar({
               {canViewStats && (
                 <Link className='hidden lg:block' to='/stats'>
                   <NavigationBarItem>Statistics</NavigationBarItem>
+                </Link>
+              )}
+              {canManageUsers && (
+                <Link className='hidden lg:block' to='/users'>
+                  <NavigationBarItem>Users</NavigationBarItem>
                 </Link>
               )}
             </>
@@ -93,6 +100,11 @@ export default function NavigationBar({
             <Link to='/stats'>
               <NavigationBarItem>Statistics</NavigationBarItem>
             </Link>
+            {canManageUsers && (
+              <Link to='/users'>
+                <NavigationBarItem>Users</NavigationBarItem>
+              </Link>
+            )}
             <NavigationBarItem onClick={() => onLogout()}>Log Out</NavigationBarItem>
           </>
         </nav>
