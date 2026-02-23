@@ -63,7 +63,7 @@ export function App() {
             <Route path='/quiz/:id/question/:questionNumber' element={<QuizQuestion />} />
             <Route path='/stats' element={<QuizStatistics />} />
             <Route path='/feed' element={<ActivityFeed />} />
-            <Route path='/users' element={<PendingUsers />} />
+            {userCanPerformAction(user, 'MANAGE_USERS') && <Route path='/users' element={<PendingUsers />} />}
           </Routes>
         )}
       </div>
