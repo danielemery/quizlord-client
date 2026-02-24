@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
 import { PENDING_USERS } from '../queries/user';
 
@@ -14,7 +14,7 @@ export function usePendingUsers(): {
   data: { pendingUsers: PendingUser[] } | undefined;
   refetch: () => void;
 } {
-  const { loading, data, refetch } = useQuery(PENDING_USERS, {
+  const { loading, data, refetch } = useQuery<{ pendingUsers: PendingUser[] }>(PENDING_USERS, {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   });

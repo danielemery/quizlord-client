@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
 import Loader from '../../components/Loader';
 import { UserSelector } from '../../components/UserSelector';

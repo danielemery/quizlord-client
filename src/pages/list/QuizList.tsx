@@ -68,7 +68,7 @@ export default function QuizList() {
               </Table.Row>
             </Table.Head>
             <Table.Body>
-              {data.quizzes.edges.map(({ node }: { node: Node }) => (
+              {data?.quizzes.edges.map(({ node }: { node: Node }) => (
                 <Fragment key={node.id}>
                   <Table.Row className='hidden lg:table-row' isHoverable onClick={() => navigate(`/quiz/${node.id}`)}>
                     <Table.Cell>{formatDate(node.date)}</Table.Cell>

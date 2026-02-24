@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
 import { REJECTED_USERS } from '../queries/user';
 
@@ -19,7 +19,7 @@ export function useRejectedUsers(): {
   data: { rejectedUsers: RejectedUser[] } | undefined;
   refetch: () => void;
 } {
-  const { loading, data, refetch } = useQuery(REJECTED_USERS, {
+  const { loading, data, refetch } = useQuery<{ rejectedUsers: RejectedUser[] }>(REJECTED_USERS, {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   });

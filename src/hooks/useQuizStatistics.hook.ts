@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
 import { QUIZ_STATISTICS } from '../queries/statistics';
 
@@ -15,7 +15,7 @@ export function useQuizStatistics(): {
   data: { individualUserStatistics: StatsResult[] } | undefined;
   refetch: () => void;
 } {
-  const { loading, data, refetch } = useQuery(QUIZ_STATISTICS, {
+  const { loading, data, refetch } = useQuery<{ individualUserStatistics: StatsResult[] }>(QUIZ_STATISTICS, {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   });

@@ -1,4 +1,5 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ComponentChildren, createContext } from 'preact';
 import { useContext } from 'preact/hooks';
