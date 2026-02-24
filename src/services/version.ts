@@ -1,4 +1,5 @@
 import { ApolloLink } from '@apollo/client';
+import { map } from 'rxjs';
 import { createStore } from 'zustand/vanilla';
 
 import { createBoundedUseStore } from './util';
@@ -18,20 +19,22 @@ export const versionStore = createStore<VersionState>((set) => ({
 export const useVersionStore = createBoundedUseStore(versionStore);
 
 export const extractVersionLink = new ApolloLink((operation, forward) => {
-  return forward(operation).map((response) => {
-    const context = operation.getContext();
-    const {
-      response: { headers },
-    } = context;
+  return forward(operation).pipe(
+    map((response) => {
+      const context = operation.getContext();
+      const {
+        response: { headers },
+      } = context;
 
-    if (headers) {
-      const quizlordVersion = headers.get(QUIZLORD_VERSION_HEADER);
-      if (quizlordVersion) {
-        const { setState } = versionStore;
-        setState({ version: quizlordVersion });
+      if (headers) {
+        const quizlordVersion = headers.get(QUIZLORD_VERSION_HEADER);
+        if (quizlordVersion) {
+          const { setState } = versionStore;
+          setState({ version: quizlordVersion });
+        }
       }
-    }
 
-    return response;
-  });
+      return response;
+    }),
+  );
 });

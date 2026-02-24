@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
 import { QUIZ } from '../queries/quiz';
 import { UnsubmittedAnswer } from '../services/db';

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 import { useState } from 'preact/hooks';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -20,7 +20,9 @@ export function CreateQuiz() {
   >([{ id: uuidv4(), attributes: { ...defaultAttributes } }]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedType, setSelectedType] = useState<string>('SHARK');
-  const [createQuiz, { loading: isCreatingQuiz }] = useMutation(CREATE_QUIZ);
+  const [createQuiz, { loading: isCreatingQuiz }] = useMutation<{
+    createQuiz: { uploadLinks: { link: string; fileName: string }[] };
+  }>(CREATE_QUIZ);
 
   const [isUploading, setIsUploading] = useState(false);
   const [complete, setComplete] = useState(false);
@@ -57,7 +59,7 @@ export function CreateQuiz() {
       });
       setIsUploading(true);
       await Promise.all(
-        result.data.createQuiz.uploadLinks.map((link: { link: string; fileName: string }) => {
+        result.data!.createQuiz.uploadLinks.map((link: { link: string; fileName: string }) => {
           const matchingFile = selectedFiles.find((file) => file.file?.name === link.fileName);
           if (!matchingFile) {
             throw new Error('Unexpected error uploading file');

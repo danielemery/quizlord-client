@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 
 import { ACTIVITY_FEED } from '../queries/feed';
 import { User } from '../types/user';
@@ -16,7 +16,7 @@ export function useActivityFeed(): {
   data: { activityFeed: RecentActivityItem[] } | undefined;
   refetch: () => void;
 } {
-  const { loading, data, refetch } = useQuery(ACTIVITY_FEED, {
+  const { loading, data, refetch } = useQuery<{ activityFeed: RecentActivityItem[] }>(ACTIVITY_FEED, {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   });

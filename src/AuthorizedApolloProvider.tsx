@@ -1,5 +1,6 @@
-import { ApolloClient, ApolloProvider, createHttpLink, from, InMemoryCache } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client';
+import { SetContextLink } from '@apollo/client/link/context';
+import { ApolloProvider } from '@apollo/client/react';
 import { relayStylePagination } from '@apollo/client/utilities';
 import { useAuth0 } from '@auth0/auth0-react';
 import type { ComponentChildren } from 'preact';
@@ -9,11 +10,11 @@ import { extractVersionLink } from './services/version';
 const AuthorizedApolloProvider = ({ children }: { children: ComponentChildren }) => {
   const { getAccessTokenSilently } = useAuth0();
 
-  const httpLink = createHttpLink({
+  const httpLink = new HttpLink({
     uri: window.env.VITE_GRAPH_API_URI,
   });
 
-  const authLink = setContext(async () => {
+  const authLink = new SetContextLink(async () => {
     const token = await getAccessTokenSilently();
     return {
       headers: {
@@ -23,8 +24,7 @@ const AuthorizedApolloProvider = ({ children }: { children: ComponentChildren })
   });
 
   const apolloClient = new ApolloClient({
-    uri: window.env.VITE_GRAPH_API_URI,
-    link: from([authLink, extractVersionLink, httpLink]),
+    link: ApolloLink.from([authLink, extractVersionLink, httpLink]),
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
