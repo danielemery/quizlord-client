@@ -1,4 +1,4 @@
-FROM demery/docker-react:v1.0.1
+FROM demery/docker-react:v1.0.2
 
 ARG IMAGE_VERSION
 ENV VITE_QUIZLORD_VERSION=$IMAGE_VERSION
