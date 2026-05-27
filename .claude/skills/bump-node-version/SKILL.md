@@ -1,5 +1,5 @@
 ---
-name: Bump Node Version
+name: bump-node-version
 description: Bump the project's Node.js version to the latest LTS. Updates .nvmrc, package.json, package-lock.json, CI workflows, devcontainer, and node-related packages.
 ---
 
