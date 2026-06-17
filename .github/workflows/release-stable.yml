@@ -1,0 +1,136 @@
+# Promotes an existing release candidate to stable. Manual trigger: supply the rc tag to promote.
+# Nothing is rebuilt — the rc docker image is retagged to the stable version, the helm chart is
+# republished at the stable version, and only once every artifact has been promoted is the mutable
+# `latest` tag moved and the intermediate rc releases/tags cleaned up.
+name: Release Stable
+
+on:
+  workflow_dispatch:
+    inputs:
+      prerelease_version:
+        description: 'Prerelease tag to promote (e.g. v1.2.3-rc.2)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+# Same serialized lane as release-candidate.yml: both mutate repository tags/releases (rc cleanup
+# happens here during promotion), so they must never run concurrently.
+concurrency:
+  group: release
+  queue: max
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  pre_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      release-id: ${{ steps.pre.outputs.release-id }}
+      release-version: ${{ steps.pre.outputs.release-version }}
+      release-tag: ${{ steps.pre.outputs.release-tag }}
+    steps:
+      - name: Perform pre-release actions
+        id: pre
+        uses: danielemery/github-release-actions/perform-pre-release@v0.5.1
+        with:
+          release-version: ${{ inputs.prerelease_version }}
+          promote-to-stable: 'true'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  retag-image:
+    needs: pre_release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@v4.2.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Retag the immutable rc image to the stable version (no rebuild). The rc image was pushed under
+      # its bare version (e.g. 1.2.3-rc.2); strip the leading `v` from the supplied tag to match.
+      # `latest` is deferred to retag-latest so it only moves once all artifacts have promoted.
+      - name: Retag rc image as stable
+        env:
+          RC_TAG: ${{ inputs.prerelease_version }}
+          STABLE: ${{ needs.pre_release.outputs.release-version }}
+        run: |
+          RC="${RC_TAG#v}"
+          docker buildx imagetools create \
+            --tag "${REGISTRY}/${IMAGE_NAME}:${STABLE}" \
+            "${REGISTRY}/${IMAGE_NAME}:${RC}"
+
+  helm-stable:
+    needs: pre_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the promoted commit
+        uses: actions/checkout@v6.0.2
+        with:
+          ref: ${{ inputs.prerelease_version }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.2
+        with:
+          aws-access-key-id: ${{ secrets.HELM_DEPLOY_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.HELM_DEPLOY_SECRET }}
+          aws-region: ${{ vars.HELM_DEPLOY_REGION }}
+
+      - name: Publish chart
+        uses: danielemery/helm-release-action@f19adb815088a067bb839b224decb0611072652d
+        with:
+          repo: s3://helm.demery.net/
+          chart: ./helm
+          version: ${{ needs.pre_release.outputs.release-version }}
+          appVersion: ${{ needs.pre_release.outputs.release-version }}
+
+  retag-latest:
+    needs:
+      - pre_release
+      - retag-image
+      - helm-stable
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@v4.2.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Move `latest` only after the stable image and helm chart are both published, so the mutable
+      # tag is never left pointing at an incompletely promoted release.
+      - name: Point latest at the stable image
+        env:
+          STABLE: ${{ needs.pre_release.outputs.release-version }}
+        run: |
+          docker buildx imagetools create \
+            --tag "${REGISTRY}/${IMAGE_NAME}:latest" \
+            "${REGISTRY}/${IMAGE_NAME}:${STABLE}"
+
+  post_release:
+    needs:
+      - pre_release
+      - retag-latest
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Perform post-release actions
+        uses: danielemery/github-release-actions/perform-post-release@v0.5.1
+        with:
+          release-id: ${{ needs.pre_release.outputs.release-id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

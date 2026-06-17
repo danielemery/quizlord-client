@@ -69,7 +69,7 @@ Grouped into commit-sized units (one logical change per commit).
     whose artifacts failed to publish.
 
 ### 3. Release-stable workflow
-- [ ] Add `.github/workflows/release-stable.yml`:
+- [x] Add `.github/workflows/release-stable.yml`:
   - `on: workflow_dispatch` with input `prerelease_version` (e.g. `v1.2.3-rc.2`).
   - Same `concurrency: {group: release, queue: max}` lane.
   - `pre_release` (`contents: write`) → `perform-pre-release@v0.5.1` (`release-version: <input>`,
