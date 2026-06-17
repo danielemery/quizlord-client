@@ -50,7 +50,7 @@ Grouped into commit-sized units (one logical change per commit).
       `npm ci` → `npm run build` → `docker/build-push-action@v7.2.0` with `push: false`.
 
 ### 2. Release-candidate workflow
-- [ ] Add `.github/workflows/release-candidate.yml`:
+- [x] Add `.github/workflows/release-candidate.yml`:
   - `on: pull_request: types [closed], branches [main]`; every job guarded `if: github.event.pull_request.merged == true`.
   - `permissions: contents: read` at top; per-job write scopes only where needed.
   - `concurrency: {group: release, queue: max}`.
