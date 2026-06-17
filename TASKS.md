@@ -83,7 +83,7 @@ Grouped into commit-sized units (one logical change per commit).
     `perform-post-release@v0.5.1` (`release-id`) — publishes the stable release, deletes intermediate rc releases/tags.
 
 ### 4. Helm: inject runtime version (align with API's `API_VERSION` pattern)
-- [ ] Fix `helm/templates/deployment.yaml`: the container env currently sets `VITE_CLIENT_VERSION` from
+- [x] Fix `helm/templates/deployment.yaml`: the container env currently sets `VITE_CLIENT_VERSION` from
       `.Values.client.version`, but that name isn't in `env.schema.js` and nothing reads it, so
       `docker-react` drops it — the runtime override is a **no-op** today (displayed/Sentry version always
       falls back to the baked `IMAGE_VERSION`). Rename it to **`VITE_QUIZLORD_VERSION`** (the schema var

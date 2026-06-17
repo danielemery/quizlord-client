@@ -28,7 +28,11 @@ spec:
             - name: http-web
               containerPort: 80
           env:
-            - name: VITE_CLIENT_VERSION
+            # Overrides the version baked into the image at build time, so the running app reports the
+            # actual deployed version. Must match the schema var in env.schema.js that the SPA reads
+            # (Footer + Sentry release); the old VITE_CLIENT_VERSION was not in the schema and so was
+            # silently dropped by docker-react, leaving the baked fallback in place.
+            - name: VITE_QUIZLORD_VERSION
               value: {{ .Values.client.version | quote }}
           envFrom:
             - secretRef:
