@@ -41,12 +41,12 @@ Pin release actions at **`@v0.5.1`** (the version the API uses).
 Grouped into commit-sized units (one logical change per commit).
 
 ### 1. PR-time workflows
-- [ ] Replace `.github/workflows/validate-pr.yaml` with a `validate-semver-label` gate
+- [x] Replace `.github/workflows/validate-pr.yaml` with a `validate-semver-label` gate
       (`uses: danielemery/github-release-actions/validate-semver-label@v0.5.1`,
       `on: pull_request: types [opened, reopened, labeled, unlabeled, synchronize]`).
-- [ ] Add `.github/workflows/ci.yml` — `on: pull_request → main`; job: checkout → setup-node (24.16.0)
+- [x] Add `.github/workflows/ci.yml` — `on: pull_request → main`; job: checkout → setup-node (24.16.0)
       → `npm ci` → `npm run lint`. (No tests/Codecov — see divergences.)
-- [ ] Add `.github/workflows/docker-build.yml` — `on: pull_request → main`; checkout → setup-node →
+- [x] Add `.github/workflows/docker-build.yml` — `on: pull_request → main`; checkout → setup-node →
       `npm ci` → `npm run build` → `docker/build-push-action@v7.2.0` with `push: false`.
 
 ### 2. Release-candidate workflow
