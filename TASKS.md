@@ -92,8 +92,8 @@ Grouped into commit-sized units (one logical change per commit).
 - [ ] Commit separately from the workflow changes (chart change, distinct logical unit).
 
 ### 5. Remove the old flow & docs
-- [ ] Delete `.github/workflows/publish.yml` (tag-push-driven; fully replaced by §2 + §3).
-- [ ] Update `README.md` (and any release/runbook notes) to describe the new label-driven rc → manual
+- [x] Delete `.github/workflows/publish.yml` (tag-push-driven; fully replaced by §2 + §3).
+- [x] Update `README.md` (and any release/runbook notes) to describe the new label-driven rc → manual
       stable-promotion flow.
 
 ## Follow-ups (separate PRs, out of scope for this branch)
