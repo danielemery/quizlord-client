@@ -57,18 +57,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Retag the immutable rc image to the stable version (no rebuild). The rc image was pushed under
-      # its bare version (e.g. 1.2.3-rc.2); strip the leading `v` from the supplied tag to match.
-      # `latest` is deferred to retag-latest so it only moves once all artifacts have promoted.
+      # Retag the immutable rc image to the stable version (no rebuild). Both images carry the
+      # v-prefixed version (e.g. v1.2.3-rc.2 -> v1.2.3) so the tags match what the helm chart references
+      # via .Values.client.version. `latest` is deferred to retag-latest so it only moves once all
+      # artifacts have promoted.
       - name: Retag rc image as stable
         env:
           RC_TAG: ${{ inputs.prerelease_version }}
-          STABLE: ${{ needs.pre_release.outputs.release-version }}
+          STABLE: ${{ needs.pre_release.outputs.release-tag }}
         run: |
-          RC="${RC_TAG#v}"
           docker buildx imagetools create \
             --tag "${REGISTRY}/${IMAGE_NAME}:${STABLE}" \
-            "${REGISTRY}/${IMAGE_NAME}:${RC}"
+            "${REGISTRY}/${IMAGE_NAME}:${RC_TAG}"
 
   helm-stable:
     needs: pre_release
@@ -115,7 +115,7 @@ jobs:
       # tag is never left pointing at an incompletely promoted release.
       - name: Point latest at the stable image
         env:
-          STABLE: ${{ needs.pre_release.outputs.release-version }}
+          STABLE: ${{ needs.pre_release.outputs.release-tag }}
         run: |
           docker buildx imagetools create \
             --tag "${REGISTRY}/${IMAGE_NAME}:latest" \
