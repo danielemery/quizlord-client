@@ -34,7 +34,6 @@ jobs:
     outputs:
       version: ${{ steps.calc.outputs.version }}
       tag: ${{ steps.calc.outputs.tag }}
-      base-version: ${{ steps.calc.outputs.base-version }}
     steps:
       - name: Calculate prerelease version
         id: calc
@@ -107,11 +106,15 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.version.outputs.version }}
+          # Tag with the v-prefixed version (e.g. v1.2.3-rc.2) so the image tag matches what the helm
+          # chart references via .Values.client.version. The bare `version` output is only used where a
+          # strict-semver string is required (the helm chart version/appVersion below).
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.version.outputs.tag }}
           # Baked fallback only — helm injects the accurate per-env version at runtime
-          # (VITE_QUIZLORD_VERSION), so this is what `docker run` shows without helm.
+          # (VITE_QUIZLORD_VERSION), so this is what `docker run` shows without helm. Uses the full
+          # v-prefixed tag (e.g. v1.2.3-rc.2) to match the github release and image tag.
           build-args: |
-            IMAGE_VERSION=${{ needs.version.outputs.base-version }}
+            IMAGE_VERSION=${{ needs.version.outputs.tag }}
 
   helm-publish:
     needs:
