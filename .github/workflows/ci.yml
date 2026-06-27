@@ -29,3 +29,23 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+  # Asserts the client's zod pin exactly matches docker-react's
+  # peerDependencies.zod. Renovate is configured to skip zod
+  # (see renovate.json) so this guards against manual drift and
+  # against docker-react bumps that change the peer constraint.
+  zod-peer-dep-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Assert zod matches docker-react peer dependency
+        run: |
+          client_zod=$(jq -r '.dependencies.zod' package.json)
+          dr_peer_zod=$(jq -r '.packages["node_modules/docker-react"].peerDependencies.zod' package-lock.json)
+          if [ "$client_zod" != "$dr_peer_zod" ]; then
+            echo "::error::client zod ($client_zod) does not match docker-react peerDependencies.zod ($dr_peer_zod). Bump zod in package.json to $dr_peer_zod and re-run npm install."
+            exit 1
+          fi
+          echo "zod $client_zod matches docker-react peer dep"
