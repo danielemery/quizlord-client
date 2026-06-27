@@ -13,6 +13,11 @@
       "automerge": true,
       "platformAutomerge": true,
       "automergeStrategy": "merge"
+    },
+    {
+      "description": "docker-react ships as both an npm CLI (used by `init-local`) and a Docker base image (used by the Dockerfile). The two are released in lockstep and must always match, so renovate updates them as a single grouped PR.",
+      "matchPackageNames": ["docker-react", "demery/docker-react"],
+      "groupName": "docker-react"
     }
   ]
 }
