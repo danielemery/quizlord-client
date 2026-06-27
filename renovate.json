@@ -18,6 +18,11 @@
       "description": "docker-react ships as both an npm CLI (used by `init-local`) and a Docker base image (used by the Dockerfile). The two are released in lockstep and must always match, so renovate updates them as a single grouped PR.",
       "matchPackageNames": ["docker-react", "demery/docker-react"],
       "groupName": "docker-react"
+    },
+    {
+      "description": "zod is held to an exact pin that must match docker-react's peerDependencies.zod. The zod-peer-dep-guard CI job enforces the match. Renovate is disabled for zod here so it cannot raise a PR that would break the peer constraint; zod bumps come in through the docker-react grouped PR instead.",
+      "matchPackageNames": ["zod"],
+      "enabled": false
     }
   ]
 }
