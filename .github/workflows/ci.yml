@@ -30,6 +30,25 @@ jobs:
       - name: Lint
         run: npm run lint
 
+  # Validates that the docker-react consumer setup steps are in place
+  # (Dockerfile pin, index.html script tag, env.schema.js, scripts, etc.).
+  docker-react-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Configure node
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Check docker-react setup
+        run: npx docker-react check
+
   # Asserts the client's zod pin exactly matches docker-react's
   # peerDependencies.zod. Renovate is configured to skip zod
   # (see renovate.json) so this guards against manual drift and
