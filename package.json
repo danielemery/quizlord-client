@@ -26,7 +26,7 @@
     "dexie": "^4.0.11",
     "docker-react": "^1.1.0",
     "graphql": "^16.8.1",
-    "preact": "^10.28.2",
+    "preact": "^11.0.0",
     "react-router-dom": "^7.13.0",
     "rxjs": "^7.8.2",
     "uuid": "^14.0.0",
